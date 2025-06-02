@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Cliente - VendeCar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">VendeCar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                 <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Ver Veículos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login_cliente.html">Login Cliente</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login_loja.html">Login Loja</a>
+                    </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="admin_login.html">Admin</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Idioma
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="#">Português</a></li>
+                            <li><a class="dropdown-item" href="#">English</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        <h2 class="card-title text-center mb-4">Cadastro de Novo Cliente</h2>
+                        <form class="row g-3">
+                            <div class="col-12">
+                                <label for="nomeCliente" class="form-label">Nome Completo</label>
+                                <input type="text" class="form-control" id="nomeCliente" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="emailCliente" class="form-label">E-mail</label>
+                                <input type="email" class="form-control" id="emailCliente" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="senhaCliente" class="form-label">Senha</label>
+                                <input type="password" class="form-control" id="senhaCliente" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="cpfCliente" class="form-label">CPF</label>
+                                <input type="text" class="form-control" id="cpfCliente" placeholder="000.000.000-00" required>
+                            </div>
+                             <div class="col-md-6">
+                                <label for="telefoneCliente" class="form-label">Telefone</label>
+                                <input type="tel" class="form-control" id="telefoneCliente" placeholder="(00) 00000-0000" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="sexoCliente" class="form-label">Sexo</label>
