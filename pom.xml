@@ -92,12 +92,11 @@
 			<artifactId>thymeleaf-layout-dialect</artifactId>
 		</dependency>
 
-		<!-- Driver JDBC (banco de dados MySQL) -->
+		<!-- Driver JDBC (banco de dados PosgreSQL) -->
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.21</version>
-			<scope>runtime</scope>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.2.15</version>
 		</dependency>
 	</dependencies>
 
