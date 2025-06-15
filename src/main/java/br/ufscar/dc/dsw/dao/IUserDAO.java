@@ -7,8 +7,8 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface IUsuarioDAO extends ListCrudRepository<User, Long> {
+public interface IUserDAO extends ListCrudRepository<User, Long> {
 
-    @Query("SELECT u FROM User u WHERE u.username = :username")
-    Optional<User> getUserByUsername(@Param("username") String username);
+    @Query("SELECT u FROM User u WHERE u.email = :username")
+    Optional<User> findByEmail(@Param("username") String username);
 }

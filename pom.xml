@@ -9,7 +9,7 @@
 		<relativePath/> 
 	</parent>
 	<groupId>br.ufscar.dc.dsw</groupId>
-	<artifactId>SistemaCVV</artifactId>
+	<artifactId>DW1</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>SistemaCVV</name>
 	<description>Sistema de Compra e Venda de Veiculos </description>

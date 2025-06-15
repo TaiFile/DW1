@@ -1,7 +1,7 @@
 package br.ufscar.dc.dsw.security;
 
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,18 +10,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import br.ufscar.dc.dsw.domain.User;
 
 @SuppressWarnings("serial")
-public class UsuarioDetails implements UserDetails {
+public class UserDetailsImpl implements UserDetails {
 
     private final User user;
 
-    public UsuarioDetails(User user) {
+    public UserDetailsImpl(User user) {
         this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());
-        return Arrays.asList(authority);
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().toString());
+        return List.of(authority);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class UsuarioDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return user.getEmail();
     }
 
     @Override
@@ -54,7 +54,7 @@ public class UsuarioDetails implements UserDetails {
         return true;
     }
 
-    public User getUsuario() {
+    public User getUser() {
         return user;
     }
 

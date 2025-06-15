@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.ufscar.dc.dsw.dao.IUsuarioDAO;
+import br.ufscar.dc.dsw.dao.IUserDAO;
 import br.ufscar.dc.dsw.domain.User;
 import br.ufscar.dc.dsw.service.spec.IUsuarioService;
 
@@ -16,7 +16,7 @@ import br.ufscar.dc.dsw.service.spec.IUsuarioService;
 public class UsuarioService implements IUsuarioService {
 
     @Autowired
-    IUsuarioDAO dao;
+    IUserDAO dao;
 
     public void salvar(User user) {
         dao.save(user);

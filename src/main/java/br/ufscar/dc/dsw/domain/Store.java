@@ -1,0 +1,65 @@
+package br.ufscar.dc.dsw.domain;
+
+import br.ufscar.dc.dsw.domain.enums.UserRoleEnum;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+
+import java.util.Objects;
+
+@Entity
+@Table(name = "stores")
+public class Store extends User {
+    @NotBlank
+    @Column(nullable = false)
+    private String cnpj;
+
+    @NotBlank
+    @Column(nullable = false, unique = true)
+    private String name;
+
+    @NotBlank
+    @Column(nullable = false)
+    private String description;
+
+    public Store() {
+        super(UserRoleEnum.STORE);
+    }
+
+    public String getCnpj(){
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj){
+        this.cnpj = cnpj;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Store store = (Store) o;
+        return Objects.equals(cnpj, store.cnpj) && Objects.equals(name, store.name) && Objects.equals(description, store.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cnpj, name, description);
+    }
+}
