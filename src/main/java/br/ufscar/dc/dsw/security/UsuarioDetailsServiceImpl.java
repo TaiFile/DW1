@@ -6,8 +6,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import br.ufscar.dc.dsw.dao.IUsuarioDAO;
-import br.ufscar.dc.dsw.domain.Usuario;
+import br.ufscar.dc.dsw.domain.User;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UsuarioDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
@@ -16,12 +18,12 @@ public class UsuarioDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
-        Usuario usuario = dao.getUserByUsername(username);
+        User user = dao.getUserByUsername(username).orElse(null);
 
-        if (usuario == null) {
+        if (user == null) {
             throw new UsernameNotFoundException("Could not find user");
         }
 
-        return new UsuarioDetails(usuario);
+        return new UsuarioDetails(user);
     }
 }

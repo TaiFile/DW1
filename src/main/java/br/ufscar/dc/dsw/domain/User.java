@@ -1,14 +1,21 @@
 package br.ufscar.dc.dsw.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
-@SuppressWarnings("serial")
+import java.io.Serial;
+import java.io.Serializable;
+
 @Entity
-@Table(name = "Usuario")
-public class Usuario extends AbstractEntity<Long> {
+@Table(name = "users")
+public class User implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
 
     @NotBlank
     @Column(nullable = false, length = 20, unique = true)

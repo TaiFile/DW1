@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.ufscar.dc.dsw.domain.Usuario;
+import br.ufscar.dc.dsw.domain.User;
 import br.ufscar.dc.dsw.service.spec.IUsuarioService;
 
 @Controller
@@ -27,7 +27,7 @@ public class UsuarioController {
     private BCryptPasswordEncoder encoder;
 
     @GetMapping("/cadastrar")
-    public String cadastrar(Usuario usuario) {
+    public String cadastrar(User user) {
         return "usuario/cadastro";
     }
 
@@ -38,15 +38,15 @@ public class UsuarioController {
     }
 
     @PostMapping("/salvar")
-    public String salvar(@Valid Usuario usuario, BindingResult result, RedirectAttributes attr) {
+    public String salvar(@Valid User user, BindingResult result, RedirectAttributes attr) {
 
         if (result.hasErrors()) {
             return "usuario/cadastro";
         }
 
-        System.out.println("password = " + usuario.getPassword());
-        usuario.setPassword(encoder.encode(usuario.getPassword()));
-        service.salvar(usuario);
+        System.out.println("password = " + user.getPassword());
+        user.setPassword(encoder.encode(user.getPassword()));
+        service.salvar(user);
         attr.addFlashAttribute("sucess", "usuario.create.sucess");
         return "redirect:/usuarios/listar";
     }
@@ -58,18 +58,18 @@ public class UsuarioController {
     }
 
     @PostMapping("/editar")
-    public String editar(@Valid Usuario usuario, String novoPassword, BindingResult result, RedirectAttributes attr) {
+    public String editar(@Valid User user, String novoPassword, BindingResult result, RedirectAttributes attr) {
 
         if (result.hasErrors()) {
             return "usuario/cadastro";
         }
 
         if (novoPassword != null && !novoPassword.trim().isEmpty()) {
-            usuario.setPassword(encoder.encode(novoPassword));
+            user.setPassword(encoder.encode(novoPassword));
         } else {
             System.out.println("Senha não foi editada");
         }
-        service.salvar(usuario);
+        service.salvar(user);
         attr.addFlashAttribute("sucess", "usuario.edit.sucess");
         return "redirect:/usuarios/listar";
     }

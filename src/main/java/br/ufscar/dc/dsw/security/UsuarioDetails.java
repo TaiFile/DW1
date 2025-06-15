@@ -7,31 +7,31 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import br.ufscar.dc.dsw.domain.Usuario;
+import br.ufscar.dc.dsw.domain.User;
 
 @SuppressWarnings("serial")
 public class UsuarioDetails implements UserDetails {
 
-    private Usuario usuario;
+    private final User user;
 
-    public UsuarioDetails(Usuario usuario) {
-        this.usuario = usuario;
+    public UsuarioDetails(User user) {
+        this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(usuario.getRole());
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());
         return Arrays.asList(authority);
     }
 
     @Override
     public String getPassword() {
-        return usuario.getPassword();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return usuario.getUsername();
+        return user.getUsername();
     }
 
     @Override
@@ -54,8 +54,8 @@ public class UsuarioDetails implements UserDetails {
         return true;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public User getUsuario() {
+        return user;
     }
 
 }
