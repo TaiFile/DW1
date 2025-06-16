@@ -5,12 +5,20 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "vehicles")
-public class Vehicle{
+public class Vehicle implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -47,6 +55,9 @@ public class Vehicle{
 
     // Max 10 images
     // private List<String> images;
+
+    @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Offer> offers = new ArrayList<>();
 
     public Vehicle() {
     }
@@ -113,6 +124,15 @@ public class Vehicle{
 
     public void setValue(BigDecimal value) {
         this.value = value;
+    }
+
+    public List<Offer> getOffers() {
+        return offers;
+    }
+
+    public Vehicle setOffers(List<Offer> offers) {
+        this.offers = offers;
+        return this;
     }
 
     @Override
