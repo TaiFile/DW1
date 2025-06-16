@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "vehicles")
-public class Vehicle {
+public class Vehicle{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -40,6 +40,10 @@ public class Vehicle {
 
     @NotNull
     private BigDecimal value;
+
+    @ManyToOne
+    @JoinColumn(name = "store_id")
+    private Store store;
 
     // Max 10 images
     // private List<String> images;

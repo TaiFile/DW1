@@ -3,9 +3,11 @@ package br.ufscar.dc.dsw.domain;
 import br.ufscar.dc.dsw.domain.enums.UserRoleEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -22,6 +24,9 @@ public class Store extends User {
     @NotBlank
     @Column(nullable = false)
     private String description;
+
+    @OneToMany(mappedBy = "store")
+    private List<Vehicle> vehicles;
 
     public Store() {
         super(UserRoleEnum.STORE);
