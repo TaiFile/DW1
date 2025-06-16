@@ -2,11 +2,11 @@ package br.ufscar.dc.dsw.domain;
 
 import br.ufscar.dc.dsw.domain.enums.SexEnum;
 import br.ufscar.dc.dsw.domain.enums.UserRoleEnum;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -31,6 +31,9 @@ public class Client extends User {
     @NotBlank
     @Column(nullable = false)
     private LocalDate dateOfBirth;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    private List<Offer> offers = new ArrayList<>();
 
     public Client() {
         super(UserRoleEnum.CLIENT);
@@ -74,6 +77,15 @@ public class Client extends User {
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public List<Offer> getOffers() {
+        return offers;
+    }
+
+    public Client setOffers(List<Offer> offers) {
+        this.offers = offers;
+        return this;
     }
 
     @Override
