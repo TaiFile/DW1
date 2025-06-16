@@ -10,7 +10,6 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "users")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class User implements Serializable {
 
