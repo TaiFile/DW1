@@ -56,6 +56,14 @@ public class Store extends User {
         this.description = description;
     }
 
+    public List<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
+    public void setVehicles(List<Vehicle> vehicles) {
+        this.vehicles = vehicles;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
