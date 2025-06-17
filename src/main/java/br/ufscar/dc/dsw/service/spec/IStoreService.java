@@ -6,9 +6,9 @@ import br.ufscar.dc.dsw.domain.Store;
 import java.util.List;
 
 public interface IStoreService {
-    Store searchById(Long id);
+    Store findById(Long id);
 
-    List<Store> searchAll();
+    List<Store> findAll();
 
     Store save(Store store);
 

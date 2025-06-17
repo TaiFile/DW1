@@ -12,18 +12,24 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = false)
+@Transactional
 public class StoreService implements IStoreService {
 
     @Autowired
-    IStoreDAO dao;
+    private IStoreDAO dao;
 
     public Store save(Store store) {
         return dao.save(store);
     }
 
-    public void delete(Long id){
-        dao.deleteById(id);
+    @Transactional(readOnly = true)
+    public Store findById(Long id){
+        return dao.findById(id).orElse(null);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Store> findAll(){
+        return dao.findAll();
     }
 
     public Store update(Store store){
@@ -37,13 +43,7 @@ public class StoreService implements IStoreService {
         return dao.save(entityStore);
     }
 
-    @Transactional(readOnly = true)
-    public Store searchById(Long id){
-        return dao.findById(id.longValue()).orElse(null);
-    }
-
-    @Transactional(readOnly = true)
-    public List<Store> searchAll(){
-        return dao.findAll();
+    public void delete(Long id){
+        dao.deleteById(id);
     }
 }

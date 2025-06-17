@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class ClientService implements IClientService {
 
     @Autowired
@@ -25,8 +25,15 @@ public class ClientService implements IClientService {
         return dao.save(client);
     }
 
-    public void delete(Long id){
-        dao.deleteById(id);
+    // todo: (jonatã) padronizar o nome dos métodos "search" para "find" se retornar um objeto ou "findAll" se retornar uma lista
+    @Transactional(readOnly = true)
+    public Client searchById(Long id){
+        return dao.findById(id).orElse(null);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Client> searchAll(){
+        return dao.findAll();
     }
 
     public Client update(Client client){
@@ -44,13 +51,7 @@ public class ClientService implements IClientService {
         return dao.save(entityClient);
     }
 
-    @Transactional(readOnly = true)
-    public Client searchById(Long id){
-        return dao.findById(id.longValue()).orElse(null);
-    }
-
-    @Transactional(readOnly = true)
-    public List<Client> searchAll(){
-        return dao.findAll();
+    public void delete(Long id){
+        dao.deleteById(id);
     }
 }

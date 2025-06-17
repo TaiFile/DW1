@@ -1,7 +1,6 @@
 package br.ufscar.dc.dsw.service.impl;
 
 import br.ufscar.dc.dsw.dao.IVehicleDAO;
-import br.ufscar.dc.dsw.domain.Store;
 import br.ufscar.dc.dsw.domain.Vehicle;
 import br.ufscar.dc.dsw.exceptions.ResourceNotFoundException;
 import br.ufscar.dc.dsw.service.spec.IVehicleService;
@@ -12,25 +11,37 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class VehicleService implements IVehicleService {
 
     @Autowired
-    IVehicleDAO dao;
+    private IVehicleDAO dao;
 
-    public Vehicle save(Vehicle vehicle){
-       return dao.save(vehicle);
+    public Vehicle save(Vehicle vehicle) {
+        return dao.save(vehicle);
     }
 
-    public void delete(Long id){
-        dao.deleteById(id);
+    // todo: (jonatã) padronizar o nome dos métodos "search" para "find" se retornar um objeto ou "findAll" se retornar uma lista
+    @Transactional(readOnly = true)
+    public List<Vehicle> searchAll() {
+        return dao.findAll();
     }
 
-    public Vehicle update(Vehicle vehicle){
+    @Transactional(readOnly = true)
+    public List<Vehicle> listById(Long id) { // todo: (jonatã) listById, mas Id de quem? Seria melhor findAllByStoreId
+        return dao.findAllByStoreId(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Vehicle searchById(Long id) {
+        return dao.findById(id).orElse(null);
+    }
+
+    public Vehicle update(Vehicle vehicle) {
         Vehicle entityVehicle = dao.findById(vehicle.getId()).orElseThrow(
-                ()-> new ResourceNotFoundException("No records for this id"));
+                () -> new ResourceNotFoundException("No records for this id"));
 
-        entityVehicle.setId(vehicle.getId());
+        entityVehicle.setId(vehicle.getId()); // todo: (jonatã) o id é gerado pelo banco, essa linha pode ser removida
         entityVehicle.setPlate(vehicle.getPlate());
         entityVehicle.setModel(vehicle.getModel());
         entityVehicle.setChassi(vehicle.getChassi());
@@ -42,18 +53,7 @@ public class VehicleService implements IVehicleService {
         return save(entityVehicle);
     }
 
-    @Transactional(readOnly = true)
-    public List<Vehicle> listById(Long id){
-        return dao.findAllByStoreId(id);
-    }
-
-    @Transactional(readOnly = true)
-    public Vehicle searchById(Long id){
-        return dao.findById(id.longValue()).orElse(null);
-    }
-
-    @Transactional(readOnly = true)
-    public List<Vehicle> searchAll(){
-        return dao.findAll();
+    public void delete(Long id) {
+        dao.deleteById(id);
     }
 }

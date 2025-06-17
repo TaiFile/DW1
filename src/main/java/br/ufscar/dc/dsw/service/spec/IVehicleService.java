@@ -5,15 +5,15 @@ import br.ufscar.dc.dsw.domain.Vehicle;
 import java.util.List;
 
 public interface IVehicleService {
+    Vehicle save(Vehicle vehicle);
+
     Vehicle searchById(Long id);
 
     List<Vehicle> searchAll();
 
-    Vehicle save(Vehicle vehicle);
-
-    void delete(Long id);
+    List<Vehicle> listById(Long id);
 
     Vehicle update(Vehicle vehicle);
 
-    List<Vehicle> listById(Long id);
+    void delete(Long id);
 }

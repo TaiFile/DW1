@@ -5,5 +5,5 @@ import org.springframework.data.repository.ListCrudRepository;
 import java.util.List;
 
 public interface IStoreDAO extends ListCrudRepository<Store, Long> {
-    List<Store> id(Long id);
+    List<Store> id(Long id); // todo: (jonatã) esse nome de método não faz sentido
 }
