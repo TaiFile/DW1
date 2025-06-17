@@ -10,9 +10,9 @@ public interface IStoreService {
 
     List<Store> searchAll();
 
-    void save(Store store);
+    Store save(Store store);
 
     void delete(Long id);
 
-    void update(Store store);
+    Store update(Store store);
 }

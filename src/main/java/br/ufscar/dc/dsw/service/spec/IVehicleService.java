@@ -9,9 +9,11 @@ public interface IVehicleService {
 
     List<Vehicle> searchAll();
 
-    void save(Vehicle vehicle);
+    Vehicle save(Vehicle vehicle);
 
     void delete(Long id);
 
-    void update(Vehicle vehicle);
+    Vehicle update(Vehicle vehicle);
+
+    List<Vehicle> listById(Long id);
 }

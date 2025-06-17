@@ -9,9 +9,9 @@ public interface IClientService {
 
     List<Client> searchAll();
 
-    void save(Client client);
+    Client save(Client client);
 
     void delete(Long id);
 
-    void update(Client client);
+    Client update(Client client);
 }
