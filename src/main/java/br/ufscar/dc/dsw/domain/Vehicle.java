@@ -49,12 +49,12 @@ public class Vehicle implements Serializable {
     @NotNull
     private BigDecimal value;
 
+    @ElementCollection
+    private List<String> images;
+
     @ManyToOne
     @JoinColumn(name = "store_id")
     private Store store;
-
-    // Max 10 images
-    // private List<String> images;
 
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Offer> offers = new ArrayList<>();
@@ -124,6 +124,15 @@ public class Vehicle implements Serializable {
 
     public void setValue(BigDecimal value) {
         this.value = value;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public Vehicle setImages(List<String> images) {
+        this.images = images;
+        return this;
     }
 
     public Store getStore() {
