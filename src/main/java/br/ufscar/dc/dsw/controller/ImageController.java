@@ -14,11 +14,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class ImageController {
 
     @Autowired
-    private IPublicStorageService storageService;
+    private IPublicStorageService publicStorageService;
 
     @PostMapping("/upload")
     public ResponseEntity<Void> upload(@RequestParam("file") MultipartFile file) {
-        storageService.store(file);
+        publicStorageService.store(file);
         return ResponseEntity.ok().build();
     }
 }
