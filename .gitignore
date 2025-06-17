@@ -4,6 +4,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### Public Storage for Development ###
+src/main/resources/static/uploads
+
 ### STS ###
 .apt_generated
 .classpath

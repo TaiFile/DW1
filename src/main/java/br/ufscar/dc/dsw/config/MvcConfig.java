@@ -19,10 +19,11 @@ import br.ufscar.dc.dsw.conversor.BigDecimalConversor;
 @ComponentScan(basePackages = "br.ufscar.dc.dsw.config")
 public class MvcConfig implements WebMvcConfigurer {
 
+    @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("redirect:/home");
-        registry.addViewController("/home").setViewName("home");
-        registry.addViewController("/login").setViewName("login");
+//        registry.addViewController("/").setViewName("redirect:/home");
+//        registry.addViewController("/home").setViewName("home");
+//        registry.addViewController("/login").setViewName("login");
     }
 
     @Bean

@@ -1,10 +1,14 @@
-package br.ufscar.dc.dsw.storage;
+package br.ufscar.dc.dsw.storage.impl;
 
 import br.ufscar.dc.dsw.Utils;
 import br.ufscar.dc.dsw.exceptions.StorageException;
+import br.ufscar.dc.dsw.storage.spec.ISecuredStorageService;
+import br.ufscar.dc.dsw.validation.FileValidator;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.ServletContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -20,15 +24,19 @@ import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 @Service
-public class LocalStorageService implements IStorageService {
+public class LocalSecureStorageService implements ISecuredStorageService {
 
     @Autowired
     private ServletContext servletContext;
 
-    @Value("${file.upload-access-prefix}")
-    private String fileUploadAccessPrefix;
+    @Autowired
+    private FileValidator fileValidator;
+
+    private static final String FILE_UPLOAD_ACCESS_PREFIX = "uploads";
 
     private Path physicalUploadBaseDir;
+
+    private final Logger logger = LoggerFactory.getLogger(LocalSecureStorageService.class.getName());
 
     private Path getUploadBaseDir() {
         if (physicalUploadBaseDir == null) {
@@ -36,19 +44,20 @@ public class LocalStorageService implements IStorageService {
             if (realPath == null) {
                 throw new StorageException("ServletContext.getRealPath(\"\") returned null. Cannot determine upload directory.");
             }
-            physicalUploadBaseDir = Paths.get(realPath, fileUploadAccessPrefix).normalize();
+            physicalUploadBaseDir = Paths.get(realPath, FILE_UPLOAD_ACCESS_PREFIX).normalize();
         }
         return physicalUploadBaseDir;
     }
 
-
     @Override
+    @PostConstruct
     public void init() {
         Path baseDir = getUploadBaseDir();
 
         if (!Files.exists(baseDir)) {
             try {
                 Files.createDirectories(baseDir);
+                logger.info("Created directory: {}", baseDir);
             } catch (IOException e) {
                 throw new StorageException("Could not initialize upload directory: " + e.getMessage());
             }
@@ -63,6 +72,8 @@ public class LocalStorageService implements IStorageService {
 
     @Override
     public String store(MultipartFile file) {
+        fileValidator.validate(file);
+
         String originalFilename = Utils.getOriginalFilename(file);
 
         String sanitizedOriginalFilename = originalFilename
@@ -74,7 +85,9 @@ public class LocalStorageService implements IStorageService {
         }
 
         Path storageDir = getUploadBaseDir();
-        Path filePath = storageDir.resolve(UUID.randomUUID() + "-" + sanitizedOriginalFilename);
+
+        String filename = UUID.randomUUID() + "-" + sanitizedOriginalFilename;
+        Path filePath = storageDir.resolve(filename);
 
         try {
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
@@ -82,7 +95,9 @@ public class LocalStorageService implements IStorageService {
             throw new StorageException("Failed to store file: " + e.getMessage());
         }
 
-        return filePath.getFileName().toString(); // Just the filename without the prefix
+        logger.info("Stored new file at: {}", filePath);
+
+        return filename;
     }
 
     @Override
@@ -114,10 +129,12 @@ public class LocalStorageService implements IStorageService {
         } catch (IOException e) {
             throw new StorageException("Failed to delete file: " + relativePath);
         }
+        logger.info("Deleted file: {}", relativePath);
     }
 
     @Override
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(getUploadBaseDir().toFile());
+        logger.info("Deleted all files in directory: {}", getUploadBaseDir());
     }
 }
