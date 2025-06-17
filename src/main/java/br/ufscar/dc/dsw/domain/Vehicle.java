@@ -126,6 +126,13 @@ public class Vehicle implements Serializable {
         this.value = value;
     }
 
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+
     public List<Offer> getOffers() {
         return offers;
     }
