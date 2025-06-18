@@ -2,7 +2,6 @@ package br.ufscar.dc.dsw.service.impl;
 
 import br.ufscar.dc.dsw.dao.IStoreDAO;
 import br.ufscar.dc.dsw.domain.Store;
-import br.ufscar.dc.dsw.domain.Vehicle;
 import br.ufscar.dc.dsw.exceptions.ResourceNotFoundException;
 import br.ufscar.dc.dsw.service.spec.IStoreService;
 import org.springframework.beans.factory.annotation.Autowired;

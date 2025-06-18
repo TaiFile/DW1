@@ -141,6 +141,7 @@ public class Vehicle implements Serializable {
 
     public void setStore(Store store) {
         this.store = store;
+    }
 
     public List<Offer> getOffers() {
         return offers;
@@ -155,11 +156,11 @@ public class Vehicle implements Serializable {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Vehicle vehicle = (Vehicle) o;
-        return Objects.equals(id, vehicle.id) && Objects.equals(plate, vehicle.plate) && Objects.equals(model, vehicle.model) && Objects.equals(chassi, vehicle.chassi) && Objects.equals(year, vehicle.year) && Objects.equals(mileage, vehicle.mileage) && Objects.equals(description, vehicle.description) && Objects.equals(value, vehicle.value);
+        return Objects.equals(id, vehicle.id) && Objects.equals(plate, vehicle.plate) && Objects.equals(model, vehicle.model) && Objects.equals(chassi, vehicle.chassi) && Objects.equals(year, vehicle.year) && Objects.equals(mileage, vehicle.mileage) && Objects.equals(description, vehicle.description) && Objects.equals(value, vehicle.value) && Objects.equals(images, vehicle.images) && Objects.equals(store, vehicle.store) && Objects.equals(offers, vehicle.offers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, plate, model, chassi, year, mileage, description, value);
+        return Objects.hash(id, plate, model, chassi, year, mileage, description, value, images, store, offers);
     }
 }

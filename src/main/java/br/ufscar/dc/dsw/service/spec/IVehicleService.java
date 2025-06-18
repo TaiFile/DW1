@@ -7,11 +7,11 @@ import java.util.List;
 public interface IVehicleService {
     Vehicle save(Vehicle vehicle);
 
-    Vehicle searchById(Long id);
+    Vehicle findById(Long id);
 
-    List<Vehicle> searchAll();
+    List<Vehicle> findAll();
 
-    List<Vehicle> listById(Long id);
+    List<Vehicle> findAllByStoreId(Long id);
 
     Vehicle update(Vehicle vehicle);
 
