@@ -1,39 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
+  <title>Car.Comp - Compra de Veículos</title>
 </head>
 <body>
-<header th:fragment="cabecalho">
-    <nav
-            class="navbar navbar-inverse navbar navbar-dark bg-dark fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <div sec:authorize="isAuthenticated()" style="right: 10px; position: absolute">
-                    <form th:action="@{/logout}" method="post">
-                        <div class="row">
-                            <div class="col-sm-12 col-sm-offset-3">
-                                <input type="submit" name="login-submit" id="login-submit"
-                                       class="form-control btn btn-info" value="Logout">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div style="right: 100px; position: absolute">
-                    <a th:href="@{''(lang=pt)}"><img alt=""
-                                                     th:src="@{/image/Brasil.gif}" style="width: 30px;" /></a> <a
-                        th:href="@{''(lang=en)}"><img alt=""
-                                                      th:src="@{/image/EUA.gif}" style="width: 30px;" /></a>
-                </div>
-
-                <button type="button" class="btn btn-dark navbar-toggle pull-left">
-                    <i class="oi oi-menu"></i>
-                </button>
-                <a class="navbar-brand " th:href="@{/}" th:text="#{title.label}">
-                </a>
-            </div>
-        </div>
-    </nav>
+<header class="header" th:fragment="header">
+  <div class="logo-container">
+    <a class="logotype" th:href="@{/}">MiranhaCar</a>
+  </div>
+  <div class="vehicles-container">
+    <a class="vehicles" th:href="@{/vehicles}">Compra de Carros</a>
+  </div>
+  <div class="auth-container">
+    <div class="auth">
+      <a class="login" th:href="@{/login}">Login</a>
+      <a class="register" th:href="@{/register}">Cadastrar</a>
+    </div>
+  </div>
 </header>
 </body>
 </html>

@@ -1,16 +1,25 @@
 package br.ufscar.dc.dsw.domain;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "vehicles")
@@ -141,25 +150,25 @@ public class Vehicle implements Serializable {
 
     public void setStore(Store store) {
         this.store = store;
-
-    public List<Offer> getOffers() {
-        return offers;
     }
+    // public List<Offer> getOffers() {
+    //     return offers;
+    // }
 
-    public Vehicle setOffers(List<Offer> offers) {
-        this.offers = offers;
-        return this;
-    }
+    // public Vehicle setOffers(List<Offer> offers) {
+    //     this.offers = offers;
+    //     return this;
+    // }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Vehicle vehicle = (Vehicle) o;
-        return Objects.equals(id, vehicle.id) && Objects.equals(plate, vehicle.plate) && Objects.equals(model, vehicle.model) && Objects.equals(chassi, vehicle.chassi) && Objects.equals(year, vehicle.year) && Objects.equals(mileage, vehicle.mileage) && Objects.equals(description, vehicle.description) && Objects.equals(value, vehicle.value);
-    }
+    // @Override
+    // public boolean equals(Object o) {
+    //     if (o == null || getClass() != o.getClass()) return false;
+    //     Vehicle vehicle = (Vehicle) o;
+    //     return Objects.equals(id, vehicle.id) && Objects.equals(plate, vehicle.plate) && Objects.equals(model, vehicle.model) && Objects.equals(chassi, vehicle.chassi) && Objects.equals(year, vehicle.year) && Objects.equals(mileage, vehicle.mileage) && Objects.equals(description, vehicle.description) && Objects.equals(value, vehicle.value);
+    // }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, plate, model, chassi, year, mileage, description, value);
-    }
+    // @Override
+    // public int hashCode() {
+    //     return Objects.hash(id, plate, model, chassi, year, mileage, description, value);
+    // }
 }
