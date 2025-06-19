@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Client Proposal Status</title>
+</head>
+<body>
+<div th:fragment="client_status_offer" class="bg-white rounded-lg shadow p-6 mb-4">
+    <div class="flex justify-between items-start mb-4">
+        <div>
+            <h3 class="text-lg font-bold text-gray-800">Fiat Palio Weekend</h3>
+            <p class="text-sm text-gray-600">Loja: AutoPeças Premium</p>
+        </div>
+        <div class="flex items-center gap-2">
+            <div class="w-6 h-6 flex items-center justify-center">
+            </div>
+            <span class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800">ABERTO</span>
+        </div>
+    </div>
+
+    <div class="space-y-2 mb-4">
+        <div class="flex justify-between">
+            <span class="text-sm text-gray-600">Valor Oferecido:</span>
+            <span class="font-bold text-black">R$ 110.000,00</span>
+        </div>
+
+        <div class="flex justify-between">
+            <span class="text-sm text-gray-600">Data da Proposta:</span>
+            <span class="text-sm text-gray-800">15/06/2024</span>
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <p class="text-sm text-gray-600 mb-1">Suas Condições:</p>
+        <p class="text-sm text-gray-800 bg-gray-50 p-2 rounded">
+            Pagamento à vista via PIX, com possibilidade de desconto para pagamento imediato
+        </p>
+    </div>
+
+    <div class="text-center py-2 bg-yellow-50 rounded">
+        <p class="text-sm text-yellow-800">
+            <strong>Aguardando análise da loja</strong>
+        </p>
+        <p class="text-xs text-yellow-600 mt-1">
+            Você será notificado quando houver uma resposta
+        </p>
+    </div>
+</div>
+</body>
+</html>

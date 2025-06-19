@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Veículos à Venda - MiranhaCar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-100 font-sans">
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="flex-grow container mx-auto px-8 py-12">
+    <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">Painel de Controle</h1>
+        <p class="text-xl text-gray-600">Clientes e Lojas</p>
+    </div>
+
+    <div class="max-w-2xl mx-auto space-y-6">
+        <a href="/client/register"
+           class="block bg-blue-600 text-white font-bold text-xl py-6 px-8 rounded-lg">
+            <div class="flex items-center justify-center">
+                Criar Cliente
+            </div>
+        </a>
+
+        <a href="/client/view"
+           class="block bg-blue-200 text-blue-800 font-bold text-xl py-6 px-8 rounded-lg">
+            <div class="flex items-center justify-center">
+                Visualizar Clientes
+            </div>
+        </a>
+
+        <a href="/store/register"
+           class="block bg-blue-600 text-white font-bold text-xl py-6 px-8 rounded-lg">
+            <div class="flex items-center justify-center">
+                Criar Loja
+            </div>
+        </a>
+
+        <a href="/store/view"
+           class="block bg-blue-200 text-green-800 font-bold text-xl py-6 px-8 rounded-lg">
+            <div class="flex items-center justify-center">
+                Visualizar Lojas
+            </div>
+        </a>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer-content}"></footer>
+</body>
+</html>

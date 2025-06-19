@@ -40,11 +40,11 @@ public class WebSecurityConfig {
                         .ignoringRequestMatchers("/images/upload")
                 )
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/error", "/login/**", "/js/**").permitAll()
+                        .requestMatchers("/error", "/login/**", "/js/**", "/client/**", "car/register/**", "/admin/**", "/store/**").permitAll()
                         .requestMatchers("/css/**", "/image/**", "/uploads/**", "/webjars/**").permitAll()
                         .requestMatchers("/images/upload").permitAll()
-                        .requestMatchers("/compras/**").hasRole("USER")
-                        .requestMatchers("/editoras/**", "/livros/**", "/usuarios/**").hasRole("ADMIN")
+//                        .requestMatchers("/compras/**").hasRole("USER")
+//                        .requestMatchers("/editoras/**", "/livros/**", "/usuarios/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")

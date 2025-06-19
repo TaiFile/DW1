@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title> Cliente- MiranhaCar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="flex flex-col min-h-screen bg-gray-100 font-sans">
+
+<header th:replace="~{fragments/header :: header}"></header>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-center m-8">
+  <a href="/client/status/offer" class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300">
+    Visualizar propostas
+  </a>
+</div>
+<div th:replace="~{fragments/search :: search}"></div>
+
+<main class="flex-grow mt-10">
+  <h1 class="text-3xl font-bold text-gray-800 mb-3 ml-8">Carros à venda</h1>
+  <section class="grid grid-cols-4 gap-8 mx-9">
+    <div th:replace="~{fragments/content :: content}"></div>
+    <div th:replace="~{fragments/content :: content}"></div>
+    <div th:replace="~{fragments/content :: content}"></div>
+    <div th:replace="~{fragments/content :: content}"></div>
+    <div th:replace="~{fragments/content :: content}"></div>
+    <div th:replace="~{fragments/content :: content}"></div>
+  </section>
+</main>
+
+
+<footer th:replace="~{fragments/footer :: footer-content}"></footer>
+
+</body>
+</html>

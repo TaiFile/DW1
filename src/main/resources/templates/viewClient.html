@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Informações do Cliente - MiranhaCar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-50">
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="flex-grow">
+    <div class="mx-auto px-4 py-8 grid grid-cols-4 m-5 ">
+        <div th:replace="~{fragments/client_info :: client_info}"></div>
+        <div th:replace="~{fragments/client_info :: client_info}"></div>
+        <div th:replace="~{fragments/client_info :: client_info}"></div>
+        <div th:replace="~{fragments/client_info :: client_info}"></div>
+        <div th:replace="~{fragments/client_info :: client_info}"></div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer-content}"></footer>
+</body>
+</html>

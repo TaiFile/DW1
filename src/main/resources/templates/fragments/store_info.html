@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Store Info</title>
+</head>
+<body>
+<div th:fragment="store_info" class="max-w-lg mx-10 bg-white rounded-lg shadow p-6 mb-5">
+    <div class="mb-6">
+        <h2 class="text-xl font-bold text-gray-800 mb-2">Informações da Loja</h2>
+        <div class="flex gap-2">
+<!--            <a th:href="@{/store/editar/{id} (id=${store.id})}"-->
+            <a class="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">
+                Editar
+            </a>
+<!--            <form th:action="@{/store/excluir/{id} (id=${store.id})}"-->
+            <form method="post"
+                  onsubmit="return confirm('Excluir esta loja?')"
+                  class="inline">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit"
+                        class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700">
+                    Excluir
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="space-y-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-600">Nome da Loja</label>
+            <p class="text-gray-800">MiranhaCar Premium</p>
+<!--            th:text="${store.name}"-->
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-600">CNPJ</label>
+            <p class="text-gray-800" >12.345.678/0001-90</p>
+<!--            th:text="${store.cnpj}"-->
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-600">Email</label>
+            <p class="text-gray-800">contato@miranhacar.com</p>
+<!--            th:text="${store.email}"-->
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-600">Descrição</label>
+            <p class="text-gray-800">
+<!--                th:text="${store.description}"-->
+                Loja especializada em veículos seminovos e usados de qualidade.
+            </p>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
