@@ -1,4 +1,72 @@
 package br.ufscar.dc.dsw.controller;
 
+import br.ufscar.dc.dsw.domain.Store;
+import br.ufscar.dc.dsw.service.spec.IStoreService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+@Controller
+@RequestMapping("/store")
 public class StoreController {
+    @Autowired
+    private IStoreService storeService;
+
+    @GetMapping("/register")
+    public String register(Store store) {
+        return "/store/register";
+    }
+
+    @GetMapping("/list")
+    public String list(ModelMap model) {
+        model.addAttribute("stores", storeService.findAll());
+        return "store/list";
+    }
+
+    @PostMapping("/save")
+    public String save(@Valid Store store, BindingResult result, RedirectAttributes attributes) {
+        if(result.hasErrors()) {
+            return "store/register";
+        }
+
+        storeService.save(store);
+        attributes.addFlashAttribute("sucess", "store.create.success");
+        return "redirect:/store/list";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String preEdit(@PathVariable("id") Long id, ModelMap model) {
+        model.addAttribute("store", storeService.findById(id));
+        return "store/register";
+    }
+
+    @PostMapping("/edit")
+    public String edit(@Valid Store store, BindingResult result, RedirectAttributes attributes) {
+        if(result.getFieldErrorCount() > 1 || result.getFieldError("CNPJ") == null) {
+            return  "store/register";
+        }
+
+        storeService.update(store);
+        attributes.addFlashAttribute("sucess", "store.edit.success");
+        return  "redirect:/store/list";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Long id, ModelMap model) {
+        if(storeService.storeHaveVehicles(id)) {
+            model.addAttribute("fail",  "store.delete.fail");
+        } else {
+            storeService.delete(id);
+            model.addAttribute("sucess", "store.delete.success");
+        }
+
+        return list(model);
+    }
 }
