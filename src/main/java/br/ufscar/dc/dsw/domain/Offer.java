@@ -31,7 +31,7 @@ public class Offer implements Serializable {
     @Column(updatable = false)
     private LocalDate date;
 
-    @NotNull
+    @Column
     private OfferStatus status = OfferStatus.OPEN;
 
     @ManyToOne

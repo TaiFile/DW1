@@ -21,6 +21,7 @@ public abstract class User implements Serializable {
     private Long id;
 
     @Email
+    @NotBlank
     @Column(nullable = false, length = 20, unique = true)
     private String email;
 
@@ -28,17 +29,16 @@ public abstract class User implements Serializable {
     @Column(nullable = false, length = 64)
     private String password;
 
-    @NotBlank
     @Column(nullable = false, length = 10)
     private UserRoleEnum role;
 
     @Column(nullable = false)
     private boolean enabled = true;
 
-    protected User(){
+    protected User() {
     }
 
-    protected User(UserRoleEnum role){
+    protected User(UserRoleEnum role) {
         this.role = role;
     }
 

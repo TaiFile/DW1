@@ -2,9 +2,11 @@ package br.ufscar.dc.dsw.config;
 
 import java.util.Locale;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -26,7 +28,7 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/client/register").setViewName("registerClient");
         registry.addViewController("/car/register").setViewName("registerCar");
-        registry.addViewController("/admin").setViewName("admin");
+        registry.addViewController("/admin").setViewName("admin/index");
         registry.addViewController("/store/register").setViewName("registerStore");
         registry.addViewController("/store/view").setViewName("viewStore");
         registry.addViewController("/client/view").setViewName("viewClient");

@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import br.ufscar.dc.dsw.domain.User;
 
-@SuppressWarnings("serial")
 public class UserDetailsImpl implements UserDetails {
 
     private final User user;
@@ -20,7 +19,9 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().toString());
+        String role = "ROLE_" + user.getRole().toString();
+
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
         return List.of(authority);
     }
 
