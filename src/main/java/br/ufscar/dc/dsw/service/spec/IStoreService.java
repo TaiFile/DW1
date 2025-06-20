@@ -15,4 +15,6 @@ public interface IStoreService {
     Store update(Store store);
 
     void delete(Long id);
+
+    boolean storeHaveVehicles(Long id);
 }

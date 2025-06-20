@@ -45,4 +45,11 @@ public class StoreService implements IStoreService {
     public void delete(Long id){
         dao.deleteById(id);
     }
+
+    @Transactional(readOnly = true)
+    public boolean storeHaveVehicles(Long id) {
+        Store store = dao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Store not found"));
+
+        return store.getVehicles() != null && !store.getVehicles().isEmpty();
+    }
 }
