@@ -21,27 +21,25 @@ public class VehicleService implements IVehicleService {
         return dao.save(vehicle);
     }
 
-    // todo: (jonatã) padronizar o nome dos métodos "search" para "find" se retornar um objeto ou "findAll" se retornar uma lista
     @Transactional(readOnly = true)
-    public List<Vehicle> searchAll() {
+    public Vehicle findById(Long id) {
+        return dao.findById(id).orElse(null);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Vehicle> findAll() {
         return dao.findAll();
     }
 
     @Transactional(readOnly = true)
-    public List<Vehicle> listById(Long id) { // todo: (jonatã) listById, mas Id de quem? Seria melhor findAllByStoreId
+    public List<Vehicle> findAllByStoreId(Long id) {
         return dao.findAllByStoreId(id);
-    }
-
-    @Transactional(readOnly = true)
-    public Vehicle searchById(Long id) {
-        return dao.findById(id).orElse(null);
     }
 
     public Vehicle update(Vehicle vehicle) {
         Vehicle entityVehicle = dao.findById(vehicle.getId()).orElseThrow(
                 () -> new ResourceNotFoundException("No records for this id"));
 
-        entityVehicle.setId(vehicle.getId()); // todo: (jonatã) o id é gerado pelo banco, essa linha pode ser removida
         entityVehicle.setPlate(vehicle.getPlate());
         entityVehicle.setModel(vehicle.getModel());
         entityVehicle.setChassi(vehicle.getChassi());

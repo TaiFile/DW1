@@ -5,13 +5,13 @@ import br.ufscar.dc.dsw.domain.Client;
 import java.util.List;
 
 public interface IClientService {
-    Client searchById(Long id);
-
-    List<Client> searchAll();
-
     Client save(Client client);
 
-    void delete(Long id);
+    Client findById(Long id);
+
+    List<Client> findAll();
 
     Client update(Client client);
+
+    void delete(Long id);
 }

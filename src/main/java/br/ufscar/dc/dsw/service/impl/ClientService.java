@@ -25,14 +25,13 @@ public class ClientService implements IClientService {
         return dao.save(client);
     }
 
-    // todo: (jonatã) padronizar o nome dos métodos "search" para "find" se retornar um objeto ou "findAll" se retornar uma lista
     @Transactional(readOnly = true)
-    public Client searchById(Long id){
+    public Client findById(Long id){
         return dao.findById(id).orElse(null);
     }
 
     @Transactional(readOnly = true)
-    public List<Client> searchAll(){
+    public List<Client> findAll(){
         return dao.findAll();
     }
 
