@@ -8,7 +8,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -25,15 +28,9 @@ public class ClientController {
         return "client/register";
     }
 
-    @GetMapping("/list")
-    public String list(ModelMap model) {
-        model.addAttribute("client", clientService.findAll());
-        return "client/list";
-    }
-
     @PostMapping("/save")
     public String save(@Valid Client client, BindingResult result, RedirectAttributes attributes) {
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             return "client/register";
         }
 
@@ -51,12 +48,12 @@ public class ClientController {
     }
 
     @PostMapping("/edit")
-    public String edit(@Valid Client client, String newPassword,BindingResult result, RedirectAttributes attributes) {
-        if(result.hasErrors()) {
+    public String edit(@Valid Client client, String newPassword, BindingResult result, RedirectAttributes attributes) {
+        if (result.hasErrors()) {
             return "client/register";
         }
 
-        if(newPassword != null && !newPassword.trim().isEmpty()) {
+        if (newPassword != null && !newPassword.trim().isEmpty()) {
             client.setPassword(encoder.encode(newPassword));
         } else {
             System.out.println("Password was not edited");
@@ -67,10 +64,10 @@ public class ClientController {
         return "redirect:/client/list";
     }
 
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Long id, ModelMap model) {
-        clientService.delete(id);
-        model.addAttribute("sucess", "client.delete.sucess");
-        return list(model);
-    }
+//    @GetMapping("/delete/{id}")
+//    public String delete(@PathVariable("id") Long id, ModelMap model) {
+//        clientService.delete(id);
+//        model.addAttribute("sucess", "client.delete.sucess");
+//        return list(model);
+//    }
 }

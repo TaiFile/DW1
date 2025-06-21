@@ -5,78 +5,83 @@
     <title>Client Info</title>
 </head>
 <body>
-<div th:fragment="client_info" class="max-w-lg mx-auto bg-white rounded-lg shadow p-6 mb-5">
-    <div class="mb-6">
-        <h2 class="text-xl font-bold text-gray-800 mb-2">Informações do Cliente</h2>
-        <div class="flex gap-2">
-<!--            <a th:href="@{/client/editar/{id} (id=${client.id})}"-->
-            <a
-               class="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">
-                Editar
-            </a>
-<!--            <form th:action="@{/client/excluir/{id} (id=${client.id})}"-->
-            <form
-                  method="post"
-                  onsubmit="return confirm('Excluir este cliente?')"
-                  class="inline">
-                <input type="hidden" name="_method" value="DELETE">
-                <button type="submit"
-                        class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700">
-                    Excluir
-                </button>
-            </form>
-        </div>
-    </div>
+<div th:fragment="client_info(client)" class="max-w-lg mx-auto bg-white rounded-lg shadow p-6 mb-5">
 
-    <div class="space-y-4">
-        <div>
-            <label class="block text-sm font-medium text-gray-600">Nome Completo</label>
-            <p class="text-gray-800">João Silva Santos</p>
-        </div>
-
-        <div>
-            <label class="block text-sm font-medium text-gray-600">Email</label>
-            <p class="text-gray-800" >joao.silva@email.com</p>
-<!--            th:text="${client.email}"-->
-        </div>
-
-        <div class="grid grid-cols-2 gap-4">
-            <div>
-                <label class="block text-sm font-medium text-gray-600">CPF</label>
-                <p class="text-gray-800" >123.456.789-10</p>
-<!--                th:text="${client.cpf}"-->
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-600">Telefone</label>
-                <p class="text-gray-800">(11) 99999-9999</p>
-<!--                th:text="${client.phone}"-->
+    <div th:if="${client != null}">
+        <div class="mb-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Informações do Cliente</h2>
+            <div class="flex gap-2">
+                <a th:href="@{/client/edit/{id} (id=${client.id})}"
+                   class="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">
+                    Editar
+                </a>
+                <form th:action="@{/client/delete/{id} (id=${client.id})}"
+                      method="post"
+                      onsubmit="return confirm('Excluir este cliente?')"
+                      class="inline">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit"
+                            class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700">
+                        Excluir
+                    </button>
+                </form>
             </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-4">
+        <div class="space-y-4">
             <div>
-                <label class="block text-sm font-medium text-gray-600">Data de Nascimento</label>
-                <p class="text-gray-800">15/03/1990</p>
-<!--                th:text="${#dates.format(client.dateOfBirth, 'dd/MM/yyyy')}"-->
+                <label class="block text-sm font-medium text-gray-600">Nome Completo</label>
+                <p class="text-gray-800" th:text="${client.name}">João Silva Santos</p>
             </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-600">Sexo</label>
-                <p class="text-gray-800" >Masculino</p>
-<!--                th:text="${client.sex == 'MALE' ? 'Masculino' : (client.sex == 'FEMALE' ? 'Feminino' : 'Outro')}"-->
-            </div>
-        </div>
 
-        <div>
-            <label class="block text-sm font-medium text-gray-600">Senha</label>
-            <div class="flex items-center justify-between">
-                <p class="text-gray-800">••••••••••</p>
-<!--                <a th:href="@{/client/alterar-senha/{id} (id=${client.id})}"-->
-                <a
-                   class="text-blue-600 text-sm hover:underline">Alterar senha</a>
+            <div>
+                <label class="block text-sm font-medium text-gray-600">Email</label>
+                <p class="text-gray-800" th:text="${client.email}">joao.silva@email.com</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-600">CPF</label>
+                    <p class="text-gray-800" th:text="${client.cpf}">123.456.789-10</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-600">Telefone</label>
+                    <p class="text-gray-800" th:text="${client.phone}">(11) 99999-9999</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-600">Data de Nascimento</label>
+                    <p class="text-gray-800" th:text="${#temporals.format(client.dateOfBirth, 'dd/MM/yyyy')}">15/03/1990</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-600">Sexo</label>
+                    <p class="text-gray-800"
+                       th:text="${client.sex == 'MALE' ? 'Masculino' : (client.sex == 'FEMALE' ? 'Feminino' : 'Outro')}">
+                        Masculino</p>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-600">Senha</label>
+                <div class="flex items-center justify-between">
+                    <p class="text-gray-800">••••••••••</p>
+                    <a class="text-blue-600 text-sm hover:underline">Alterar senha</a>
+                </div>
             </div>
         </div>
     </div>
 
+    <div th:unless="${client != null}"
+         class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+        <strong>Erro:</strong> Informações do cliente não disponíveis.
+        <br>
+        <span th:if="${client != null}">
+            Tipo recebido: <span th:text="${client.class.simpleName}">Desconhecido</span>
+        </span>
+        <span th:unless="${client != null}">Objeto é nulo</span>
+    </div>
 </div>
 </body>
 </html>
