@@ -2,11 +2,9 @@ package br.ufscar.dc.dsw.config;
 
 import java.util.Locale;
 
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -26,17 +24,14 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/").setViewName("redirect:/home");
         registry.addViewController("/home").setViewName("home");
         registry.addViewController("/login").setViewName("login");
-        registry.addViewController("/client/register").setViewName("registerClient");
-        registry.addViewController("/car/register").setViewName("registerCar");
-        registry.addViewController("/admin").setViewName("admin/index");
-        registry.addViewController("/store/register").setViewName("registerStore");
-        registry.addViewController("/store/view").setViewName("viewStore");
-        registry.addViewController("/client/view").setViewName("viewClient");
-        registry.addViewController("/store").setViewName("store");
-        registry.addViewController("/store/offer").setViewName("viewOfferStore");
-        registry.addViewController("/client").setViewName("client");
+        registry.addViewController("/client/register").setViewName("client/register");
+        registry.addViewController("/client/home").setViewName("client/home");
         registry.addViewController("/client/offer").setViewName("viewOfferClient");
         registry.addViewController("/client/status/offer").setViewName("statusOfferClient");
+        registry.addViewController("/store/register").setViewName("store/register");
+        registry.addViewController("/store/home").setViewName("store/home");
+        registry.addViewController("/store/offer").setViewName("store/offerList");
+        registry.addViewController("/vehicle/register").setViewName("vehicle/register");
     }
 
     @Bean

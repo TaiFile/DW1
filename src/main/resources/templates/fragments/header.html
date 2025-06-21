@@ -40,15 +40,21 @@
                     <a th:href="@{/profile}"
                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">Meu Perfil</a>
 
-                    <a th:if="${#authorization.expression('hasRole(''STORE'')')}"
-                       th:href="@{/store}"
-                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
-                        Meus Veículos</a>
-
                     <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}"
-                       th:href="@{/admin}"
+                       th:href="@{/admin/home}"
                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
-                        Painel Admin </a>
+                        Painel Admin</a>
+
+                    <a th:if="${#authorization.expression('hasRole(''CLIENT'')')}"
+                       th:href="@{/client/home}"
+                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                        Painel Cliente</a>
+
+                    <a th:if="${#authorization.expression('hasRole(''STORE'')')}"
+                       th:href="@{/store/home}"
+                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                        Painel Loja</a>
+
 
                     <hr class="border-gray-200">
 
