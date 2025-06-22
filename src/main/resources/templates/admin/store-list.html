@@ -3,19 +3,37 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Informações da Loja - MiranhaCar</title>
+    <title th:text="#{store.list.title}">Lista de Lojas - MiranhaCar</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="flex flex-col min-h-screen bg-gray-50">
+
 <header th:replace="~{fragments/header :: header}"></header>
 
 <main class="flex-grow">
-    <div class="mx-auto px-4 py-8 grid grid-cols-4">
-        <div th:replace="~{fragments/store_info :: store_info}"></div>
-        <div th:replace="~{fragments/store_info :: store_info}"></div>
-        <div th:replace="~{fragments/store_info :: store_info}"></div>
-        <div th:replace="~{fragments/store_info :: store_info}"></div>
-        <div th:replace="~{fragments/store_info :: store_info}"></div>
+    <div class="container mx-auto px-4 py-8">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2" th:text="#{store.list.main.title}">Lista de Lojas</h1>
+            <p class="text-gray-600" th:text="#{store.list.subtitle}">Gerencie todas as lojas cadastradas</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div th:if="${stores == null or stores.isEmpty()}" class="col-span-full text-center py-12">
+                <div class="bg-white rounded-lg shadow-sm p-8">
+                    <p class="text-gray-500 text-lg font-medium" th:text="#{store.list.no.stores}">Nenhuma loja encontrada</p>
+                    <p class="text-gray-400 text-sm mt-2" th:text="#{store.list.no.stores.description}">Comece criando sua primeira loja</p>
+                    <a th:href="@{/store/register}"
+                       class="inline-block mt-4 px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                       th:text="#{store.list.create.button}">
+                        Criar Loja
+                    </a>
+                </div>
+            </div>
+
+            <div th:each="store : ${stores}" class="w-full">
+                <div th:replace="~{fragments/store_info :: store_info(${store})}"></div>
+            </div>
+        </div>
     </div>
 </main>
 

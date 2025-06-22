@@ -1,36 +1,39 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Login - Admin</title>
+    <title th:text="#{login.page.title}">Login - Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="gap-8 flex items-center justify-center min-h-screen bg-gray-100 font-sans">
 <div class="max-w-md w-full bg-white rounded-lg shadow-lg p-6">
     <div class="text-center mb-6">
         <h1 class="text-2xl font-bold text-gray-800 mb-2">MiranhaCar</h1>
-        <h2 class="text-lg text-gray-600">Acesse sua Conta</h2>
+        <h2 class="text-lg text-gray-600" th:text="#{login.subtitle}">Acesse sua Conta</h2>
     </div>
 
     <form th:action="@{/login}" method="POST" class="space-y-4">
         <div th:if="${param.error}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            <p th:text="#{login.error}"></p>
+            <p th:text="#{login.error}">Usuário ou senha inválidos</p>
         </div>
 
         <div>
-            <label for="username" class="block text-sm font-medium text-gray-700 mb-1" th:text="#{login.label.email}"></label>
+            <label for="username" class="block text-sm font-medium text-gray-700 mb-1" th:text="#{login.label.email}">Email</label>
             <input id="username" name="username" type="email" required
-                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   th:placeholder="#{login.placeholder.email}">
         </div>
 
         <div>
-            <label for="password" class="block text-sm font-medium text-gray-700 mb-1" th:text="#{login.label.password}" ></label>
+            <label for="password" class="block text-sm font-medium text-gray-700 mb-1" th:text="#{login.label.password}">Senha</label>
             <input id="password" name="password" type="password" required
-                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   th:placeholder="#{login.placeholder.password}">
         </div>
 
-        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors">
+        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors"
+                th:text="#{login.button.submit}">
             Entrar
         </button>
     </form>

@@ -1,6 +1,7 @@
 package br.ufscar.dc.dsw.controller;
 
 import br.ufscar.dc.dsw.domain.Client;
+import br.ufscar.dc.dsw.domain.Store;
 import br.ufscar.dc.dsw.service.impl.ClientService;
 import br.ufscar.dc.dsw.service.impl.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +29,24 @@ public class AdminController {
 
     @GetMapping("/client/list")
     public String listClients(Model model) {
-        List<Client> clients = clientService.findAll();
-        model.addAttribute("clients", clients);
+        List<Client> clients = clientService.findAll(); // ← Mudei para plural
+        model.addAttribute("clients", clients);         // ← Mudei para plural
         return "admin/client-list";
     }
 
+
     @GetMapping("/store/list")
     public String listStores(Model model) {
-        model.addAttribute("stores", storeService.findAll());
-        return "admin/store-list";
+        try {
+            List<Store> stores = storeService.findAll();
+            System.out.println("Número de lojas encontradas: " + (stores != null ? stores.size() : "null"));
+            model.addAttribute("stores", stores);
+            return "admin/store-list";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("error", e.getMessage());
+            return "admin/store-list";
+        }
     }
+
 }

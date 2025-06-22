@@ -64,6 +64,10 @@ public class ClientController {
         return "redirect:/client/list";
     }
 
+    @GetMapping("/offer")
+    public String offer(ModelMap model) {
+        return "client/offerList";
+    }
 //    @GetMapping("/delete/{id}")
 //    public String delete(@PathVariable("id") Long id, ModelMap model) {
 //        clientService.delete(id);

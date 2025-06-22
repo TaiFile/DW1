@@ -7,7 +7,7 @@
 </head>
 <body class="bg-gray-50">
 <div class="max-w-4xl mx-auto px-4 py-8">
-    <h1 class="text-2xl font-bold text-gray-800 mb-6">Suas Propostas</h1>
+    <h1 class="text-2xl font-bold text-gray-800 mb-6" th:text="#{client.offer.status.h1}">Suas Propostas</h1>
     <div>
 <!--        th:each="proposal : ${proposals}"-->
         <div th:replace="~{fragments/client_status_offer :: client_status_offer}"></div>

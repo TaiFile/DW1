@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title> Cliente- MiranhaCar</title>
+  <title th:text="#{client.home.title}">Cliente - MiranhaCar</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -11,25 +11,27 @@
 
 <header th:replace="~{fragments/header :: header}"></header>
 
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-center m-8">
-  <a href="/client/status/offer" class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300">
+<div class="grid grid-cols-1 gap-4 text-center m-8">
+  <a href="/client/status/offer"
+     class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300"
+     th:text="#{client.home.view.proposals}">
     Visualizar propostas
   </a>
 </div>
+
 <div th:replace="~{fragments/search :: search}"></div>
 
 <main class="flex-grow mt-10">
-  <h1 class="text-3xl font-bold text-gray-800 mb-3 ml-8">Carros à venda</h1>
+  <h1 class="text-3xl font-bold text-gray-800 mb-3 ml-8" th:text="#{client.home.cars.for.sale}">Carros à venda</h1>
   <section class="grid grid-cols-4 gap-8 mx-9">
-    <div th:replace="~{fragments/content :: content}"></div>
-    <div th:replace="~{fragments/content :: content}"></div>
-    <div th:replace="~{fragments/content :: content}"></div>
-    <div th:replace="~{fragments/content :: content}"></div>
-    <div th:replace="~{fragments/content :: content}"></div>
-    <div th:replace="~{fragments/content :: content}"></div>
+    <div th:replace="~{fragments/vehicle_card :: vehicle_card}"></div>
+    <div th:replace="~{fragments/vehicle_card :: vehicle_card}"></div>
+    <div th:replace="~{fragments/vehicle_card :: vehicle_card}"></div>
+    <div th:replace="~{fragments/vehicle_card :: vehicle_card}"></div>
+    <div th:replace="~{fragments/vehicle_card :: vehicle_card}"></div>
+
   </section>
 </main>
-
 
 <footer th:replace="~{fragments/footer :: footer-content}"></footer>
 
