@@ -36,12 +36,16 @@ public class OfferController {
     @GetMapping("/vehicle/{id}/offer/register")
     public String register(@PathVariable Long id, ModelMap model) {
         model.addAttribute("vehicle", vehicleService.findById(id));
+        model.addAttribute("offer", new Offer());
         return "vehicle/offer";
     }
 
     @PostMapping("/vehicle/{vehicleId}/offer/save")
-    public String save(@PathVariable Long vehicleId, @Valid Offer offer, BindingResult result, RedirectAttributes attributes, ModelMap model) {
+    public String save(@PathVariable Long vehicleId, @Valid Offer offer, BindingResult result,
+                       RedirectAttributes attributes, ModelMap model) {
+
         Vehicle vehicle = vehicleService.findById(vehicleId);
+        offer.setVehicle(vehicle);
 
         if (result.hasErrors()) {
             model.addAttribute("vehicle", vehicle);
@@ -49,16 +53,13 @@ public class OfferController {
             return "vehicle/offer";
         }
 
-        offer.setVehicle(vehicle);
-
         try {
             offerService.save(offer);
-            attributes.addFlashAttribute("sucess", "Proposta enviada com sucesso!");
+            attributes.addFlashAttribute("success", "Proposta enviada com sucesso!");
             return "redirect:/home";
         } catch (Exception e) {
-            model.addAttribute("vehicle", vehicle);
-            model.addAttribute("fail", "Erro ao enviar proposta. Tente novamente!");
-            return "vehicle/offer";
+            attributes.addFlashAttribute("fail", "Erro ao enviar proposta. Tente novamente!");
+            return "redirect:/vehicle/" + vehicleId + "/offer/register";
         }
     }
 

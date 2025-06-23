@@ -22,21 +22,7 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("redirect:/home");
-//        registry.addViewController("/home").setViewName("home");
         registry.addViewController("/login").setViewName("login");
-        registry.addViewController("/client/register").setViewName("client/register");
-        registry.addViewController("/client/home").setViewName("client/home");
-        registry.addViewController("/client/offer").setViewName("client/offerList");
-        registry.addViewController("/client/status/offer").setViewName("client/offerStatus");
-        registry.addViewController("/store/register").setViewName("store/register");
-        registry.addViewController("/store/home").setViewName("store/home");
-        registry.addViewController("/store/offer").setViewName("store/offerList");
-        registry.addViewController("/vehicle/register").setViewName("vehicle/register");
-        registry.addViewController("/admin").setViewName("admin/home");
-        registry.addViewController("/admin/store").setViewName("admin/store-list");
-        registry.addViewController("/admin/client/list").setViewName("admin/client-list");
-        registry.addViewController("/vehicle/edit/**").setViewName("vehicle/registerUpdate");
-
     }
 
     @Bean

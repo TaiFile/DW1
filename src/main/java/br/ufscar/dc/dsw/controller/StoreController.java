@@ -25,28 +25,6 @@ public class StoreController {
     @Autowired
     private IOfferService offerService;
 
-    @GetMapping("/register")
-    public String register(Store store) {
-        return "/store/register";
-    }
-
-    @GetMapping("/list")
-    public String list(ModelMap model) {
-        model.addAttribute("stores", storeService.findAll());
-        return "store/list";
-    }
-
-    @PostMapping("/save")
-    public String save(@Valid Store store, BindingResult result, RedirectAttributes attributes) {
-        if (result.hasErrors()) {
-            return "store/register";
-        }
-
-        storeService.save(store);
-        attributes.addFlashAttribute("sucess", "store.create.success");
-        return "redirect:/store/list";
-    }
-
     @GetMapping("/edit/{id}")
     public String preEdit(@PathVariable("id") Long id, ModelMap model) {
         model.addAttribute("store", storeService.findById(id));

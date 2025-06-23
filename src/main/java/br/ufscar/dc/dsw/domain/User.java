@@ -22,7 +22,7 @@ public abstract class User implements Serializable {
 
     @Email
     @NotBlank
-    @Column(nullable = false, length = 20, unique = true)
+    @Column(nullable = false, length = 64, unique = true)
     private String email;
 
     @NotBlank

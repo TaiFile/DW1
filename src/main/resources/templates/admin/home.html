@@ -9,6 +9,8 @@
 <body class="flex flex-col min-h-screen bg-gray-100 font-sans">
 <header th:replace="~{fragments/header :: header}"></header>
 
+<div th:replace="~{fragments/alert :: alert}"></div>
+
 <main class="flex-grow container mx-auto px-8 py-12">
     <div class="text-center mb-12">
         <h1 class="text-4xl font-bold text-gray-800 mb-4" th:text="#{admin.home.main.title}">Painel de Controle</h1>
@@ -16,7 +18,7 @@
     </div>
 
     <div class="max-w-2xl mx-auto space-y-6">
-        <a th:href="@{/client/register}"
+        <a th:href="@{/admin/client/register}"
            class="block bg-blue-600 text-white font-bold text-xl py-6 px-8 rounded-lg hover:bg-blue-700 transition-colors">
             <div class="flex items-center justify-center" th:text="#{admin.home.create.client}">
                 Criar Cliente
@@ -30,7 +32,7 @@
             </div>
         </a>
 
-        <a th:href="@{/store/register}"
+        <a th:href="@{/admin/store/register}"
            class="block bg-green-600 text-white font-bold text-xl py-6 px-8 rounded-lg hover:bg-green-700 transition-colors">
             <div class="flex items-center justify-center" th:text="#{admin.home.create.store}">
                 Criar Loja

@@ -8,7 +8,7 @@
 
 <div th:fragment="alert">
     <!-- Alert de Sucesso -->
-    <div th:if="${sucess} != null"
+    <div th:if="(${sucess} != null) or (${success} != null)"
          class="fixed top-5 left-1/2 z-[9999] bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg max-w-sm transform -translate-x-1/2 -translate-y-full opacity-0 transition-all duration-500 ease-out alert-success">
         <div class="flex items-center justify-between">
             <span th:text="${sucess}">Sucesso!</span>
@@ -20,7 +20,7 @@
     </div>
 
     <!-- Alert de Erro -->
-    <div th:if="${fail} != null"
+    <div th:if="(${fail} != null) or (${error} != null)"
          class="fixed top-5 left-1/2 z-[9999] bg-red-500 text-white px-6 py-4 rounded-lg shadow-lg max-w-sm transform -translate-x-1/2 -translate-y-full opacity-0 transition-all duration-500 ease-out alert-error">
         <div class="flex items-center justify-between">
             <span th:text="${fail}">Erro!</span>

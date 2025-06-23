@@ -4,12 +4,16 @@ import br.ufscar.dc.dsw.domain.Client;
 import br.ufscar.dc.dsw.domain.Store;
 import br.ufscar.dc.dsw.service.impl.ClientService;
 import br.ufscar.dc.dsw.service.impl.StoreService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -23,6 +27,9 @@ public class AdminController {
     @Autowired
     private StoreService storeService;
 
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
     @GetMapping("home")
     public String panel() {
         return "admin/home";
@@ -35,8 +42,14 @@ public class AdminController {
     }
 
     @PostMapping("/client/register")
-    public String registerClient(Client client) {
+    public String registerClient(@Valid Client client, BindingResult result, RedirectAttributes attributes) {
+        if (result.hasErrors()) {
+            return "admin/register-client";
+        }
+
+        client.setPassword(encoder.encode(client.getPassword()));
         clientService.save(client);
+        attributes.addFlashAttribute("sucess", "client.create.sucess");
         return "redirect:/admin/home";
     }
 
@@ -47,8 +60,22 @@ public class AdminController {
     }
 
     @PostMapping("/store/register")
-    public String registerStore(Store store) {
+    public String registerStore(@Valid Store store, BindingResult result, RedirectAttributes attributes) {
+        if (result.hasErrors()) {
+            attributes.addFlashAttribute("fail", "store.create.fail");
+            return "admin/register-store";
+        }
+
         storeService.save(store);
+
+        try {
+            storeService.save(store);
+        } catch (Exception e) {
+            attributes.addFlashAttribute("fail", "store.create.fail");
+            return "admin/register-store";
+        }
+
+        attributes.addFlashAttribute("sucess", "store.create.success");
         return "redirect:/admin/home";
     }
 
