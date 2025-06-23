@@ -31,6 +31,12 @@ public class VehicleService implements IVehicleService {
         return dao.findAll();
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Vehicle> findByModelContainingIgnoreCase(String model) {
+        return dao.findByModelContainingIgnoreCase(model);
+    }
+
     @Transactional(readOnly = true)
     public List<Vehicle> findAllByStoreId(Long id) {
         return dao.findAllByStoreId(id);

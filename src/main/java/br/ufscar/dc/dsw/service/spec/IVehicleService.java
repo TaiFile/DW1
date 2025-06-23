@@ -11,6 +11,8 @@ public interface IVehicleService {
 
     List<Vehicle> findAll();
 
+    List<Vehicle> findByModelContainingIgnoreCase(String model);
+
     List<Vehicle> findAllByStoreId(Long id);
 
     Vehicle update(Vehicle vehicle);
