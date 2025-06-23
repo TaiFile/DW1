@@ -1,6 +1,8 @@
  package br.ufscar.dc.dsw.validation.validator;
 
+ import br.ufscar.dc.dsw.dao.IClientDAO;
  import br.ufscar.dc.dsw.dao.IUserDAO;
+ import br.ufscar.dc.dsw.domain.Client;
  import br.ufscar.dc.dsw.domain.User;
  import br.ufscar.dc.dsw.validation.UniqueCPF;
  import jakarta.validation.ConstraintValidator;
@@ -15,13 +17,13 @@
  public class UniqueCPFValidator implements ConstraintValidator<UniqueCPF, String> {
 
      @Autowired
-     private IUserDAO dao;
+     private IClientDAO dao;
 
      @Override
      public boolean isValid(String CPF, ConstraintValidatorContext context) {
          if (dao != null) {
-             Optional<User> user = dao.findByCPF(CPF);
-             if(user.isEmpty()) {
+             Optional<Client> client = dao.findByCpf(CPF);
+             if(client.isEmpty()) {
                  return false;
              }
          } else {

@@ -11,6 +11,4 @@ public interface IUserDAO extends ListCrudRepository<User, Long> {
 
     @Query("SELECT u FROM User u WHERE u.email = :username")
     Optional<User> findByEmail(@Param("username") String username);
-    Optional<User> findByCPF(String cpf);
-    Optional<User> findByPhone(String phoneNumber);
 }
