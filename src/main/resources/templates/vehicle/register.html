@@ -7,6 +7,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="gap-8 flex items-center justify-center min-h-screen bg-gray-100 font-sans">
+
+<div th:replace="~{fragments/alert :: alert}"></div>
+
 <div class="min-h-screen flex items-center justify-center bg-gray-100 p-4">
     <div class="max-w-2xl w-full bg-white rounded-lg shadow-lg p-6">
         <div class="text-center mb-6">
@@ -14,14 +17,7 @@
             <h2 class="text-lg text-gray-600" th:text="#{vehicle.register.title}">Cadastrar Veículo</h2>
         </div>
 
-        <form action="#" method="POST" enctype="multipart/form-data" class="space-y-4">
-            <div>
-                <label for="storeCnpj" class="block text-sm font-medium text-gray-700 mb-1"
-                       th:text="#{vehicle.register.store.cnpj.label}">CNPJ da Loja</label>
-                <input id="storeCnpj" name="storeCnpj" type="text" required
-                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-
+        <form th:action="@{/vehicle/save}" method="POST" enctype="multipart/form-data" class="space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label for="plate" class="block text-sm font-medium text-gray-700 mb-1"
@@ -74,12 +70,17 @@
             </div>
 
             <div>
-                <label for="images" class="block text-sm font-medium text-gray-700 mb-1"
+                <label for="imageFiles" class="block text-sm font-medium text-gray-700 mb-1"
                        th:text="#{vehicle.register.images.label}">Fotos do Veículo</label>
                 <div class="relative">
-                    <input id="images" name="images" type="file" multiple accept="image/*"
+                    <input id="imageFiles" name="imageFiles" type="file" multiple accept="image/*"
                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <p class="text-xs text-gray-500 mt-1" th:text="#{vehicle.register.images.help}">Selecione até 10 imagens</p>
+                    <p class="text-xs text-gray-500 mt-1" th:text="#{vehicle.register.images.help}">Selecione até 10 imagens (PNG, JPEG, JPG)</p>
+                </div>
+
+                <!-- Preview das imagens selecionadas -->
+                <div id="imagePreview" class="mt-4 grid grid-cols-2 md:grid-cols-3 gap-4 hidden">
+                    <!-- As imagens aparecerão aqui via JavaScript -->
                 </div>
             </div>
 
@@ -91,5 +92,45 @@
         </form>
     </div>
 </div>
+
+<script>
+    document.getElementById('imageFiles').addEventListener('change', function(e) {
+        const preview = document.getElementById('imagePreview');
+        const files = e.target.files;
+
+        // Limpar preview anterior
+        preview.innerHTML = '';
+
+        if (files.length > 0) {
+            preview.classList.remove('hidden');
+
+            // Limitar a 10 imagens
+            const maxFiles = Math.min(files.length, 10);
+
+            for (let i = 0; i < maxFiles; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const div = document.createElement('div');
+                    div.className = 'relative';
+                    div.innerHTML = `
+                    <img src="${e.target.result}" class="w-full h-24 object-cover rounded border">
+                    <p class="text-xs text-gray-600 mt-1 truncate">${file.name}</p>
+                `;
+                    preview.appendChild(div);
+                };
+
+                reader.readAsDataURL(file);
+            }
+
+            if (files.length > 10) {
+                alert('Máximo de 10 imagens permitidas. Apenas as primeiras 10 serão consideradas.');
+            }
+        } else {
+            preview.classList.add('hidden');
+        }
+    });
+</script>
 </body>
 </html>

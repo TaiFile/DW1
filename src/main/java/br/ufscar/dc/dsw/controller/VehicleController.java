@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,14 +42,34 @@ public class VehicleController {
     }
 
     @PostMapping("/save")
-    public String save(@Valid Vehicle vehicle, BindingResult result, RedirectAttributes attributes) {
+    public String save(@Valid Vehicle vehicle, Principal principal,
+                       @RequestParam(required = false) MultipartFile[] imageFiles,
+                       BindingResult result, RedirectAttributes attributes, ModelMap model) {
+
         if (result.hasErrors()) {
             return "vehicle/register";
         }
 
-        vehicleService.save(vehicle);
-        attributes.addFlashAttribute("sucess", "vehicle.create.success");
-        return "redirect:/vehicle/list";
+        try{
+            List<String> finalImages = new ArrayList<>();
+            for (MultipartFile file : imageFiles) {
+                String fileName = publicStorageService.store(file);
+                finalImages.add(fileName);
+            }
+
+            Store store = storeService.findByEmail(principal.getName());
+            vehicle.setStore(store);
+            vehicle.setImages(finalImages);
+            vehicleService.save(vehicle);
+            attributes.addFlashAttribute("sucess", "vehicle.create.success");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("fail", "Error creating a vehicle!");
+            return "vehicle/register";
+        }
+
+        return "redirect:/store/home";
     }
 
     @GetMapping("/edit/{id}")
