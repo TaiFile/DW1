@@ -11,7 +11,11 @@ public interface IOfferService {
 
     List<Offer> findAllByClientId(Long clientId);
 
+    List<Offer> findAllByClientEmail(String clientEmail);
+
     List<Offer> findAllByStoreId(Long storeId);
+
+    List<Offer> findAllByStoreEmail(String storeEmail);
 
     Offer findById(Long id);
 

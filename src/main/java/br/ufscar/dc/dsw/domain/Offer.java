@@ -124,4 +124,17 @@ public class Offer implements Serializable {
     public int hashCode() {
         return Objects.hash(getId(), getValue(), getPaymentConditions(), getDate(), getStatus(), getVehicle(), getClient());
     }
+
+    @Override
+    public String toString() {
+        return "Offer{" +
+                "id=" + id +
+                ", value=" + value +
+                ", paymentConditions='" + paymentConditions + '\'' +
+                ", date=" + date +
+                ", status=" + status +
+                ", vehicle=" + vehicle +
+                ", client=" + client +
+                '}';
+    }
 }
