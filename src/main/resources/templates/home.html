@@ -8,13 +8,12 @@
 </head>
 
 <body class="flex flex-col min-h-screen gap-8 bg-gray-100">
+<div th:replace="~{fragments/alert :: alert}"></div>
 <header th:replace="~{fragments/header :: header}" class="gap-y-10"></header>
 
 <div class="px-4">
     <div th:replace="~{fragments/search_bar :: search_bar}"></div>
 </div>
-
-<div th:replace="~{fragments/alert :: alert}"></div>
 
 <main class="flex-grow container mx-auto px-4">
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">

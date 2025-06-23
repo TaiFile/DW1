@@ -61,10 +61,10 @@ public class OfferController {
         try {
             offer.setClient(clientService.findByEmail(principal.getName()));
             offerService.save(offer);
-            attributes.addFlashAttribute("success", "Proposta enviada com sucesso!");
+            attributes.addFlashAttribute("success", "offer.create.success");
             return "redirect:/home";
         } catch (Exception e) {
-            attributes.addFlashAttribute("fail", "Erro ao enviar proposta. Tente novamente!");
+            attributes.addFlashAttribute("fail", "offer.create.fail");
             return "redirect:/vehicle/" + vehicleId + "/offer/register";
         }
     }
@@ -123,11 +123,11 @@ public class OfferController {
             // Salvar oferta atualizada
             offerService.update(offer);
 
-            attributes.addFlashAttribute("sucess", "Proposta analisada com sucesso!");
+            attributes.addFlashAttribute("success", "offer.decision.success");
             return "redirect:/store/offers";
 
         } catch (Exception e) {
-            attributes.addFlashAttribute("fail", "Erro ao processar proposta: " + e.getMessage());
+            attributes.addFlashAttribute("fail", "offer.decision.fail");
             return "redirect:/offer/analyze/" + id;
         }
     }
