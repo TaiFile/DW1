@@ -45,7 +45,7 @@ public class WebSecurityConfig {
                         .ignoringRequestMatchers("/images/upload")
                 )
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/error", "/login/**", "/js/**", "/store/**", "/admin/**", "/client/**", "/client/home").permitAll()
+                        .requestMatchers("/error", "/login/**", "/js/**", "/store/**", "/admin/**", "/client/**", "/client/home", "/vehicle/**").permitAll()
                         .requestMatchers("/css/**", "/webjars/**","/image/**", "/uploads/**").permitAll()
                         .requestMatchers(publicRoutes).permitAll()
 //                        .requestMatchers("/admin/**").hasRole("ADMIN")

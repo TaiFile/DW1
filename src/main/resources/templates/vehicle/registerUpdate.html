@@ -1,0 +1,77 @@
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Editar Veículo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="gap-8 flex items-center justify-center min-h-screen bg-gray-100 font-sans">
+<div class="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+    <div class="max-w-lg w-full bg-white rounded-lg shadow-lg p-6">
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-bold text-gray-800 mb-1">MiranhaCar</h1>
+            <h2 class="text-lg text-gray-600">Editar Veículo</h2>
+        </div>
+
+        <form th:action="@{/vehicle/edit}" method="POST" enctype="multipart/form-data" class="space-y-4">
+            <input type="hidden" name="id" th:value="${vehicle?.id}"/>
+            <input type="hidden" name="store.id" th:value="${vehicle?.store?.id}"/>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Placa</label>
+                <input name="plate" type="text" th:value="${vehicle?.plate}" required
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Modelo</label>
+                <input name="model" type="text" th:value="${vehicle?.model}" required
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Quilometragem (km)</label>
+                <input name="mileage" type="number" th:value="${vehicle?.mileage}" required
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Ano</label>
+                    <input name="year" type="number" th:value="${vehicle?.year}" required
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Valor (R$)</label>
+                    <input name="value" type="number" step="0.01" th:value="${vehicle?.value}" required
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Chassi</label>
+                <input name="chassi" type="text" th:value="${vehicle?.chassi}" required
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
+                <textarea name="description" rows="4" th:text="${vehicle?.description}" required
+                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
+            </div>
+
+            <div class="flex gap-3 mt-6">
+                <button type="submit"
+                        class="flex-1 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors">
+                    Atualizar
+                </button>
+                <a th:href="@{/store/home}"
+                   class="flex-1 bg-gray-500 text-white py-2 rounded-md hover:bg-gray-600 transition-colors text-center">
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
