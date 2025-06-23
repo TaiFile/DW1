@@ -44,8 +44,6 @@ public class StoreController {
         return "store/registerUpdate";
     }
 
-
-
     @PostMapping("/edit")
     public String edit(@Valid Store store, BindingResult result, RedirectAttributes attributes) {
         if(result.hasErrors()) {
