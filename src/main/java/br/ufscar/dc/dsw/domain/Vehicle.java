@@ -49,8 +49,8 @@ public class Vehicle implements Serializable {
     @NotNull
     private BigDecimal value;
 
-    @ElementCollection
-    private List<String> images;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> images = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "store_id")

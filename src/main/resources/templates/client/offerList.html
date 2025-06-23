@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title> Offer Client </title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <title>Propostas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="gap-8 grid grid-cols-1 min-h-screen bg-gray-100 font-sans">
-<div th:replace="~{fragments/client_offer :: client_offer}"></div>
+<body class="bg-gray-50">
+<div class="max-w-4xl mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6" th:text="#{client.offer.status.h1}">Suas Propostas</h1>
+    <div>
+<!--        th:each="proposal : ${proposals}"-->
+        <div th:replace="~{fragments/client_offer_status :: client_offer_status()}"></div>
+        <div th:replace="~{fragments/client_offer_status :: client_offer_status()}"></div>
+        <div th:replace="~{fragments/client_offer_status :: client_offer_status()}"></div>
+    </div>
+
+<!--    <div-->
+<!--         class="text-center py-8 text-gray-500">-->
+<!--        <p>Nenhuma proposta encontrada.</p>-->
+<!--    </div>-->
+<!--    th:if="${proposals == null or proposals.empty}"-->
+</div>
 </body>
 </html>

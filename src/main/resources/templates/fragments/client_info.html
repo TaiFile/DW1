@@ -33,15 +33,19 @@
     </div>
 
     <div class="flex gap-3 pt-3 border-t border-gray-200">
-        <a th:href="@{/client/edit/{id} (id=${client.id})}"
+        <a th:href="@{/client/edit/{id}(id=${client.id})}"
            class="text-blue-600 hover:text-blue-800 font-medium text-sm"
            th:text="#{client.info.edit.button}">
             Editar
         </a>
-        <a href="#" class="text-red-600 hover:text-red-800 font-medium text-sm"
-           th:text="#{client.info.delete.button}">
-            Excluir
-        </a>
+        <form th:action="@{/client/delete/{id}(id=${client.id})}" method="POST"
+              onsubmit="return confirm('Tem certeza que deseja excluir este cliente?')"
+              style="display: inline;">
+            <button type="submit" class="text-red-600 hover:text-red-800 font-medium text-sm"
+                    th:text="#{client.info.delete.button}">
+                Excluir
+            </button>
+        </form>
     </div>
 
 </div>

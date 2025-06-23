@@ -1,7 +1,6 @@
 package br.ufscar.dc.dsw.service.spec;
 
 import br.ufscar.dc.dsw.domain.Offer;
-import br.ufscar.dc.dsw.domain.enums.OfferStatus;
 
 import java.util.List;
 
@@ -10,7 +9,9 @@ public interface IOfferService {
 
     List<Offer> findAll();
 
-    List<Offer> findAllByClientIdAndStatus(Long id, OfferStatus status);
+    List<Offer> findAllByClientId(Long clientId);
+
+    List<Offer> findAllByStoreId(Long storeId);
 
     Offer findById(Long id);
 
