@@ -29,18 +29,6 @@ public class OfferController {
         return "vehicle/offer";
     }
 
-    @GetMapping("/client/{clientId}/offers")
-    public String listByClient(@PathVariable Long clientId, ModelMap model) {
-        model.addAttribute("offer", offerService.findAllByClientId(clientId));
-        return "client/offerList";
-    }
-
-    @GetMapping("/store/{storeId}/offers")
-    public String listByStore(@PathVariable Long storeId, ModelMap model) {
-        model.addAttribute("offer", offerService.findAllByStoreId(storeId));
-        return "store/offerList";
-    }
-
     @PostMapping("/vehicle/{vehicleId}/offer/save")
     public String save(@PathVariable Long vehicleId, @Valid Offer offer, BindingResult result, RedirectAttributes attributes, ModelMap model) {
         Vehicle vehicle = vehicleService.findById(vehicleId);
@@ -64,6 +52,19 @@ public class OfferController {
         }
     }
 
+    @GetMapping("/client/{clientId}/offers")
+    public String listByClient(@PathVariable Long clientId, ModelMap model) {
+        model.addAttribute("offer", offerService.findAllByClientId(clientId));
+        return "client/offerList";
+    }
+
+    @GetMapping("/store/{storeId}/offers")
+    public String listByStore(@PathVariable Long storeId, ModelMap model) {
+        model.addAttribute("offer", offerService.findAllByStoreId(storeId));
+        return "store/offerList";
+    }
+
+    // Apenas a loja deve editar uma proposta (mudar o status)
     @GetMapping("/edit/{id}")
     public String preEdit(@PathVariable("id") Long id, ModelMap model) {
         model.addAttribute("offer", offerService.findById(id));
