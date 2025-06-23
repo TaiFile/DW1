@@ -75,12 +75,6 @@ public class ClientController {
         }
     }
 
-    @GetMapping("/{id}/offers")
-    public String listClientOffers(@PathVariable Long id, ModelMap model) {
-        model.addAttribute("offers", offerService.findAllByClientId(id));
-        return "client/offerList";
-    }
-
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id, RedirectAttributes attributes) {
         try {
@@ -91,5 +85,11 @@ public class ClientController {
             attributes.addFlashAttribute("fail", "Erro ao excluir cliente!");
             return "redirect:/admin/client/list";
         }
+    }
+
+    @GetMapping("/{id}/offers")
+    public String listClientOffers(@PathVariable Long id, ModelMap model) {
+        model.addAttribute("offers", offerService.findAllByClientId(id));
+        return "client/offerList";
     }
 }
