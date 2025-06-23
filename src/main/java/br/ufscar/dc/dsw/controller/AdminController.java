@@ -42,16 +42,28 @@ public class AdminController {
     }
 
     @PostMapping("/client/register")
-    public String registerClient(@Valid Client client, BindingResult result, RedirectAttributes attributes) {
+    public String registerClient(@Valid Client client, BindingResult result, RedirectAttributes attributes, Model model) {
         if (result.hasErrors()) {
-            return "admin/register-client";
+            model.addAttribute("client", client);
+            return "admin/register-client"; // ✅ CAMINHO CORRETO
         }
 
         client.setPassword(encoder.encode(client.getPassword()));
-        clientService.save(client);
-        attributes.addFlashAttribute("sucess", "client.create.sucess");
+
+        try {
+            clientService.save(client);
+        } catch (Exception e) {
+            model.addAttribute("client", client);
+            model.addAttribute("errorMessage", "Erro interno do servidor. Tente novamente.");
+            return "admin/register-client"; // ✅ CAMINHO CORRETO
+        }
+
+        attributes.addFlashAttribute("success", "Cliente cadastrado com sucesso!");
         return "redirect:/admin/home";
     }
+
+
+
 
     @GetMapping("/store/register")
     public String showRegisterStoreForm(Model model) {
@@ -60,25 +72,26 @@ public class AdminController {
     }
 
     @PostMapping("/store/register")
-    public String registerStore(@Valid Store store, BindingResult result, RedirectAttributes attributes) {
+    public String registerStore(@Valid Store store, BindingResult result, RedirectAttributes attributes, Model model) {
         if (result.hasErrors()) {
-            attributes.addFlashAttribute("fail", "store.create.fail");
-            return "admin/register-store";
+            model.addAttribute("store", store);
+            return "admin/register-store"; // ✅ Retorna para o formulário com erros
         }
 
         store.setPassword(encoder.encode(store.getPassword()));
-        storeService.save(store);
 
         try {
             storeService.save(store);
         } catch (Exception e) {
-            attributes.addFlashAttribute("fail", "store.create.fail");
-            return "admin/register-store";
+            model.addAttribute("store", store);
+            model.addAttribute("errorMessage", "Erro interno do servidor. Tente novamente.");
+            return "admin/register-store"; // ✅ Retorna para o formulário com erro
         }
 
-        attributes.addFlashAttribute("sucess", "store.create.success");
+        attributes.addFlashAttribute("success", "Loja cadastrada com sucesso!");
         return "redirect:/admin/home";
     }
+
 
 
     @GetMapping("/client/list")

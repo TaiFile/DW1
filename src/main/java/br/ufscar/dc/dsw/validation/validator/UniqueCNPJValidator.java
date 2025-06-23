@@ -18,14 +18,21 @@ public class UniqueCNPJValidator implements ConstraintValidator<UniqueCNPJ, Stri
 
     @Override
     public boolean isValid(String CNPJ, ConstraintValidatorContext context) {
-        if (dao != null) {
-            Optional<Store> store = dao.findByCnpj(CNPJ);
-            if(store.isEmpty()) {
-                return false;
-            }
-        } else {
+        // Se o DAO não estiver disponível, assume válido
+        if (dao == null) {
             return true;
         }
-        return false;
+
+        // Se o CNPJ for null ou vazio, deixa outras validações cuidarem
+        if (CNPJ == null || CNPJ.trim().isEmpty()) {
+            return true;
+        }
+
+        Optional<Store> store = dao.findByCnpj(CNPJ);
+
+        // ✅ LÓGICA CORRETA:
+        // Se NÃO encontrou store = CNPJ único = válido (true)
+        // Se encontrou store = CNPJ duplicado = inválido (false)
+        return store.isEmpty();
     }
 }

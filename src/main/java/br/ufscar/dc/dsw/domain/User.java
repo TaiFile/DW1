@@ -1,6 +1,7 @@
 package br.ufscar.dc.dsw.domain;
 
 import br.ufscar.dc.dsw.domain.enums.UserRoleEnum;
+import br.ufscar.dc.dsw.validation.UniqueEmail;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -21,6 +22,7 @@ public abstract class User implements Serializable {
     private Long id;
 
     @Email
+    @UniqueEmail
     @NotBlank
     @Column(nullable = false, length = 64, unique = true)
     private String email;

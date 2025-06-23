@@ -19,14 +19,20 @@ public class UniquePhoneValidator implements ConstraintValidator<UniquePhone, St
 
     @Override
     public boolean isValid(String phone, ConstraintValidatorContext context) {
-        if (dao != null) {
-            Optional<Client> client = dao.findByPhone(phone);
-            if(client.isEmpty()) {
-                return false;
-            }
-        } else {
+        // Se o DAO não estiver disponível, assume válido
+        if (dao == null) {
             return true;
         }
-        return false;
+
+        // Se o telefone for null ou vazio, deixa outras validações cuidarem
+        if (phone == null || phone.trim().isEmpty()) {
+            return true;
+        }
+
+        Optional<Client> client = dao.findByPhone(phone);
+
+        // Se não encontrou cliente com esse telefone, é único (válido)
+        // Se encontrou cliente com esse telefone, não é único (inválido)
+        return client.isEmpty();
     }
 }
