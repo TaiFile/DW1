@@ -4,15 +4,17 @@ import br.ufscar.dc.dsw.domain.Store;
 import br.ufscar.dc.dsw.domain.Vehicle;
 import br.ufscar.dc.dsw.service.spec.IStoreService;
 import br.ufscar.dc.dsw.service.spec.IVehicleService;
+import br.ufscar.dc.dsw.storage.spec.IPublicStorageService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -23,6 +25,9 @@ public class VehicleController {
 
     @Autowired
     private IStoreService storeService;
+
+    @Autowired
+    private IPublicStorageService publicStorageService;
 
     @GetMapping("/register")
     public String register(Vehicle vehicle) {
@@ -37,7 +42,7 @@ public class VehicleController {
 
     @PostMapping("/save")
     public String save(@Valid Vehicle vehicle, BindingResult result, RedirectAttributes attributes) {
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             return "vehicle/register";
         }
 
@@ -50,35 +55,68 @@ public class VehicleController {
     public String editForm(@PathVariable("id") Long id, ModelMap model) {
         Vehicle vehicle = vehicleService.findById(id);
         model.addAttribute("vehicle", vehicle);
-        return "vehicle/registerUpdate";
+        return "vehicle/update";
     }
 
     @PostMapping("/edit")
-    public String edit(@ModelAttribute Vehicle vehicle, RedirectAttributes attributes) {
+    public String edit(@Valid Vehicle vehicle,
+                       @RequestParam(required = false) String[] existingImages,
+                       @RequestParam(required = false) MultipartFile[] newImages,
+                       BindingResult result,
+                       RedirectAttributes attributes,
+                       ModelMap model) {
+        if (result.hasErrors()) {
+            return "vehicle/update";
+        }
+
         try {
+            List<String> finalImages = new ArrayList<>();
+            if (existingImages != null) {
+                finalImages.addAll(List.of(existingImages));
+            }
+
+            if (newImages != null) {
+                for (MultipartFile file : newImages) {
+                    if (!file.isEmpty() && file.getContentType() != null) {
+                        String fileName = publicStorageService.store(file);
+                        if (fileName != null) {
+                            finalImages.add(fileName);
+                        }
+                    }
+                }
+            }
+
+            vehicle.setImages(finalImages);
             vehicleService.save(vehicle);
-            attributes.addFlashAttribute("success", "Veículo atualizado com sucesso!");
+            attributes.addFlashAttribute("sucess", "Veículo atualizado com sucesso!");
         } catch (Exception e) {
-            attributes.addFlashAttribute("error", "Erro ao atualizar veículo!");
+            e.printStackTrace();
+            model.addAttribute("fail", "Erro ao atualizar veículo!");
+            return "vehicle/update";
         }
         return "redirect:/store/home";
     }
 
-
-
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Long id, RedirectAttributes attributes) {
+    public String delete(@PathVariable("id") Long id, RedirectAttributes attributes, ModelMap model) {
         try {
+            Vehicle vehicle = vehicleService.findById(id);
+            if (vehicle != null && vehicle.getImages() != null) {
+                for (String imageUrl : vehicle.getImages()) {
+                    publicStorageService.delete(imageUrl);
+                }
+            }
+
             vehicleService.delete(id);
             attributes.addFlashAttribute("success", "Veículo excluído com sucesso!");
         } catch (Exception e) {
             System.out.println("Erro ao deletar veículo: " + e.getMessage());
-            attributes.addFlashAttribute("error", "Erro ao excluir veículo!");
+            model.addAttribute("error", "Erro ao excluir veículo!");
+            return "redirect:/store/home";
         }
 
         return "redirect:/store/home";
     }
-
 
     @ModelAttribute("stores")
     public List<Store> listStore() {

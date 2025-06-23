@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title th:text="#{store.home.title}">Seus Veículos - MiranhaCar</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="flex flex-col min-h-screen bg-gray-100 font-sans">
 <header th:replace="~{fragments/header :: header}"></header>
 
+<div th:replace="~{fragments/alert :: alert}"></div>
 
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-center m-8">
     <a href="/store/offer"
@@ -26,7 +27,7 @@
 <main class="flex-grow container mx-auto px-4">
     <h1 class="text-3xl font-bold text-gray-800 mb-6" th:text="#{store.home.your.cars}">Seus carros</h1>
 
-    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 pb-5">
         <div th:if="${vehicles != null and !vehicles.empty}"
              th:each="vehicle : ${vehicles}"
              th:object="${vehicle}">
