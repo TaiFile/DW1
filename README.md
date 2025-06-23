@@ -73,8 +73,8 @@ Antes de começar, você precisará ter instalado em sua máquina:
 
 1.  **Clone o repositório:**
     ```bash
-    git clone [URL_DO_PROJETO]
-    cd nome-do-projeto
+    git https://github.com/TaiFile/DW1.git
+    cd DW1
     ```
 
 2.  **Configuração e Inicialização do Banco de Dados com Docker:**
@@ -108,23 +108,25 @@ Antes de começar, você precisará ter instalado em sua máquina:
         ```
     * Lembre-se que o login e senha do administrador devem ser populados durante a inicialização do sistema. Isso pode ser feito via um arquivo `data.sql` em `src/main/resources` ou programaticamente usando um `CommandLineRunner` ou `ApplicationRunner` bean.
 
-3.  **Compile e Execute o Projeto com Maven:**
-    * Abra um terminal na raiz do projeto.
-    * Execute o comando Maven para iniciar a aplicação Spring Boot:
-        ```bash
-        mvn spring-boot:run
-        ```
-         ```bash
-        mvn spring-boot:run -Pseed
-        ```
-         Esse comando executará a seed do sistema onde conterá dados essenciais como admin, cliente, loja, etc  
-         Recomendado o uso desse comando na primeira vez usando o sistema
-         email: admin@example.com
-         password: 123
-    * A aplicação estará acessível em `http://localhost:8080` (ou a porta configurada).
+   3.  **Compile e Execute o Projeto com Maven:**
+       * Abra um terminal na raiz do projeto.
+       * Para iniciar a aplicação Spring com a seed do banco de dados:
+            ```bash
+           mvn spring-boot:run -Pseed
+           ```
+       * Esse comando executará a seed do sistema onde conterá dados essenciais como admin, cliente, loja, etc. 
+       * Dados do admin: email: admin@example.com password: 123
+       
+       * Para iniciar a aplicação Spring sem a seed:
+           ```bash
+           mvn spring-boot:run
+           ```
+       * A aplicação estará acessível em `http://localhost:8080` (ou a porta configurada).
 
-4.  **Acesso ao Sistema:**
-    * **Página inicial (listagem de veículos):** `http://localhost:8080/`
-    * **Login do Administrador:** As credenciais de admin são populadas na inicialização. A página de login pode ser `/admin/login` ou similar, dependendo da configuração do Spring Security.
-
+   4. **Configure as imagens da seed**
+      * Na raíz do projeto há um arquivo .zip chamado "images.zip".
+      * Crie um diretório chamado `uploads` em `src/main/resources/static`
+      * Para carregar corretamente as imagens da seed você deve extrair esse arquivo na pasta `src/main/resources/static/uploads`
+      * A Home deve aparecer como na imagem abaixo:
+    ![img.png](img.png)
 ---

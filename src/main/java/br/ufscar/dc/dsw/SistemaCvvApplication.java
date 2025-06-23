@@ -130,7 +130,7 @@ public class SistemaCvvApplication {
                 vehicle1.setMileage(25000);
                 vehicle1.setDescription("Excellent condition, single owner");
                 vehicle1.setValue(new BigDecimal("85000.00"));
-                vehicle1.setImages(List.of("image1.jpg", "image2.jpg"));
+                vehicle1.setImages(List.of("http://localhost:8080/uploads/corolla.jpg"));
                 vehicle1.setStore(store1);
                 vehicle1 = vehicleDAO.save(vehicle1);
                 logger.info("Vehicle1 created with ID: {}", vehicle1.getId());
@@ -143,7 +143,7 @@ public class SistemaCvvApplication {
                 vehicle2.setMileage(40000);
                 vehicle2.setDescription("Well maintained, all services done");
                 vehicle2.setValue(new BigDecimal("75000.00"));
-                vehicle2.setImages(List.of("image3.jpg"));
+                vehicle2.setImages(List.of("http://localhost:8080/uploads/civic.jpg"));
                 vehicle2.setStore(store1);
                 vehicle2 = vehicleDAO.save(vehicle2);
                 logger.info("Vehicle2 created with ID: {}", vehicle2.getId());
@@ -156,7 +156,7 @@ public class SistemaCvvApplication {
                 vehicle3.setMileage(15000);
                 vehicle3.setDescription("Premium electric vehicle, full options");
                 vehicle3.setValue(new BigDecimal("250000.00"));
-                vehicle3.setImages(List.of("image4.jpg", "image5.jpg", "image6.jpg"));
+                vehicle3.setImages(List.of("http://localhost:8080/uploads/tesla.jpg"));
                 vehicle3.setStore(store2);
                 vehicle3 = vehicleDAO.save(vehicle3);
                 logger.info("Vehicle3 created with ID: {}", vehicle3.getId());
