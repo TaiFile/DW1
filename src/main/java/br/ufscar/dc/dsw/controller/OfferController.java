@@ -2,6 +2,9 @@ package br.ufscar.dc.dsw.controller;
 
 import br.ufscar.dc.dsw.domain.Offer;
 import br.ufscar.dc.dsw.domain.Vehicle;
+import br.ufscar.dc.dsw.domain.enums.OfferStatus;
+import br.ufscar.dc.dsw.email.IEmailService;
+import br.ufscar.dc.dsw.exceptions.ResourceNotFoundException;
 import br.ufscar.dc.dsw.service.spec.IOfferService;
 import br.ufscar.dc.dsw.service.spec.IVehicleService;
 import jakarta.validation.Valid;
@@ -12,7 +15,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class OfferController {
@@ -22,6 +29,9 @@ public class OfferController {
 
     @Autowired
     private IVehicleService vehicleService;
+
+    @Autowired
+    private IEmailService emailService;
 
     @GetMapping("/vehicle/{id}/offer/register")
     public String register(@PathVariable Long id, ModelMap model) {
@@ -52,28 +62,101 @@ public class OfferController {
         }
     }
 
-    // Apenas a loja deve editar uma proposta (mudar o status)
-    @GetMapping("/edit/{id}")
-    public String preEdit(@PathVariable("id") Long id, ModelMap model) {
-        model.addAttribute("offer", offerService.findById(id));
-        return "offer/register";
-    }
+    @GetMapping("/offer/analyze/{id}")
+    public String analyzeOffer(@PathVariable("id") Long id, ModelMap model) {
+        Offer offer = offerService.findById(id);
 
-    @PostMapping("/edit")
-    public String edit(@Valid Offer offer, BindingResult result, RedirectAttributes attributes) {
-        if (result.hasErrors()) {
-            return "offer/resgister";
+        if (offer == null) {
+            throw new ResourceNotFoundException("Oferta não encontrada");
         }
 
-        offerService.update(offer);
-        attributes.addFlashAttribute("sucess", "offer.edit.success");
-        return "redirect:/offer/list";
+        model.addAttribute("offer", offer);
+        return "store/offerAnalysis";
     }
 
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Long id, RedirectAttributes attributes) {
-        offerService.delete(id);
-        attributes.addFlashAttribute("sucess", "offer.delete.success");
-        return "redirect:/offer/list";
+    @PostMapping("/offer/decision/{id}")
+    public String processDecision(
+            @PathVariable("id") Long id,
+            @RequestParam("decision") String decision,
+            @RequestParam(value = "meetingLink", required = false) String meetingLink,
+            @RequestParam(value = "meetingDateTime", required = false) String meetingDateTime,
+            @RequestParam(value = "counterValue", required = false) Double counterValue,
+            @RequestParam(value = "counterConditions", required = false) String counterConditions,
+            RedirectAttributes attributes) {
+
+        Offer offer = offerService.findById(id);
+
+        if (offer == null) {
+            throw new ResourceNotFoundException("Oferta não encontrada");
+        }
+
+        try {
+            // Atualizar status da oferta
+            if ("ACCEPTED".equals(decision)) {
+                offer.setStatus(OfferStatus.ACCEPTED);
+
+                // Validar dados da reunião
+                if (meetingLink == null || meetingLink.trim().isEmpty() ||
+                        meetingDateTime == null || meetingDateTime.trim().isEmpty()) {
+                    attributes.addFlashAttribute("fail",
+                            "Para aceitar uma proposta, é necessário informar o link e data/hora da reunião.");
+                    return "redirect:/offer/analyze/" + id;
+                }
+
+                // Enviar email de aceitação
+                sendAcceptanceEmail(offer, meetingLink, meetingDateTime);
+
+            } else if ("REJECTED".equals(decision)) {
+                offer.setStatus(OfferStatus.REJECTED);
+
+                // Enviar email de rejeição (com contraproposta se houver)
+                sendRejectionEmail(offer, counterValue, counterConditions);
+            }
+
+            // Salvar oferta atualizada
+            offerService.update(offer);
+
+            attributes.addFlashAttribute("sucess", "Proposta analisada com sucesso!");
+            return "redirect:/store/offers";
+
+        } catch (Exception e) {
+            attributes.addFlashAttribute("fail", "Erro ao processar proposta: " + e.getMessage());
+            return "redirect:/offer/analyze/" + id;
+        }
+    }
+
+    private void sendAcceptanceEmail(Offer offer, String meetingLink, String meetingDateTime) {
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("offer", offer);
+        variables.put("meetingLink", meetingLink);
+        variables.put("meetingDateTime", meetingDateTime);
+
+        emailService.sendEmail(
+                offer.getClient().getEmail(),
+                "Sua proposta para o veículo " + offer.getVehicle().getModel() + " foi ACEITA!",
+                "email/offer-accepted",
+                variables
+        );
+    }
+
+    private void sendRejectionEmail(Offer offer, Double counterValue, String counterConditions) {
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("offer", offer);
+
+        // Adicionar informações de contraproposta, se houver
+        boolean hasCounterOffer = counterValue != null && counterValue > 0;
+        variables.put("hasCounterOffer", hasCounterOffer);
+
+        if (hasCounterOffer) {
+            variables.put("counterValue", counterValue);
+            variables.put("counterConditions", counterConditions);
+        }
+
+        emailService.sendEmail(
+                offer.getClient().getEmail(),
+                "Resposta sobre sua proposta para o veículo " + offer.getVehicle().getModel(),
+                "email/offer-rejected",
+                variables
+        );
     }
 }
