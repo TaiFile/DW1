@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -26,6 +27,31 @@ public class AdminController {
     public String panel() {
         return "admin/home";
     }
+
+    @GetMapping("/client/register")
+    public String showRegisterClientForm(Model model) {
+        model.addAttribute("client", new Client());
+        return "admin/register-client";
+    }
+
+    @PostMapping("/client/register")
+    public String registerClient(Client client) {
+        clientService.save(client);
+        return "redirect:/admin/home";
+    }
+
+    @GetMapping("/store/register")
+    public String showRegisterStoreForm(Model model) {
+        model.addAttribute("store", new Store());
+        return "admin/register-store";
+    }
+
+    @PostMapping("/store/register")
+    public String registerStore(Store store) {
+        storeService.save(store);
+        return "redirect:/admin/home";
+    }
+
 
     @GetMapping("/client/list")
     public String listClients(Model model) {
