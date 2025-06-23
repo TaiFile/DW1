@@ -1,5 +1,6 @@
 package br.ufscar.dc.dsw.domain;
 
+import br.ufscar.dc.dsw.validation.UniqueChassi;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@UniqueChassi
 @Table(name = "vehicles")
 public class Vehicle implements Serializable {
 
