@@ -8,11 +8,18 @@
 </head>
 
 <body class="flex flex-col min-h-screen gap-8 bg-gray-100">
-
 <header th:replace="~{fragments/header :: header}" class="gap-y-10"></header>
 
 <div class="px-4">
     <div th:replace="~{fragments/search_bar :: search_bar}"></div>
+</div>
+
+<div th:if="${#authorization.expression('hasRole(''CLIENT'')') and clientId != null}" class="grid grid-cols-1 gap-4 text-center m-8">
+    <a th:href="@{/client/{id}/offers (id=${clientId})}"
+       class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300"
+       th:text="#{client.home.view.proposals}">
+        Visualizar propostas
+    </a>
 </div>
 
 <main class="flex-grow container mx-auto px-4">
@@ -36,6 +43,5 @@
 </main>
 
 <footer th:replace="~{fragments/footer :: footer-content}"></footer>
-
 </body>
 </html>

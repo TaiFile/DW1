@@ -9,6 +9,8 @@ public interface IClientService {
 
     Client findById(Long id);
 
+    Client findByEmail(String email);
+
     List<Client> findAll();
 
     Client update(Client client);
