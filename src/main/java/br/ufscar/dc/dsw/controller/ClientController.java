@@ -44,34 +44,48 @@ public class ClientController {
     @GetMapping("/edit/{id}")
     public String preEdit(@PathVariable("id") Long id, ModelMap model) {
         model.addAttribute("client", clientService.findById(id));
-        return "client/register";
+        return "client/registerUpdate"; // ✅ Era "client/register", agora "client/edit"
     }
 
     @PostMapping("/edit")
     public String edit(@Valid Client client, String newPassword, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
-            return "client/register";
+            return "client/registerUpdate"; // ✅ Era "client/register", agora "client/edit"
         }
 
-        if (newPassword != null && !newPassword.trim().isEmpty()) {
-            client.setPassword(encoder.encode(newPassword));
-        } else {
-            System.out.println("Password was not edited");
-        }
+        try {
+            if (newPassword != null && !newPassword.trim().isEmpty()) {
+                client.setPassword(encoder.encode(newPassword));
+            } else {
+                System.out.println("Password was not edited");
+            }
 
-        clientService.update(client);
-        attributes.addFlashAttribute("sucess", "client.edit.sucess");
-        return "redirect:/client/list";
+            clientService.update(client);
+            attributes.addFlashAttribute("sucess", "Cliente atualizado com sucesso!");
+            return "redirect:/admin/client/list"; // ✅ Verificar se é esta a rota correta
+
+        } catch (Exception e) {
+            attributes.addFlashAttribute("fail", "Erro ao atualizar cliente!");
+            return "client/registerUpdate";
+        }
     }
+
 
     @GetMapping("/offer")
     public String offer(ModelMap model) {
         return "client/offerList";
     }
-//    @GetMapping("/delete/{id}")
-//    public String delete(@PathVariable("id") Long id, ModelMap model) {
-//        clientService.delete(id);
-//        model.addAttribute("sucess", "client.delete.sucess");
-//        return list(model);
-//    }
+
+
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Long id, RedirectAttributes attributes) {
+        try {
+            clientService.delete(id);
+            attributes.addFlashAttribute("sucess", "Cliente excluído com sucesso!");
+            return "redirect:/admin/client/list"; // ✅ Era /admin/store/list
+        } catch (Exception e) {
+            attributes.addFlashAttribute("fail", "Erro ao excluir cliente!");
+            return "redirect:/admin/client/list";
+        }
+    }
 }
