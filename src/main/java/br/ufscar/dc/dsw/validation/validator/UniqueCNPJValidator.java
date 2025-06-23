@@ -11,28 +11,37 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class UniqueCNPJValidator implements ConstraintValidator<UniqueCNPJ, String> {
+public class UniqueCNPJValidator implements ConstraintValidator<UniqueCNPJ, Store> {
 
     @Autowired
     private IStoreDAO dao;
 
     @Override
-    public boolean isValid(String CNPJ, ConstraintValidatorContext context) {
+    public boolean isValid(Store store, ConstraintValidatorContext context) {
         // Se o DAO não estiver disponível, assume válido
-        if (dao == null) {
+        if (dao == null || store == null) {
             return true;
         }
 
+        String cnpj = store.getCnpj();
         // Se o CNPJ for null ou vazio, deixa outras validações cuidarem
-        if (CNPJ == null || CNPJ.trim().isEmpty()) {
+        if (cnpj == null || cnpj.trim().isEmpty()) {
             return true;
         }
 
-        Optional<Store> store = dao.findByCnpj(CNPJ);
+        Optional<Store> existingStore = dao.findByCnpj(cnpj);
 
-        // ✅ LÓGICA CORRETA:
-        // Se NÃO encontrou store = CNPJ único = válido (true)
-        // Se encontrou store = CNPJ duplicado = inválido (false)
-        return store.isEmpty();
+        // Se não encontrou nenhuma store com esse CNPJ, é único
+        if (existingStore.isEmpty()) {
+            return true;
+        }
+
+        // Se encontrou, verifica se é a mesma store (UPDATE)
+        Store found = existingStore.get();
+        if (store.getId() != null && store.getId().equals(found.getId())) {
+            return true; // É a mesma store, pode manter o CNPJ
+        }
+
+        return false; // CNPJ já existe em outra store
     }
 }

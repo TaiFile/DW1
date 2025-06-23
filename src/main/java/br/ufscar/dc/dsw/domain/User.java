@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
+@UniqueEmail
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class User implements Serializable {
 
@@ -22,7 +23,6 @@ public abstract class User implements Serializable {
     private Long id;
 
     @Email
-    @UniqueEmail
     @NotBlank
     @Column(nullable = false, length = 64, unique = true)
     private String email;

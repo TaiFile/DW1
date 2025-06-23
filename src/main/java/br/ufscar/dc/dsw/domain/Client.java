@@ -14,10 +14,11 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@UniqueCPF
+@UniquePhone
 @Table(name = "clients")
 public class Client extends User {
     @NotBlank
-    @UniqueCPF
     @Column(nullable = false, length = 14)
     private String cpf;
 
@@ -25,7 +26,6 @@ public class Client extends User {
     @Column(nullable = false)
     private String name;
 
-    @UniquePhone
     @NotBlank
     @Column(nullable = false)
     private String phone;

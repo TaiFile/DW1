@@ -12,25 +12,35 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class UniqueCPFValidator implements ConstraintValidator<UniqueCPF, String> {
+public class UniqueCPFValidator implements ConstraintValidator<UniqueCPF, Client> {
 
     @Autowired
     private IClientDAO dao;
 
     @Override
-    public boolean isValid(String CPF, ConstraintValidatorContext context) {
-        if (dao == null) {
-            return true; // Se dao é null, considera válido
+    public boolean isValid(Client client, ConstraintValidatorContext context) {
+        if (dao == null || client == null) {
+            return true; // Se dao é null ou client é null, considera válido
         }
 
-        if (CPF == null || CPF.trim().isEmpty()) {
+        String cpf = client.getCpf();
+        if (cpf == null || cpf.trim().isEmpty()) {
             return true; // Deixa outras validações cuidarem de CPF nulo/vazio
         }
 
-        Optional<Client> client = dao.findByCpf(CPF);
+        Optional<Client> existingClient = dao.findByCpf(cpf);
 
-        // Retorna true se NÃO encontrou cliente (CPF único)
-        // Retorna false se encontrou cliente (CPF duplicado)
-        return client.isEmpty();
+        // Se não encontrou nenhum cliente com esse CPF, é único
+        if (existingClient.isEmpty()) {
+            return true;
+        }
+
+        // Se encontrou, verifica se é o mesmo cliente (UPDATE)
+        Client found = existingClient.get();
+        if (client.getId() != null && client.getId().equals(found.getId())) {
+            return true; // É o mesmo cliente, pode manter o CPF
+        }
+
+        return false; // CPF já existe em outro cliente
     }
 }

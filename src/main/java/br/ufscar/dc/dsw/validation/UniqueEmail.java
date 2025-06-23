@@ -10,10 +10,11 @@ import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 @Constraint(validatedBy = UniqueEmailValidator.class)
-@Target(ElementType.FIELD)
+@Target(ElementType.TYPE) // ✅ Mudou para TYPE (classe) ao invés de FIELD
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueEmail {
     String message() default "Email is already registered";
     Class<?>[] groups() default { };
     Class<? extends Payload>[] payload() default { };
 }
+

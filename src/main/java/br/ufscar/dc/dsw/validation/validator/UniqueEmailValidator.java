@@ -14,25 +14,35 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
+public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, User> {
 
     @Autowired
     private IUserDAO dao;
 
     @Override
-    public boolean isValid(String email, ConstraintValidatorContext context) {
-        if (dao == null) {
-            return true; // Se dao é null, considera válido
+    public boolean isValid(User user, ConstraintValidatorContext context) {
+        if (dao == null || user == null) {
+            return true;
         }
 
+        String email = user.getEmail();
         if (email == null || email.trim().isEmpty()) {
-            return true; // Deixa outras validações cuidarem de email nulo/vazio
+            return true;
         }
 
-        Optional<User> user = dao.findByEmail(email);
+        Optional<User> existingUser = dao.findByEmail(email);
 
-        // Retorna true se NÃO encontrou cliente (email único)
-        // Retorna false se encontrou cliente (email duplicado)
-        return user.isEmpty();
+        // Se não encontrou nenhum cliente com esse email, é único
+        if (existingUser.isEmpty()) {
+            return true;
+        }
+
+        // Se encontrou, verifica se é o mesmo cliente (UPDATE)
+        User found = existingUser.get();
+        if (user.getId() != null && user.getId().equals(found.getId())) {
+            return true; // É o mesmo cliente, pode manter o email
+        }
+
+        return false; // Email já existe em outro cliente
     }
 }

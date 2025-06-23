@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@UniqueCNPJ
 @Table(name = "stores")
 public class Store extends User {
-    @UniqueCNPJ
     @NotBlank
     @Column(nullable = false)
     private String cnpj;
