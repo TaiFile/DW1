@@ -66,7 +66,7 @@ public class ClientController {
         try {
             clientService.delete(id);
             attributes.addFlashAttribute("sucess", "Cliente excluído com sucesso!");
-            return "redirect:/admin/client/list"; // ✅ Era /admin/store/list
+            return "redirect:/admin/client/list";
         } catch (Exception e) {
             attributes.addFlashAttribute("fail", "Erro ao excluir cliente!");
             return "redirect:/admin/client/list";
