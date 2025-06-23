@@ -23,7 +23,7 @@
 
         <div th:if="${#authorization.expression('!isAuthenticated()')}" class="flex gap-4">
             <a class="bg-blue-600 text-white no-underline px-4 py-2 rounded-md transition-all duration-200 hover:bg-blue-500"
-               th:href="@{/login}" th:text="#{header.login}">Login</a>
+               th:href="@{/login}">Login</a>
         </div>
 
         <div th:if="${#authorization.expression('isAuthenticated()')}" class="flex items-center gap-4">

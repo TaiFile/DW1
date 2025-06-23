@@ -30,7 +30,8 @@
             <span th:text="'R$ ' + ${#numbers.formatDecimal(vehicle.value, 1, 'POINT', 2, 'COMMA')}">R$ 115.000,00</span>
         </p>
 
-        <a th:href="@{/vehicle/{id}/offer/register (id=${vehicle.id})}"
+        <a th:if="${#authorization.expression('hasRole(''CLIENT'')') or #authorization.expression('!isAuthenticated()')}"
+           th:href="@{/vehicle/{id}/offer/register (id=${vehicle.id})}"
            class="block w-full mt-auto bg-blue-500 text-white font-semibold py-2 rounded-md hover:opacity-90 transition-opacity text-center"
            th:text="#{vehicle.card.bid.button}">
             Fazer um lance

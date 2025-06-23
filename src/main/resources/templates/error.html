@@ -1,26 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <link rel="icon" th:href="@{/image/favicon.png}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="#{error.page.title}">Erro - MiranhaCar</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <title th:text="#{error.page.title}"></title>
 </head>
-<body class="text-center">
-<div>
-    <h1 class="h3 mb-3 font-weight-normal">
-        <i class="oi oi-warning"></i>
-        <span th:text="${status}"></span>
-    </h1>
+<body class="flex items-center justify-center min-h-screen bg-gray-100 font-sans">
+<div class="max-w-md w-full bg-white rounded-lg shadow-lg p-6">
+    <div class="text-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800 mb-2">MiranhaCar</h1>
+        <h2 class="text-lg text-gray-600 mb-4" th:text="${status}">Erro</h2>
+        <div class="w-16 h-1 bg-blue-500 mx-auto mb-6"></div>
+    </div>
 
-    <h2 th:text="#{__${error}__}"></h2>
+    <div class="text-center">
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6">
+            <p class="font-medium" th:text="#{__${error}__}">Ocorreu um erro</p>
+            <p class="text-sm mt-1" th:text="#{__${message}__}">Tente novamente mais tarde</p>
+        </div>
 
-    <hr/>
+        <a href="javascript:history.back()"
+           class="inline-block w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+            Voltar
+        </a>
 
-    <div>
-        <span th:text="#{__${message}__}"></span><br/>
-        <br/> <a class="btn btn-primary" type="button"
-                 href="javascript:history.back()"><span th:text="#{previous.message}"></span></a>
+        <p class="mt-6 text-sm text-gray-500">
+            Precisa de ajuda?
+            <a href="#" class="text-blue-600 hover:underline">Entre em contato com o suporte</a>
+        </p>
     </div>
 </div>
 </body>
