@@ -4,6 +4,8 @@ import java.util.Map;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -16,6 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Component
 public class ErrorViewController implements ErrorViewResolver {
+
+    private final Logger logger = LoggerFactory.getLogger(ErrorViewController.class);
 
     @Override
     public ModelAndView resolveErrorView(HttpServletRequest request, HttpStatus status, Map<String, Object> map) {
@@ -36,6 +40,8 @@ public class ErrorViewController implements ErrorViewResolver {
                 model.addObject("message", "default.message");
                 break;
         }
+
+        logger.error("Error {}: {}", status.value(), status.getReasonPhrase());
         return model;
     }
 }

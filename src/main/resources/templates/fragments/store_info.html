@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Store Info</title>
+</head>
+<body>
+<div th:fragment="store_info(store)" class="max-w-lg mx-10 bg-white rounded-lg shadow p-6 mb-5">
+    <div class="mb-6">
+        <h2 class="text-xl font-bold text-gray-800 mb-2" th:text="#{store.info.title}">Informações da Loja</h2>
+        <div class="flex gap-2">
+            <a class="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
+               th:text="#{store.info.edit.button}">
+                Editar
+            </a>
+            <form method="post"
+                  th:onsubmit="'return confirm(\'' + #{store.info.delete.confirm} + '\')'"
+                  onsubmit="return confirm('Excluir esta loja?')"
+                  class="inline">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit"
+                        class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700"
+                        th:text="#{store.info.delete.button}">
+                    Excluir
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="space-y-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-600" th:text="#{store.info.name.label}">Nome da Loja</label>
+            <p class="text-gray-800" th:text="${store.name}" th:title="#{store.info.name.help}">MiranhaCar Premium</p>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-600" th:text="#{store.info.cnpj.label}">CNPJ</label>
+            <p class="text-gray-800" th:text="${store.cnpj}" th:title="#{store.info.cnpj.help}">12.345.678/0001-90</p>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-600" th:text="#{store.info.email.label}">Email</label>
+            <p class="text-gray-800" th:text="${store.email}" th:title="#{store.info.email.help}">contato@miranhacar.com</p>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-600" th:text="#{store.info.description.label}">Descrição</label>
+            <p class="text-gray-800" th:text="${store.description}" th:title="#{store.info.description.help}">
+                Loja especializada em veículos seminovos e usados de qualidade.
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

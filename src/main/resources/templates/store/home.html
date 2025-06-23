@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="#{store.home.title}">Veículos à Venda - MiranhaCar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="flex flex-col min-h-screen bg-gray-100 font-sans">
+
+<header th:replace="~{fragments/header :: header}"></header>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-center m-8">
+    <a href="/store/offer"
+       class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300"
+       th:text="#{store.home.view.proposals}">
+        Visualizar propostas
+    </a>
+    <a href="/vehicle/register"
+       class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300"
+       th:text="#{store.home.view.car}">
+        Registrar carro
+    </a>
+</div>
+
+<main class="flex-grow mt-10">
+    <h1 class="text-3xl font-bold text-gray-800 mb-1 ml-8" th:text="#{store.home.your.cars}">Seus carros</h1>
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div th:replace="~{fragments/content_store :: content_store}"></div>
+        <div th:replace="~{fragments/content_store :: content_store}"></div>
+        <div th:replace="~{fragments/content_store :: content_store}"></div>
+        <div th:replace="~{fragments/content_store :: content_store}"></div>
+        <div th:replace="~{fragments/content_store :: content_store}"></div>
+        <div th:replace="~{fragments/content_store :: content_store}"></div>
+        <div th:replace="~{fragments/content_store :: content_store}"></div>
+        <div th:replace="~{fragments/content_store :: content_store}"></div>
+        <div th:replace="~{fragments/content_store :: content_store}"></div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer-content}"></footer>
+
+</body>
+</html>

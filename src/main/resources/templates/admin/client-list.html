@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="#{client.list.title}">Lista de Clientes - MiranhaCar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-50">
+
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="flex-grow">
+    <div class="container mx-auto px-4 py-8">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2" th:text="#{client.list.main.title}">Lista de Clientes</h1>
+            <p class="text-gray-600" th:text="#{client.list.subtitle}">Gerencie todos os clientes cadastrados</p>
+        </div>
+
+        <div class="grid grid-cols-1  gap-6">
+            <div th:if="${clients == null or clients.isEmpty()}" class="col-span-full text-center py-12">
+                <div class="bg-white rounded-lg shadow-sm p-8">
+                    <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                    <p class="text-gray-500 text-lg font-medium" th:text="#{client.list.no.clients}">Nenhum cliente encontrado</p>
+                    <p class="text-gray-400 text-sm mt-2" th:text="#{client.list.no.clients.description}">Comece criando seu primeiro cliente</p>
+                    <a th:href="@{/client/register}"
+                       class="inline-block mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                       th:text="#{client.list.create.button}">
+                        Criar Cliente
+                    </a>
+                </div>
+            </div>
+
+            <div th:each="client : ${clients}" class="w-full">
+                <div th:replace="~{fragments/client_info :: client_info(${client})}"></div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer-content}"></footer>
+</body>
+</html>

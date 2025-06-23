@@ -1,43 +1,42 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout2}">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="#{login.message}"></title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="#{login.page.title}">Login - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<div layout:fragment="content" th:remove="tag">
-
-    <br /> <br /> <br />
-    <div>
-        <div class="col-md-6">
-            <h1 th:text="#{login.message}"></h1>
-            <form th:action="@{/login}" method="post">
-                <div th:if="${param.error}">
-                    <div class="alert alert-danger">
-                        <span th:text="#{login.error}"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="username" th:text="#{login.username}"></label>: <input
-                        type="text" id="username" name="username" class="form-control"
-                        autofocus="autofocus" th:placeholder="#{login.username}">
-                </div>
-                <div class="form-group">
-                    <label for="password" th:text="#{login.password}"></label>: <input
-                        type="password" id="password" name="password"
-                        class="form-control" th:placeholder="#{login.password}">
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-sm-3 col-sm-offset-3">
-                            <input type="submit" name="login-submit" id="login-submit"
-                                   class="form-control btn btn-info" th:value="#{login.button}">
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
+<body class="gap-8 flex items-center justify-center min-h-screen bg-gray-100 font-sans">
+<div class="max-w-md w-full bg-white rounded-lg shadow-lg p-6">
+    <div class="text-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800 mb-2">MiranhaCar</h1>
+        <h2 class="text-lg text-gray-600" th:text="#{login.subtitle}">Acesse sua Conta</h2>
     </div>
+
+    <form th:action="@{/login}" method="POST" class="space-y-4">
+        <div th:if="${param.error}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            <p th:text="#{login.error}">Usuário ou senha inválidos</p>
+        </div>
+
+        <div>
+            <label for="username" class="block text-sm font-medium text-gray-700 mb-1" th:text="#{login.label.email}">Email</label>
+            <input id="username" name="username" type="email" required
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   th:placeholder="#{login.placeholder.email}">
+        </div>
+
+        <div>
+            <label for="password" class="block text-sm font-medium text-gray-700 mb-1" th:text="#{login.label.password}">Senha</label>
+            <input id="password" name="password" type="password" required
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   th:placeholder="#{login.placeholder.password}">
+        </div>
+
+        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors"
+                th:text="#{login.button.submit}">
+            Entrar
+        </button>
+    </form>
 </div>
 </body>
 </html>

@@ -1,15 +1,27 @@
 <!DOCTYPE html>
-<html layout:decorate="~{layout}">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Veículos à Venda - MiranhaCar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<section class="layout-content" layout:fragment="corpo">
 
-    <div class="container" style="text-align: center;">
-        <h1 th:text="#{title.label}">Livraria Virtual</h1>
-        <img alt="" th:src="@{/image/image.png}" style="width:500px;">
-    </div>
+<body class="flex flex-col min-h-screen gap-8 bg-gray-100">
 
-</section>
+  <header th:replace="~{fragments/header :: header}" class="gap-y-10"></header>
+  <div th:replace="~{fragments/search :: search}"></div>
+  <main class="flex-grow">
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      <div th:replace="~{fragments/vehicle_card :: vehicle_card}"></div>
+      <div th:replace="~{fragments/vehicle_card :: vehicle_card}"></div>
+      <div th:replace="~{fragments/vehicle_card :: vehicle_card}"></div>
+      <div th:replace="~{fragments/vehicle_card :: vehicle_card}"></div>
+      <div th:replace="~{fragments/vehicle_card :: vehicle_card}"></div>
+      <div th:replace="~{fragments/vehicle_card :: vehicle_card}"></div>
+    </section>
+  </main>
+  <footer th:replace="~{fragments/footer :: footer-content}"></footer>
+
 </body>
 </html>

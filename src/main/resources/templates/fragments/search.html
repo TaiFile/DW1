@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+</head>
+<body>
+<div class="bg-white" th:fragment="search">
+    <div class="border border-gray-400 rounded-lg p-2 flex items-center gap-2 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition-all">
+        <svg class="w-5 h-5 text-gray-400 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+        <input type="text"
+               class="flex-1 py-2 px-2 border-none outline-none bg-transparent"
+               th:placeholder="#{search.placeholder}"
+               th:aria-label="#{search.aria.label}"
+               placeholder="Pesquisar veículos..."
+               aria-label="Campo de pesquisa">
+        <button class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-700 transition-colors"
+                th:text="#{search.button}">
+            Buscar
+        </button>
+    </div>
+</div>
+</body>
+</html>

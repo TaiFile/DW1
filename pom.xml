@@ -16,6 +16,14 @@
 	<properties>
 		<java.version>21</java.version>
 	</properties>
+	<profiles>
+		<profile>
+			<id>seed</id>
+			<properties>
+				<spring-boot.run.arguments>--seed</spring-boot.run.arguments>
+			</properties>
+		</profile>
+	</profiles>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

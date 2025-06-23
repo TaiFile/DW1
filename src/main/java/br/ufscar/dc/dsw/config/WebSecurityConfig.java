@@ -35,16 +35,23 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        String[] publicRoutes = {
+                "/home",
+                "/Login"
+        };
+
         http
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers("/images/upload")
                 )
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/error", "/login/**", "/js/**").permitAll()
-                        .requestMatchers("/css/**", "/image/**", "/uploads/**", "/webjars/**").permitAll()
-                        .requestMatchers("/images/upload").permitAll()
-                        .requestMatchers("/compras/**").hasRole("USER")
-                        .requestMatchers("/editoras/**", "/livros/**", "/usuarios/**").hasRole("ADMIN")
+                        .requestMatchers("/error", "/login/**", "/js/**", "/store/**", "/admin/**", "/client/**", "/client/home").permitAll()
+                        .requestMatchers("/css/**", "/webjars/**","/image/**", "/uploads/**").permitAll()
+                        .requestMatchers(publicRoutes).permitAll()
+//                        .requestMatchers("/admin/**").hasRole("ADMIN")
+//                        .requestMatchers("/client/**").hasAnyRole("CLIENT", "ADMIN")
+//                        .requestMatchers("/store/**").hasAnyRole("STORE", "ADMIN")
+//                        .requestMatchers("/vehicle/**").hasAnyRole("STORE", "ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")

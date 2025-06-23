@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{offer.analysis.title}">Análise de Proposta</title>
+</head>
+<body>
+<div th:fragment="store_offer" class="max-w-4xl mx-auto bg-white rounded-lg shadow p-8 m-8">
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-800 mb-2" th:text="#{offer.analysis.main.title}">Análise de Proposta</h1>
+        <p class="text-gray-600" th:text="#{offer.analysis.subtitle}">Revise a proposta do cliente</p>
+    </div>
+    <div class="space-y-6 mb-8">
+        <div>
+            <img src="/image/palio.jpg"
+                 class="w-full h-64 object-cover rounded-lg"
+                 th:alt="#{offer.analysis.vehicle.image.alt}">
+            <!-- th:src="'${offer.vehicle.imageUrl}'"-->
+            <!-- th:alt="#{offer.analysis.vehicle.image.alt} + ' ' + ${offer.vehicle.model}"-->
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1" th:text="#{offer.analysis.vehicle.label}">Veículo</label>
+                <p class="text-gray-800 text-lg font-medium">Volkswagen Nivus Highline</p>
+                <!-- th:text="'${offer.vehicle.model}'"-->
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1" th:text="#{offer.analysis.client.label}">Cliente</label>
+                <p class="text-gray-800 text-lg font-medium">Mariana Costa</p>
+                <!-- th:text="'${offer.client.name}'"-->
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1" th:text="#{offer.analysis.value.label}">Valor da Proposta</label>
+                <p class="text-xl font-bold text-black">
+                    <span th:text="#{offer.analysis.currency.symbol}">R$</span> 120.000,00
+                </p>
+                <!-- th:text="#{offer.analysis.currency.symbol} + ' ' + ${#numbers.formatDecimal(offer.value, 0, 'COMMA', 2, 'POINT')}"-->
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1" th:text="#{offer.analysis.date.label}">Data</label>
+                <p class="text-gray-800 text-lg font-medium">18/06/2024</p>
+                <!-- th:text="'${#dates.format(offer.createdAt, 'dd/MM/yyyy')}'"-->
+            </div>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-600 mb-2" th:text="#{offer.analysis.status.label}">Status</label>
+            <span class="inline-block px-3 py-2 text-sm bg-yellow-100 text-yellow-800 rounded-full font-medium"
+                  th:text="#{offer.analysis.status.pending}">Em Aberto</span>
+            <!-- th:text="'${offer.status}'"-->
+        </div>
+    </div>
+
+    <form method="post" class="space-y-6">
+        <!-- th:action="'@{/offer/decision/{id} (id=${offer.id})}'"-->
+        <div>
+            <label class="block text-base font-medium text-gray-600 mb-3" th:text="#{offer.analysis.decision.label}">Decisão</label>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <label class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                    <input type="radio" name="decision" value="ACCEPTED" class="mr-3" required>
+                    <span class="text-green-600 font-medium text-lg" th:text="#{offer.analysis.decision.accept}">Aceitar Proposta</span>
+                </label>
+                <label class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                    <input type="radio" name="decision" value="REJECTED" class="mr-3" required>
+                    <span class="text-red-600 font-medium text-lg" th:text="#{offer.analysis.decision.reject}">Recusar Proposta</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="p-6 bg-green-50 rounded-lg">
+            <h3 class="font-semibold text-green-800 mb-4 text-lg" th:text="#{offer.analysis.accept.section.title}">
+                Campos para Aceitar (preencher apenas se aceitar)
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-2" th:text="#{offer.analysis.meeting.link.label}">
+                        Link da Reunião
+                    </label>
+                    <input type="url" name="meetingLink"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                           th:placeholder="#{offer.analysis.meeting.link.placeholder}">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-2" th:text="#{offer.analysis.meeting.datetime.label}">
+                        Data e Hora
+                    </label>
+                    <input type="datetime-local" name="meetingDateTime"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+            </div>
+        </div>
+
+        <div class="p-6 bg-red-50 rounded-lg">
+            <h3 class="font-semibold text-red-800 mb-4 text-lg" th:text="#{offer.analysis.counter.section.title}">
+                Contraproposta (preencher apenas se for recusada)
+            </h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-2" th:text="#{offer.analysis.counter.value.label}">
+                        Novo Valor
+                    </label>
+                    <input type="number" name="counterValue" step="0.01"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                           th:placeholder="#{offer.analysis.counter.value.placeholder}">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-2" th:text="#{offer.analysis.counter.conditions.label}">
+                        Condições
+                    </label>
+                    <textarea name="counterConditions" rows="4"
+                              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              th:placeholder="#{offer.analysis.counter.conditions.placeholder}"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex gap-4 pt-6">
+            <button type="submit"
+                    class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium text-lg"
+                    th:text="#{offer.analysis.confirm.button}">
+                Confirmar Decisão
+            </button>
+            <a th:href="@{/offers}"
+               class="px-6 py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 font-medium text-lg"
+               th:text="#{offer.analysis.cancel.button}">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

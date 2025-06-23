@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Client Info</title>
+</head>
+<body>
+<div th:fragment="client_info(client)" class="bg-white rounded-lg shadow-md p-6 mb-4">
+
+    <h3 class="text-lg font-semibold text-gray-800 mb-3" th:text="${client.name}">Nome do Cliente</h3>
+
+    <div class="space-y-2 mb-4">
+        <p class="text-gray-600">
+            <span class="font-medium" th:text="#{client.info.email.label}">Email:</span>
+            <span th:text="${client.email}" >joao@email.com</span>
+        </p>
+
+        <p class="text-gray-600">
+            <span class="font-medium" th:text="#{client.info.cpf.label}">CPF:</span>
+            <span th:text="${client.cpf}">123.456.789-10</span>
+        </p>
+
+        <p class="text-gray-600" th:if="${client.dateOfBirth != null}">
+            <span class="font-medium" th:text="#{client.info.birthdate.label}">Data de Nascimento:</span>
+            <span th:text="${#temporals.format(client.dateOfBirth, 'dd/MM/yyyy')}">15/03/1990</span>
+        </p>
+
+        <p class="text-gray-600">
+            <span class="font-medium" th:text="#{client.info.gender.label}">Sexo:</span>
+            <span th:text="${client.sex == 'male' ? 'Masculino' : 'Feminino'}">Masculino</span>
+<!--            Tem que mudar essa lógica dps, ela tá meio estranha tava dando erro 500 para mim-->
+        </p>
+    </div>
+
+    <div class="flex gap-3 pt-3 border-t border-gray-200">
+        <a th:href="@{/client/edit/{id} (id=${client.id})}"
+           class="text-blue-600 hover:text-blue-800 font-medium text-sm"
+           th:text="#{client.info.edit.button}">
+            Editar
+        </a>
+        <a href="#" class="text-red-600 hover:text-red-800 font-medium text-sm"
+           th:text="#{client.info.delete.button}">
+            Excluir
+        </a>
+    </div>
+
+</div>
+</body>
+</html>

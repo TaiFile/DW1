@@ -49,13 +49,13 @@ public class GlobalExceptionHandler {
         return model;
     }
 
-    @ExceptionHandler(Exception.class)
-    public ModelAndView handleGenericException(Exception e, HttpServletRequest request) {
-        ModelAndView model = new ModelAndView("error");
-        model.addObject("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
-        model.addObject("error", "exception.internal_server_error");
-        model.addObject("message", "Ocorreu um erro inesperado no servidor");
-        model.addObject("path", request.getRequestURI());
-        return model;
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ModelAndView handleGenericException(Exception e, HttpServletRequest request) {
+//        ModelAndView model = new ModelAndView("error");
+//        model.addObject("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+//        model.addObject("error", "exception.internal_server_error");
+//        model.addObject("message", "Ocorreu um erro inesperado no servidor");
+//        model.addObject("path", request.getRequestURI());
+//        return model;
+//    }
 }
