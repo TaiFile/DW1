@@ -32,7 +32,7 @@ public class Offer implements Serializable {
 
     @NotBlank
     @Length(min = 5, max = 1024)
-    @Column(nullable = false, length = 1024)
+    @Column(nullable = false, columnDefinition = "VARCHAR(1024) DEFAULT 'À vista'")
     private String paymentConditions = "À vista";
 
     @CreationTimestamp
