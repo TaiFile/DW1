@@ -48,25 +48,25 @@ public class VehicleController {
     @GetMapping("/edit/{id}")
     public String preEdit(@PathVariable("id") Long id, ModelMap model) {
         model.addAttribute("vehicle", vehicleService.findById(id));
-        return "vehicle/resgister";
+        return "store/home";
     }
 
     @PostMapping("/edit")
     public String edit(@Valid Vehicle vehicle, BindingResult result, RedirectAttributes attributes) {
         if(result.hasErrors()) {
-            return "vehicle/register";
+            return "store/home";
         }
 
         vehicleService.update(vehicle);
         attributes.addFlashAttribute("sucess", "vehicle.edit.success");
-        return "redirect:/vehicle/list";
+        return "redirect:/store/home";
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id, RedirectAttributes attributes) {
         vehicleService.delete(id);
         attributes.addFlashAttribute("sucess", "vehicle.delete.success");
-        return "redirect:/vehicle/list";
+        return "redirect:/store/home";
     }
 
     @ModelAttribute("stores")
