@@ -16,13 +16,13 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import br.ufscar.dc.dsw.conversor.BigDecimalConversor;
 
 @Configuration
-@ComponentScan(basePackages = "br.ufscar.dc.dsw.config")
+@ComponentScan(basePackages = "br.ufscar.dc.dsw")
 public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("redirect:/home");
-        registry.addViewController("/home").setViewName("home");
+//        registry.addViewController("/home").setViewName("home");
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/client/register").setViewName("client/register");
         registry.addViewController("/client/home").setViewName("client/home");
