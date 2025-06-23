@@ -121,6 +121,13 @@ Antes de começar, você precisará ter instalado em sua máquina:
         ```bash
         mvn spring-boot:run
         ```
+         ```bash
+        mvn spring-boot:run -Pseed
+        ```
+         #Esse comando executará a seed do sistema onde conterá dados essenciais como admin, cliente, loja, etc
+         #Recomendado o uso desse comando na primeira vez usando o sistema
+         #email: admin@example.com
+         #password: 123
     * A aplicação estará acessível em `http://localhost:8080` (ou a porta configurada).
 
 4.  **Acesso ao Sistema:**

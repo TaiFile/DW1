@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{client.offer.title}">Fazer Proposta de Compra</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div class="max-w-4xl mx-auto bg-white rounded-lg shadow p-8 m-8">
+
+    <div th:replace="~{fragments/alert :: alert}"></div>
+
+    <div class="text-center mb-8">
+        <h1 class="text-2xl font-bold text-gray-800 mb-2" th:text="#{client.offer.main.title}">Fazer Proposta de
+            Compra</h1>
+        <p class="text-gray-600" th:text="#{client.offer.subtitle}">Preencha os campos abaixo para enviar sua proposta à
+            loja</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8">
+        <div class="space-y-4">
+            <h2 class="text-lg font-bold text-gray-800 border-b pb-2" th:text="#{client.offer.vehicle.section}">Veículo
+                Selecionado</h2>
+
+            <div>
+                <!-- Imagem principal -->
+                <img class="w-full h-48 object-cover rounded-lg cursor-pointer hover:opacity-90 transition-opacity image-clickable"
+                     th:src="@{${vehicle.images != null and !#lists.isEmpty(vehicle.images) ? vehicle.images[0] : '/image/palio.jpg'}}"
+                     th:alt="|#{vehicle.card.image.alt} ${vehicle.model}|"
+                     src="/image/palio.jpg">
+
+                <h3 class="text-xl font-bold mt-4" th:text="${vehicle.model}">Palio com escada em cima</h3>
+
+                <div class="flex gap-1">
+                    <p th:text="${vehicle.year}">2030</p>
+                    <p> | </p>
+                    <p th:text="${vehicle.mileage != null ? #numbers.formatInteger(vehicle.mileage, 0, 'POINT') + ' km' : 'N/A'}">
+                        20.000 km</p>
+                </div>
+
+                <p class="text-2xl font-bold text-black mb-4">
+                    <span th:text="'R$ ' + ${#numbers.formatDecimal(vehicle.value, 1, 'POINT', 2, 'COMMA')}">R$ 115.000,00</span>
+                </p>
+
+                <!-- Galeria de imagens em miniatura -->
+                <div th:if="${vehicle.images != null and !#lists.isEmpty(vehicle.images) and #lists.size(vehicle.images) > 1}"
+                     class="mt-4">
+                    <h4 class="text-sm font-medium text-gray-600 mb-2">Mais fotos:</h4>
+                    <div class="grid grid-cols-4 gap-2">
+                        <div th:each="image, iterStat : ${vehicle.images}"
+                             th:if="${iterStat.index > 0}"
+                             class="relative group">
+                            <img th:src="@{${image}}"
+                                 th:alt="|Foto ${iterStat.index + 1} do ${vehicle.model}|"
+                                 class="w-full h-16 object-cover rounded cursor-pointer border-2 border-transparent hover:border-blue-400 transition-all duration-200 image-clickable">
+                            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 rounded transition-all duration-200"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-4">
+            <h2 class="text-lg font-bold text-gray-800 border-b pb-2" th:text="#{client.offer.proposal.section}">Sua
+                Proposta</h2>
+
+            <form method="post" th:action="@{/vehicle/{id}/offer/save (id=${vehicle.id})}" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1" th:text="#{client.offer.date.label}">Data
+                        da Proposta</label>
+                    <p class="text-gray-800 font-medium" th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}">
+                        19/06/2025</p>
+                </div>
+
+                <div>
+                    <label for="value" class="block text-sm font-medium text-gray-600 mb-1"
+                           th:text="#{client.offer.value.label}">Valor da Proposta *</label>
+                    <input id="value" name="value" type="number" step="0.01" required
+                           class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                           th:placeholder="#{client.offer.value.placeholder}">
+                </div>
+
+                <div>
+                    <label for="paymentConditions" class="block text-sm font-medium text-gray-600 mb-1"
+                           th:text="#{client.offer.conditions.label}">Condições de Pagamento *</label>
+                    <textarea id="paymentConditions" name="paymentConditions" rows="4" required
+                              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              th:placeholder="#{client.offer.conditions.placeholder}"></textarea>
+                </div>
+
+                <div class="space-y-2">
+                    <button type="submit"
+                            class="w-full py-3 bg-blue-600 text-white font-medium rounded hover:bg-blue-700"
+                            th:text="#{client.offer.submit.button}">
+                        Enviar Proposta
+                    </button>
+
+                    <a th:href="@{/home}"
+                       class="block w-full py-3 bg-gray-300 text-gray-700 font-medium rounded hover:bg-gray-400 text-center"
+                       th:text="#{client.offer.cancel.button}">
+                        Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Imagem -->
+<div id="imageModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+    <div class="relative max-w-4xl max-h-screen p-4">
+        <button id="closeModal" class="absolute top-2 right-2 text-white text-4xl font-bold hover:text-gray-300 z-10">
+            &times;
+        </button>
+        <img id="modalImage" src="" alt="" class="max-w-full max-h-full object-contain rounded-lg">
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const closeModal = document.getElementById('closeModal');
+        const clickableImages = document.querySelectorAll('.image-clickable');
+
+        // Abrir modal ao clicar em qualquer imagem
+        clickableImages.forEach(function(img) {
+            img.addEventListener('click', function() {
+                modalImage.src = this.src;
+                modalImage.alt = this.alt;
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Impede scroll da página
+            });
+        });
+
+        // Fechar modal
+        function closeImageModal() {
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto'; // Restaura scroll da página
+        }
+
+        // Fechar ao clicar no X
+        closeModal.addEventListener('click', closeImageModal);
+
+        // Fechar ao clicar fora da imagem
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeImageModal();
+            }
+        });
+
+        // Fechar com tecla ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                closeImageModal();
+            }
+        });
+    });
+</script>
+</body>
+</html>

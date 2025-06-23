@@ -165,6 +165,7 @@ public class SistemaCvvApplication {
                 logger.info("Creating offers...");
                 Offer offer1 = new Offer();
                 offer1.setValue(new BigDecimal("80000.00"));
+                offer1.setPaymentConditions("A vista");
                 offer1.setStatus(OfferStatus.OPEN);
                 offer1.setVehicle(vehicle1);
                 offer1.setClient(client1);
@@ -173,6 +174,7 @@ public class SistemaCvvApplication {
 
                 Offer offer2 = new Offer();
                 offer2.setValue(new BigDecimal("70000.00"));
+                offer2.setPaymentConditions("12x parcelado");
                 offer2.setStatus(OfferStatus.OPEN);
                 offer2.setVehicle(vehicle2);
                 offer2.setClient(client1);
@@ -181,6 +183,7 @@ public class SistemaCvvApplication {
 
                 Offer offer3 = new Offer();
                 offer3.setValue(new BigDecimal("230000.00"));
+                offer3.setPaymentConditions("24x parcelado");
                 offer3.setStatus(OfferStatus.ACCEPTED);
                 offer3.setVehicle(vehicle3);
                 offer3.setClient(client2);

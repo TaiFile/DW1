@@ -2,9 +2,12 @@ package br.ufscar.dc.dsw.domain;
 
 import br.ufscar.dc.dsw.domain.enums.OfferStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.Length;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -26,6 +29,11 @@ public class Offer implements Serializable {
     @NotNull
     @Min(value = 0)
     private BigDecimal value;
+
+    @NotBlank
+    @Length(min = 7, max = 1024)
+    @Column(nullable = false, columnDefinition = "VARCHAR(1024) DEFAULT 'À vista'")
+    private String paymentConditions = "À vista";
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -69,6 +77,15 @@ public class Offer implements Serializable {
         return this;
     }
 
+    public String getPaymentConditions() {
+        return paymentConditions;
+    }
+
+    public Offer setPaymentConditions(String paymentConditions) {
+        this.paymentConditions = paymentConditions;
+        return this;
+    }
+
     public OfferStatus getStatus() {
         return status;
     }
@@ -100,11 +117,24 @@ public class Offer implements Serializable {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Offer offer = (Offer) o;
-        return Objects.equals(getId(), offer.getId()) && Objects.equals(getValue(), offer.getValue()) && Objects.equals(getDate(), offer.getDate()) && getStatus() == offer.getStatus() && Objects.equals(getVehicle(), offer.getVehicle()) && Objects.equals(getClient(), offer.getClient());
+        return Objects.equals(getId(), offer.getId()) && Objects.equals(getValue(), offer.getValue()) && Objects.equals(getPaymentConditions(), offer.getPaymentConditions()) && Objects.equals(getDate(), offer.getDate()) && getStatus() == offer.getStatus() && Objects.equals(getVehicle(), offer.getVehicle()) && Objects.equals(getClient(), offer.getClient());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getValue(), getDate(), getStatus(), getVehicle(), getClient());
+        return Objects.hash(getId(), getValue(), getPaymentConditions(), getDate(), getStatus(), getVehicle(), getClient());
+    }
+
+    @Override
+    public String toString() {
+        return "Offer{" +
+                "id=" + id +
+                ", value=" + value +
+                ", paymentConditions='" + paymentConditions + '\'' +
+                ", date=" + date +
+                ", status=" + status +
+                ", vehicle=" + vehicle +
+                ", client=" + client +
+                '}';
     }
 }

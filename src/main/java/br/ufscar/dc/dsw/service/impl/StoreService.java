@@ -52,4 +52,13 @@ public class StoreService implements IStoreService {
 
         return store.getVehicles() != null && !store.getVehicles().isEmpty();
     }
+
+    @Transactional(readOnly = true)
+    public Store findByEmail(String email) {
+        Store store = dao.findByEmail(email);
+        if (store == null) {
+            throw new ResourceNotFoundException("Store with email " + email + " not found");
+        }
+        return store;
+    }
 }

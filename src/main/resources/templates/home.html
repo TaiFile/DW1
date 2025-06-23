@@ -1,27 +1,41 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Veículos à Venda - MiranhaCar</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Veículos à Venda - MiranhaCar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="flex flex-col min-h-screen gap-8 bg-gray-100">
+<header th:replace="~{fragments/header :: header}" class="gap-y-10"></header>
 
-  <header th:replace="~{fragments/header :: header}" class="gap-y-10"></header>
-  <div th:replace="~{fragments/search :: search}"></div>
-  <main class="flex-grow">
+<div class="px-4">
+    <div th:replace="~{fragments/search_bar :: search_bar}"></div>
+</div>
+
+<div th:replace="~{fragments/alert :: alert}"></div>
+
+<main class="flex-grow container mx-auto px-4">
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-      <div th:replace="~{fragments/vehicle_card :: vehicle_card}"></div>
-      <div th:replace="~{fragments/vehicle_card :: vehicle_card}"></div>
-      <div th:replace="~{fragments/vehicle_card :: vehicle_card}"></div>
-      <div th:replace="~{fragments/vehicle_card :: vehicle_card}"></div>
-      <div th:replace="~{fragments/vehicle_card :: vehicle_card}"></div>
-      <div th:replace="~{fragments/vehicle_card :: vehicle_card}"></div>
-    </section>
-  </main>
-  <footer th:replace="~{fragments/footer :: footer-content}"></footer>
+        <div th:if="${vehicles != null and !vehicles.empty}"
+             th:each="vehicle : ${vehicles}"
+             th:object="${vehicle}">
 
+            <div th:if="${vehicle != null}"
+                 th:replace="~{fragments/vehicle_card :: vehicle_card(${vehicle})}">
+                <p>Carregando veículo...</p>
+            </div>
+
+        </div>
+
+        <div th:if="${vehicles == null or vehicles.isEmpty()}"
+             class="col-span-full text-center p-8">
+            <p class="text-gray-600 text-lg">Nenhum veículo encontrado</p>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer-content}"></footer>
 </body>
 </html>

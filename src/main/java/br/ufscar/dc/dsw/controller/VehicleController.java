@@ -41,9 +41,7 @@ public class VehicleController {
     }
 
     @PostMapping("/save")
-    public String save(@Valid Vehicle vehicle, @RequestParam(required = false) MultipartFile[] imageFiles,
-                       BindingResult result, RedirectAttributes attributes) {
-
+    public String save(@Valid Vehicle vehicle, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
             return "vehicle/register";
         }

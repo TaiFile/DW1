@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface IVehicleDAO extends ListCrudRepository<Vehicle, Long> {
     List<Vehicle> findAllByStoreId(Long id);
+
+    List<Vehicle> findByModelContainingIgnoreCase(String model);
 }

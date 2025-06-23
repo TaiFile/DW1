@@ -45,13 +45,18 @@ public class WebSecurityConfig {
                         .ignoringRequestMatchers("/images/upload")
                 )
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/error", "/login/**", "/js/**", "/store/**", "/admin/**", "/client/**", "/client/home").permitAll()
+                        .requestMatchers("/error", "/login/**", "/js/**").permitAll()
                         .requestMatchers("/css/**", "/webjars/**","/image/**", "/uploads/**").permitAll()
                         .requestMatchers(publicRoutes).permitAll()
-//                        .requestMatchers("/admin/**").hasRole("ADMIN")
-//                        .requestMatchers("/client/**").hasAnyRole("CLIENT", "ADMIN")
-//                        .requestMatchers("/store/**").hasAnyRole("STORE", "ADMIN")
-//                        .requestMatchers("/vehicle/**").hasAnyRole("STORE", "ADMIN")
+
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/client/**").hasAnyRole("CLIENT", "ADMIN")
+                        .requestMatchers("/store/**").hasAnyRole("STORE", "ADMIN")
+
+                        .requestMatchers("/vehicle/*/offer/register").hasRole("CLIENT")
+                        .requestMatchers("/vehicle/*/offer/save").hasRole("CLIENT")
+                        .requestMatchers("/vehicle/**").hasAnyRole("STORE", "ADMIN")
+
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")

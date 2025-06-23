@@ -31,6 +31,11 @@ public class ClientService implements IClientService {
     }
 
     @Transactional(readOnly = true)
+    public Client findByEmail(String email){
+        return dao.findByEmail(email).orElse(null);
+    }
+
+    @Transactional(readOnly = true)
     public List<Client> findAll(){
         return dao.findAll();
     }

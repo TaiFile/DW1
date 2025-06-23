@@ -7,40 +7,43 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="gap-8 flex items-center justify-center min-h-screen bg-gray-100 font-sans">
-<div th:fragment="register_client_template" class="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+
+<div th:replace="~{fragments/alert :: alert}"></div>
+
+<div class="min-h-screen flex items-center justify-center bg-gray-100 p-4">
     <div class="max-w-lg w-full bg-white rounded-lg shadow-lg p-6">
         <div class="text-center mb-6">
             <h1 class="text-2xl font-bold text-gray-800 mb-1">MiranhaCar</h1>
             <h2 class="text-lg text-gray-600" th:text="#{client.register.main.title}">Cadastrar Cliente</h2>
         </div>
-        <form action="#" method="POST" class="space-y-4">
+        <form th:action="@{/admin/client/register}" th:object="${client}" method="POST" class="space-y-4">
             <div>
                 <label for="name" class="block text-sm font-medium text-gray-700 mb-1" th:text="#{client.register.name.label}">Nome Completo</label>
-                <input id="name" name="name" type="text" required
+                <input id="name" th:field="*{name}" type="text" required
                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
 
             <div>
                 <label for="email" class="block text-sm font-medium text-gray-700 mb-1" th:text="#{client.register.email.label}">Email</label>
-                <input id="email" name="email" type="email" required
+                <input id="email" th:field="*{email}" type="email" required
                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
 
             <div>
                 <label for="password" class="block text-sm font-medium text-gray-700 mb-1" th:text="#{client.register.password.label}">Senha</label>
-                <input id="password" name="password" type="password" required
+                <input id="password" th:field="*{password}" type="password" required
                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
 
             <div class="grid grid-cols-1 gap-4">
                 <div>
                     <label for="cpf" class="block text-sm font-medium text-gray-700 mb-1" th:text="#{client.register.cpf.label}">CPF</label>
-                    <input id="cpf" name="cpf" type="text" required
+                    <input id="cpf" th:field="*{cpf}" type="text" required
                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div>
                     <label for="phone" class="block text-sm font-medium text-gray-700 mb-1" th:text="#{client.register.phone.label}">Telefone</label>
-                    <input id="phone" name="phone" type="tel" required
+                    <input id="phone" th:field="*{phone}" type="tel" required
                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
             </div>
@@ -48,12 +51,12 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label for="dateOfBirth" class="block text-sm font-medium text-gray-700 mb-1" th:text="#{client.register.birthdate.label}">Data de Nascimento</label>
-                    <input id="dateOfBirth" name="dateOfBirth" type="date" required
+                    <input id="dateOfBirth" th:field="*{dateOfBirth}" type="date" required
                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div>
                     <label for="sex" class="block text-sm font-medium text-gray-700 mb-1" th:text="#{client.register.gender.label}">Sexo</label>
-                    <select id="sex" name="sex" required
+                    <select id="sex" th:field="*{sex}" required
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <option value="" th:text="#{client.register.gender.select}">Selecione...</option>
                         <option value="MALE" th:text="#{client.register.gender.male}">Masculino</option>
@@ -63,7 +66,7 @@
                 </div>
             </div>
 
-            <input type="hidden" name="role" value="CLIENT">
+            <input type="hidden" th:field="*{role}" value="CLIENT">
 
             <button type="submit"
                     class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors mt-6"

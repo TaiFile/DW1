@@ -7,7 +7,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 /**
  * ControllerAdvice responsável por tratar exceções globais da aplicação, lançadas explícitamente no código.
@@ -36,6 +39,17 @@ public class GlobalExceptionHandler {
         model.addObject("message", e.getMessage());
         model.addObject("path", request.getRequestURI());
         return model;
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ModelAndView handleMaxUploadSizeExceeded(MaxUploadSizeExceededException e,
+                                                    HttpServletRequest request,
+                                                    RedirectAttributes redirectAttributes) {
+        String redirectUrl = "/store/home";
+        redirectAttributes.addFlashAttribute("fail",
+                "Upload falhou: arquivos muito grandes. Limite máximo: 10MB.");
+
+        return new ModelAndView(new RedirectView(redirectUrl, true));
     }
 
     // 5xx

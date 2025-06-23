@@ -2,6 +2,7 @@ package br.ufscar.dc.dsw.controller;
 
 import br.ufscar.dc.dsw.domain.Client;
 import br.ufscar.dc.dsw.service.spec.IClientService;
+import br.ufscar.dc.dsw.service.spec.IOfferService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,25 +22,10 @@ public class ClientController {
     private IClientService clientService;
 
     @Autowired
+    private IOfferService offerService;
+
+    @Autowired
     private BCryptPasswordEncoder encoder;
-
-    @GetMapping("/register")
-    public String register(Client client) {
-        return "client/register";
-    }
-
-    @PostMapping("/save")
-    public String save(@Valid Client client, BindingResult result, RedirectAttributes attributes) {
-        if (result.hasErrors()) {
-            return "client/register";
-        }
-
-        System.out.println("password = " + client.getPassword());
-        client.setPassword(encoder.encode(client.getPassword()));
-        clientService.save(client);
-        attributes.addFlashAttribute("sucess", "client.create.sucess");
-        return "redirect:/client/list";
-    }
 
     @GetMapping("/edit/{id}")
     public String preEdit(@PathVariable("id") Long id, ModelMap model) {
@@ -47,9 +33,11 @@ public class ClientController {
         return "client/registerUpdate";
     }
 
+
     @PostMapping("/edit")
-    public String edit(@Valid Client client, String newPassword, BindingResult result, RedirectAttributes attributes) {
+    public String edit(@Valid Client client, String newPassword, BindingResult result, RedirectAttributes attributes, ModelMap model) {
         if (result.hasErrors()) {
+            model.addAttribute("client", client);
             return "client/registerUpdate";
         }
 
@@ -57,24 +45,21 @@ public class ClientController {
             if (newPassword != null && !newPassword.trim().isEmpty()) {
                 client.setPassword(encoder.encode(newPassword));
             } else {
+                Client existingClient = clientService.findById(client.getId());
+                client.setPassword(existingClient.getPassword());
                 System.out.println("Password was not edited");
             }
 
             clientService.update(client);
-            attributes.addFlashAttribute("sucess", "Cliente atualizado com sucesso!");
-            return "redirect:/admin/client/list";
         } catch (Exception e) {
+            System.err.println("Erro ao atualizar cliente: " + e.getMessage());
             attributes.addFlashAttribute("fail", "Erro ao atualizar cliente!");
-            return "client/registerUpdate";
+            return "redirect:/client/edit/" + client.getId();
         }
+
+        attributes.addFlashAttribute("sucess", "Cliente atualizado com sucesso!");
+        return "redirect:/admin/client/list";
     }
-
-
-    @GetMapping("/offer")
-    public String offer(ModelMap model) {
-        return "client/offerList";
-    }
-
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id, RedirectAttributes attributes) {
@@ -86,5 +71,11 @@ public class ClientController {
             attributes.addFlashAttribute("fail", "Erro ao excluir cliente!");
             return "redirect:/admin/client/list";
         }
+    }
+
+    @GetMapping("/{id}/offers")
+    public String listClientOffers(@PathVariable Long id, ModelMap model) {
+        model.addAttribute("offers", offerService.findAllByClientId(id));
+        return "client/offerList";
     }
 }

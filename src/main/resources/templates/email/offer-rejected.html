@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resposta da Proposta</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+        .title {
+            font-size: 22px;
+            color: #991b1b;
+            margin: 20px 0;
+        }
+        .content {
+            background-color: #fef2f2;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .vehicle-info {
+            margin-bottom: 20px;
+        }
+        .counter-offer {
+            background-color: #fff7ed;
+            border-left: 4px solid #c2410c;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        .counter-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #2563eb;
+            color: white !important;
+            text-decoration: none !important;
+            padding: 10px 20px;
+            border-radius: 4px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">MiranhaCar</div>
+    </div>
+
+    <div class="title">Resposta sobre sua proposta</div>
+
+    <div class="content">
+        <p>Olá <span th:text="${offer.client.name}">Cliente</span>,</p>
+
+        <p>Informamos que sua proposta para o veículo <strong th:text="${offer.vehicle.model}">Modelo do Veículo</strong> não pôde ser aceita pela loja <span th:text="${offer.vehicle.store.name}">Nome da Loja</span> nas condições apresentadas.</p>
+
+        <div class="vehicle-info">
+            <p><strong>Detalhes da proposta original:</strong></p>
+            <ul>
+                <li>Veículo: <span th:text="${offer.vehicle.model}">Modelo do Veículo</span></li>
+                <li>Valor proposto: R$ <span th:text="${#numbers.formatDecimal(offer.value, 1, 'POINT', 2, 'COMMA')}">120.000,00</span></li>
+                <li>Data da proposta: <span th:text="${#temporals.format(offer.date, 'dd/MM/yyyy')}">18/06/2024</span></li>
+                <li>Suas condições: <span th:text="${offer.paymentConditions}">Condições de pagamento</span></li>
+            </ul>
+        </div>
+
+        <!-- Seção de contraproposta (opcional) -->
+        <div th:if="${hasCounterOffer}" class="counter-offer">
+            <p><strong>Contraproposta da loja</strong></p>
+            <p>A loja gostaria de oferecer uma contraproposta para consideração:</p>
+
+            <div class="counter-label">💰 Valor sugerido:</div>
+            <p>R$ <span th:text="${#numbers.formatDecimal(counterValue, 1, 'POINT', 2, 'COMMA')}">130.000,00</span></p>
+
+            <div th:if="${counterConditions != null and !#strings.isEmpty(counterConditions)}">
+                <div class="counter-label">📝 Condições sugeridas:</div>
+                <p th:text="${counterConditions}">Novas condições de pagamento</p>
+            </div>
+
+            <p>Se tiver interesse nesta contraproposta, entre em contato diretamente com a loja ou faça uma nova proposta pelo site.</p>
+        </div>
+
+        <p>O veículo continua disponível em nosso site, e você pode fazer uma nova proposta a qualquer momento.</p>
+
+        <p>Agradecemos seu interesse e esperamos poder atendê-lo em uma próxima oportunidade.</p>
+    </div>
+
+    <a th:href="${appUrl + '/vehicle/' + offer.vehicle.id}" class="button" style="color: white !important; text-decoration: none;">Ver este veículo</a>
+
+    <div class="footer">
+        <p>Este é um email automático. Por favor, não responda.</p>
+        <p>&copy; 2025 MiranhaCar - Todos os direitos reservados</p>
+    </div>
+</body>
+</html>

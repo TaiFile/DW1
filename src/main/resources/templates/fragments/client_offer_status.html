@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Client Offer Status</title>
+</head>
+<body>
+<div th:fragment="client_offer_status(offer)" class="bg-white rounded-lg shadow p-6 mb-4">
+
+    <div class="flex justify-between items-start mb-4">
+        <div>
+            <h3 class="text-lg font-bold text-gray-800"
+                th:text="${offer != null and offer.vehicle != null and offer.vehicle.model != null ? offer.vehicle.model : 'Veículo não encontrado'}">
+                Fiat Palio Weekend
+            </h3>
+            <p class="text-sm text-gray-600">
+                <span th:text="#{client.status.offer.store.label}">Loja:</span>
+                <span th:text="${offer != null and offer.vehicle != null and offer.vehicle.store != null and offer.vehicle.store.name != null ? offer.vehicle.store.name : 'Loja não informada'}">AutoPeças Premium</span>
+            </p>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <!-- Status Badge -->
+            <div th:switch="${offer.status.toString()}">
+                <span th:case="'OPEN'"
+                      class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800">
+                    PENDENTE
+                </span>
+                <span th:case="'ACCEPTED'"
+                      class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">
+                    ACEITA
+                </span>
+                <span th:case="'REJECTED'"
+                      class="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800">
+                    REJEITADA
+                </span>
+                <span th:case="*"
+                      class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">
+                    DESCONHECIDO
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="space-y-2 mb-4">
+        <div class="flex justify-between">
+            <span class="text-sm text-gray-600" th:text="#{client.status.offer.value.label}">Valor Oferecido:</span>
+            <span class="font-bold text-black">
+                R$ <span
+                    th:text="${offer != null and offer.value != null ? #numbers.formatDecimal(offer.value, 1, 'POINT', 2, 'COMMA') : '0,00'}">
+                110.000,00</span>
+            </span>
+        </div>
+
+        <div class="flex justify-between">
+            <span class="text-sm text-gray-600" th:text="#{client.status.offer.date.label}">Data da Proposta:</span>
+            <span class="text-sm text-gray-800"
+                  th:text="${offer != null and offer.date != null ? #temporals.format(offer.date, 'dd/MM/yyyy') : 'Data não informada'}">
+                15/06/2024
+            </span>
+        </div>
+    </div>
+
+    <div class="mb-4"
+         th:if="${offer != null and offer.paymentConditions != null and !#strings.isEmpty(offer.paymentConditions)}">
+        <p class="text-sm text-gray-600 mb-1" th:text="#{client.status.offer.conditions.label}">Suas Condições:</p>
+        <p class="text-sm text-gray-800 bg-gray-50 p-2 rounded" th:text="${offer.paymentConditions}">
+            Pagamento à vista via PIX, com possibilidade de desconto para pagamento imediato
+        </p>
+    </div>
+
+    <!-- Status Messages -->
+    <div th:switch="${offer.status.toString()}">
+        <!-- Status: OPEN -->
+        <div th:case="'OPEN'" class="text-center py-2 bg-yellow-50 rounded">
+            <p class="text-sm text-yellow-800">
+                <strong th:text="#{client.status.offer.waiting.message}">Aguardando análise da loja</strong>
+            </p>
+            <p class="text-xs text-yellow-600 mt-1" th:text="#{client.status.offer.notification.message}">
+                Você será notificado quando houver uma resposta
+            </p>
+        </div>
+
+        <!-- Status: ACCEPTED -->
+        <div th:case="'ACCEPTED'" class="text-center py-2 bg-green-50 rounded">
+            <p class="text-sm text-green-800">
+                <strong th:text="#{client.status.offer.accepted.message}">Proposta Aceita!</strong>
+            </p>
+            <p class="text-xs text-green-600 mt-1" th:text="#{client.status.offer.meeting.message}">
+                Verifique os detalhes da reunião enviados por email
+            </p>
+        </div>
+
+        <!-- Status: REJECTED -->
+        <div th:case="'REJECTED'" class="text-center py-2 bg-red-50 rounded">
+            <p class="text-sm text-red-800">
+                <strong th:text="#{client.status.offer.rejected.message}">Proposta Rejeitada</strong>
+            </p>
+            <p class="text-xs text-red-600 mt-1" th:text="#{client.status.offer.counter.message}">
+                A loja pode ter enviado uma contraproposta
+            </p>
+        </div>
+
+        <!-- Status: Default -->
+        <div th:case="*" class="text-center py-2 bg-gray-50 rounded">
+            <p class="text-sm text-gray-600">Status da proposta não definido</p>
+            <!-- Debug: Para ver qual é o status real -->
+            <p class="text-xs text-red-500 mt-1" th:text="'DEBUG - Status: ' + ${offer.status}">DEBUG</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
