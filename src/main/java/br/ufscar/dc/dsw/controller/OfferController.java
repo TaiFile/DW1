@@ -1,9 +1,8 @@
 package br.ufscar.dc.dsw.controller;
 
 import br.ufscar.dc.dsw.domain.Offer;
-import br.ufscar.dc.dsw.service.spec.IClientService;
+import br.ufscar.dc.dsw.domain.Vehicle;
 import br.ufscar.dc.dsw.service.spec.IOfferService;
-import br.ufscar.dc.dsw.service.spec.IStoreService;
 import br.ufscar.dc.dsw.service.spec.IVehicleService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class OfferController {
+
     @Autowired
     private IOfferService offerService;
 
@@ -41,15 +41,27 @@ public class OfferController {
         return "store/offerList";
     }
 
-    @PostMapping("/offer/save")
-    public String save(@Valid Offer offer, BindingResult result, RedirectAttributes attributes) {
+    @PostMapping("/vehicle/{vehicleId}/offer/save")
+    public String save(@PathVariable Long vehicleId, @Valid Offer offer, BindingResult result, RedirectAttributes attributes, ModelMap model) {
+        Vehicle vehicle = vehicleService.findById(vehicleId);
+
         if (result.hasErrors()) {
+            model.addAttribute("vehicle", vehicle);
+            model.addAttribute("fail", "Preencha todos os campos obrigatórios!");
             return "vehicle/offer";
         }
 
-        offerService.save(offer);
-        attributes.addFlashAttribute("sucess", "offer.create.success");
-        return "redirect:/home";
+        offer.setVehicle(vehicle);
+
+        try {
+            offerService.save(offer);
+            attributes.addFlashAttribute("sucess", "Proposta enviada com sucesso!");
+            return "redirect:/home";
+        } catch (Exception e) {
+            model.addAttribute("vehicle", vehicle);
+            model.addAttribute("fail", "Erro ao enviar proposta. Tente novamente!");
+            return "vehicle/offer";
+        }
     }
 
     @GetMapping("/edit/{id}")
