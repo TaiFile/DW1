@@ -5,6 +5,7 @@ import br.ufscar.dc.dsw.service.spec.IOfferService;
 import br.ufscar.dc.dsw.service.spec.IStoreService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -25,6 +26,9 @@ public class StoreController {
     @Autowired
     private IOfferService offerService;
 
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
     @GetMapping("/edit/{id}")
     public String preEdit(@PathVariable("id") Long id, ModelMap model) {
         model.addAttribute("store", storeService.findById(id));
@@ -39,6 +43,10 @@ public class StoreController {
         }
 
         try {
+            if (store.getPassword() != null && !store.getPassword().trim().isEmpty()) {
+                store.setPassword(encoder.encode(store.getPassword()));
+                System.out.println("Password was edited" + store.getPassword());
+            }
             storeService.update(store);
             attributes.addFlashAttribute("sucess", "Loja atualizada com sucesso!");
             return "redirect:/admin/store/list";

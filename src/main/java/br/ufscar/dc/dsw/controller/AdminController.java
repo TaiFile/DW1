@@ -66,6 +66,7 @@ public class AdminController {
             return "admin/register-store";
         }
 
+        store.setPassword(encoder.encode(store.getPassword()));
         storeService.save(store);
 
         try {
