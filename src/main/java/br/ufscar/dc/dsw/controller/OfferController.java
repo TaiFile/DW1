@@ -5,6 +5,7 @@ import br.ufscar.dc.dsw.domain.Vehicle;
 import br.ufscar.dc.dsw.domain.enums.OfferStatus;
 import br.ufscar.dc.dsw.email.IEmailService;
 import br.ufscar.dc.dsw.exceptions.ResourceNotFoundException;
+import br.ufscar.dc.dsw.service.spec.IClientService;
 import br.ufscar.dc.dsw.service.spec.IOfferService;
 import br.ufscar.dc.dsw.service.spec.IVehicleService;
 import jakarta.validation.Valid;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,6 +35,9 @@ public class OfferController {
     @Autowired
     private IEmailService emailService;
 
+    @Autowired
+    private IClientService clientService;
+
     @GetMapping("/vehicle/{id}/offer/register")
     public String register(@PathVariable Long id, ModelMap model) {
         model.addAttribute("vehicle", vehicleService.findById(id));
@@ -42,7 +47,7 @@ public class OfferController {
 
     @PostMapping("/vehicle/{vehicleId}/offer/save")
     public String save(@PathVariable Long vehicleId, @Valid Offer offer, BindingResult result,
-                       RedirectAttributes attributes, ModelMap model) {
+                       RedirectAttributes attributes, ModelMap model, Principal principal) {
 
         Vehicle vehicle = vehicleService.findById(vehicleId);
         offer.setVehicle(vehicle);
@@ -54,6 +59,7 @@ public class OfferController {
         }
 
         try {
+            offer.setClient(clientService.findByEmail(principal.getName()));
             offerService.save(offer);
             attributes.addFlashAttribute("success", "Proposta enviada com sucesso!");
             return "redirect:/home";
