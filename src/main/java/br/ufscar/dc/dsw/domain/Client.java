@@ -2,6 +2,8 @@ package br.ufscar.dc.dsw.domain;
 
 import br.ufscar.dc.dsw.domain.enums.SexEnum;
 import br.ufscar.dc.dsw.domain.enums.UserRoleEnum;
+import br.ufscar.dc.dsw.validation.UniqueCPF;
+import br.ufscar.dc.dsw.validation.UniquePhone;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -15,6 +17,7 @@ import java.util.Objects;
 @Table(name = "clients")
 public class Client extends User {
     @NotBlank
+    @UniqueCPF
     @Column(nullable = false, length = 14)
     private String cpf;
 
@@ -22,6 +25,7 @@ public class Client extends User {
     @Column(nullable = false)
     private String name;
 
+    @UniquePhone
     @NotBlank
     @Column(nullable = false)
     private String phone;

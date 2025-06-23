@@ -3,7 +3,7 @@ package br.ufscar.dc.dsw.storage.impl;
 import br.ufscar.dc.dsw.Utils;
 import br.ufscar.dc.dsw.exceptions.StorageException;
 import br.ufscar.dc.dsw.storage.spec.ISecuredStorageService;
-import br.ufscar.dc.dsw.validation.FileValidator;
+import br.ufscar.dc.dsw.validation.validator.FileValidator;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.ServletContext;
 import org.slf4j.Logger;

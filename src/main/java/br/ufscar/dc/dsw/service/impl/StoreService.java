@@ -35,8 +35,10 @@ public class StoreService implements IStoreService {
         Store entityStore = dao.findById(store.getId()).orElseThrow(
                 ()-> new ResourceNotFoundException("No records for this id"));
 
-        entityStore.setCnpj(store.getCnpj());
+        entityStore.setEmail(store.getEmail());
+        entityStore.setPassword(store.getPassword());
         entityStore.setName(store.getName());
+        entityStore.setCnpj(store.getCnpj());
         entityStore.setDescription(store.getDescription());
 
         return dao.save(entityStore);
