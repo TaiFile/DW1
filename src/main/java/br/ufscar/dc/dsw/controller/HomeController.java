@@ -53,6 +53,7 @@ public class HomeController {
         model.addAttribute("vehicles", vehicles);
         model.addAttribute("query", query);
         return "home";
+    }
 
     @GetMapping("/store/home")
     public String store(ModelMap model, Authentication authentication) {
