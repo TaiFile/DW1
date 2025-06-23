@@ -44,13 +44,13 @@ public class ClientController {
     @GetMapping("/edit/{id}")
     public String preEdit(@PathVariable("id") Long id, ModelMap model) {
         model.addAttribute("client", clientService.findById(id));
-        return "client/registerUpdate"; // ✅ Era "client/register", agora "client/edit"
+        return "client/registerUpdate";
     }
 
     @PostMapping("/edit")
     public String edit(@Valid Client client, String newPassword, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
-            return "client/registerUpdate"; // ✅ Era "client/register", agora "client/edit"
+            return "client/registerUpdate";
         }
 
         try {
@@ -62,8 +62,7 @@ public class ClientController {
 
             clientService.update(client);
             attributes.addFlashAttribute("sucess", "Cliente atualizado com sucesso!");
-            return "redirect:/admin/client/list"; // ✅ Verificar se é esta a rota correta
-
+            return "redirect:/admin/client/list";
         } catch (Exception e) {
             attributes.addFlashAttribute("fail", "Erro ao atualizar cliente!");
             return "client/registerUpdate";
