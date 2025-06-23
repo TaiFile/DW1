@@ -5,24 +5,25 @@
     <title>Propostas</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50">
+<body class="flex flex-col min-h-screen bg-gray-50">
 <header th:replace="~{fragments/header :: header}"></header>
 
-<div class="max-w-4xl mx-auto px-4 py-8">
+<main class="flex-grow">
+    <div class="max-w-4xl mx-auto px-4 py-8">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6" th:text="#{client.offer.status.h1}">Suas Propostas</h1>
 
-    <h1 class="text-2xl font-bold text-gray-800 mb-6" th:text="#{client.offer.status.h1}">Suas Propostas</h1>
+        <div th:if="${offers != null and !offers.empty}">
+            <div th:each="offer : ${offers}" class="mb-4">
+                <div th:replace="~{fragments/client_offer_status :: client_offer_status(offer=${offer})}"></div>
+            </div>
+        </div>
 
-    <div th:if="${offers != null and !offers.empty}">
-        <div th:each="offer : ${offers}" class="mb-4">
-            <div th:replace="~{fragments/client_offer_status :: client_offer_status(offer=${offer})}"></div>
+        <div th:if="${offers == null or offers.empty}"
+             class="text-center py-8 text-gray-500">
+            <p>Nenhuma proposta encontrada.</p>
         </div>
     </div>
-
-    <div th:if="${offers == null or offers.empty}"
-         class="text-center py-8 text-gray-500">
-        <p>Nenhuma proposta encontrada.</p>
-    </div>
-</div>
+</main>
 
 <footer th:replace="~{fragments/footer :: footer-content}"></footer>
 </body>

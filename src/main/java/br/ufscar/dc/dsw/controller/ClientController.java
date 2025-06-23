@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.security.Principal;
-
 @Controller
 @RequestMapping("/client")
 public class ClientController {
@@ -29,33 +27,17 @@ public class ClientController {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
-    @GetMapping("/register")
-    public String register(Client client) {
-        return "client/register";
-    }
-
-    @PostMapping("/save")
-    public String save(@Valid Client client, BindingResult result, RedirectAttributes attributes) {
-        if (result.hasErrors()) {
-            return "client/register";
-        }
-
-        System.out.println("password = " + client.getPassword());
-        client.setPassword(encoder.encode(client.getPassword()));
-        clientService.save(client);
-        attributes.addFlashAttribute("sucess", "client.create.sucess");
-        return "redirect:/client/list";
-    }
-
     @GetMapping("/edit/{id}")
     public String preEdit(@PathVariable("id") Long id, ModelMap model) {
         model.addAttribute("client", clientService.findById(id));
         return "client/registerUpdate";
     }
 
+
     @PostMapping("/edit")
-    public String edit(@Valid Client client, String newPassword, BindingResult result, RedirectAttributes attributes) {
+    public String edit(@Valid Client client, String newPassword, BindingResult result, RedirectAttributes attributes, ModelMap model) {
         if (result.hasErrors()) {
+            model.addAttribute("client", client);
             return "client/registerUpdate";
         }
 
@@ -63,22 +45,20 @@ public class ClientController {
             if (newPassword != null && !newPassword.trim().isEmpty()) {
                 client.setPassword(encoder.encode(newPassword));
             } else {
+                Client existingClient = clientService.findById(client.getId());
+                client.setPassword(existingClient.getPassword());
                 System.out.println("Password was not edited");
             }
 
             clientService.update(client);
-            attributes.addFlashAttribute("sucess", "Cliente atualizado com sucesso!");
-            return "redirect:/admin/client/list";
         } catch (Exception e) {
+            System.err.println("Erro ao atualizar cliente: " + e.getMessage());
             attributes.addFlashAttribute("fail", "Erro ao atualizar cliente!");
-            return "client/registerUpdate";
+            return "redirect:/client/edit/" + client.getId();
         }
-    }
 
-    @GetMapping("/{id}/offers")
-    public String listClientOffers(@PathVariable Long id, ModelMap model) {
-        model.addAttribute("offers", offerService.findAllByClientId(id));
-        return "client/offerList";
+        attributes.addFlashAttribute("sucess", "Cliente atualizado com sucesso!");
+        return "redirect:/admin/client/list";
     }
 
     @PostMapping("/delete/{id}")
@@ -91,5 +71,11 @@ public class ClientController {
             attributes.addFlashAttribute("fail", "Erro ao excluir cliente!");
             return "redirect:/admin/client/list";
         }
+    }
+
+    @GetMapping("/{id}/offers")
+    public String listClientOffers(@PathVariable Long id, ModelMap model) {
+        model.addAttribute("offers", offerService.findAllByClientId(id));
+        return "client/offerList";
     }
 }

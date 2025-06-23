@@ -72,7 +72,7 @@ public class SistemaCvvApplication {
                 logger.info("Creating clients...");
                 Client client1 = new Client();
                 client1.setEmail("client1@example.com");
-                client1.setPassword(passwordEncoder.encode("234"));
+                client1.setPassword(passwordEncoder.encode("123"));
                 client1.setRole(UserRoleEnum.CLIENT);
                 client1.setEnabled(true);
                 client1.setCpf("12345678901");
@@ -85,7 +85,7 @@ public class SistemaCvvApplication {
 
                 Client client2 = new Client();
                 client2.setEmail("client2@example.com");
-                client2.setPassword(passwordEncoder.encode("345"));
+                client2.setPassword(passwordEncoder.encode("123"));
                 client2.setRole(UserRoleEnum.CLIENT);
                 client2.setEnabled(true);
                 client2.setCpf("02123456789");
@@ -100,7 +100,7 @@ public class SistemaCvvApplication {
                 logger.info("Creating stores...");
                 Store store1 = new Store();
                 store1.setEmail("store1@example.com");
-                store1.setPassword(passwordEncoder.encode("456"));
+                store1.setPassword(passwordEncoder.encode("123"));
                 store1.setRole(UserRoleEnum.STORE);
                 store1.setEnabled(true);
                 store1.setCnpj("11222333000181");
@@ -111,7 +111,7 @@ public class SistemaCvvApplication {
 
                 Store store2 = new Store();
                 store2.setEmail("store2@example.com");
-                store2.setPassword(passwordEncoder.encode("567"));
+                store2.setPassword(passwordEncoder.encode("123"));
                 store2.setRole(UserRoleEnum.STORE);
                 store2.setEnabled(true);
                 store2.setCnpj("44556677000192");

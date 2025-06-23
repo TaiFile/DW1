@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="#{store.register.title}">Register - Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="gap-8 flex items-center justify-center min-h-screen bg-gray-100 font-sans">
+
+<div th:replace="~{fragments/alert :: alert}"></div>
+
+<div class="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+    <div class="max-w-lg w-full bg-white rounded-lg shadow-lg p-6">
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-bold text-gray-800 mb-1">MiranhaCar</h1>
+            <h2 class="text-lg text-gray-600" th:text="#{store.register.main.title}">Cadastrar Loja</h2>
+        </div>
+
+        <div th:if="${errorMessage}" class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
+            <span th:text="${errorMessage}"></span>
+        </div>
+
+        <form th:action="@{/admin/store/register}" th:object="${store}" method="POST" class="space-y-4">
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700 mb-1" th:text="#{store.register.name.label}">Nome da Loja</label>
+                <input id="name" th:field="*{name}" type="text" required
+                       th:class="${#fields.hasErrors('name')} ? 'w-full px-3 py-2 border border-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500' : 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'">
+                <div th:if="${#fields.hasErrors('name')}" class="mt-1 text-sm text-red-600">
+                    <span th:errors="*{name}"></span>
+                </div>
+            </div>
+
+            <div>
+                <label for="cnpj" class="block text-sm font-medium text-gray-700 mb-1" th:text="#{store.register.cnpj.label}">CNPJ</label>
+                <input id="cnpj" th:field="*{cnpj}" type="text" required
+                       th:class="${#fields.hasErrors('cnpj')} ? 'w-full px-3 py-2 border border-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500' : 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'">
+                <div th:if="${#fields.hasErrors('cnpj')}" class="mt-1 text-sm text-red-600">
+                    <span th:errors="*{cnpj}"></span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1" th:text="#{store.register.email.label}">Email</label>
+                    <input id="email" th:field="*{email}" type="email" required
+                           th:class="${#fields.hasErrors('email')} ? 'w-full px-3 py-2 border border-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500' : 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'">
+                    <div th:if="${#fields.hasErrors('email')}" class="mt-1 text-sm text-red-600">
+                        <span th:errors="*{email}"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1" th:text="#{store.register.password.label}">Senha</label>
+                    <input id="password" th:field="*{password}" type="password" required
+                           th:class="${#fields.hasErrors('password')} ? 'w-full px-3 py-2 border border-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500' : 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'">
+                    <div th:if="${#fields.hasErrors('password')}" class="mt-1 text-sm text-red-600">
+                        <span th:errors="*{password}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <label for="description" class="block text-sm font-medium text-gray-700 mb-1" th:text="#{store.register.description.label}">Descrição da Loja</label>
+                <textarea id="description" th:field="*{description}" rows="4" required
+                          th:class="${#fields.hasErrors('description')} ? 'w-full px-3 py-2 border border-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 resize-none' : 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none'"></textarea>
+                <div th:if="${#fields.hasErrors('description')}" class="mt-1 text-sm text-red-600">
+                    <span th:errors="*{description}"></span>
+                </div>
+            </div>
+
+            <input type="hidden" th:field="*{role}" value="STORE">
+
+            <div class="flex gap-4 mt-6">
+                <button type="button" onclick="history.back()"
+                        class="flex-1 bg-gray-500 text-white py-2 rounded-md hover:bg-gray-600 transition-colors">
+                    Voltar
+                </button>
+                <button type="submit"
+                        class="flex-1 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors"
+                        th:text="#{store.register.submit.button}">
+                    Cadastrar Loja
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

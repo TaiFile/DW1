@@ -31,8 +31,8 @@ public class Offer implements Serializable {
     private BigDecimal value;
 
     @NotBlank
-    @Length(min = 5, max = 1024)
-    @Column(nullable = false, length = 1024)
+    @Length(min = 7, max = 1024)
+    @Column(nullable = false, columnDefinition = "VARCHAR(1024) DEFAULT 'À vista'")
     private String paymentConditions = "À vista";
 
     @CreationTimestamp

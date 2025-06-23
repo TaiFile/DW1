@@ -1,14 +1,21 @@
 package br.ufscar.dc.dsw.controller;
 
 import br.ufscar.dc.dsw.domain.Store;
+import br.ufscar.dc.dsw.service.spec.IOfferService;
 import br.ufscar.dc.dsw.service.spec.IStoreService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/store")
@@ -16,27 +23,11 @@ public class StoreController {
     @Autowired
     private IStoreService storeService;
 
-    @GetMapping("/register")
-    public String register(Store store) {
-        return "/store/register";
-    }
+    @Autowired
+    private IOfferService offerService;
 
-    @GetMapping("/list")
-    public String list(ModelMap model) {
-        model.addAttribute("stores", storeService.findAll());
-        return "store/list";
-    }
-
-    @PostMapping("/save")
-    public String save(@Valid Store store, BindingResult result, RedirectAttributes attributes) {
-        if(result.hasErrors()) {
-            return "store/register";
-        }
-
-        storeService.save(store);
-        attributes.addFlashAttribute("sucess", "store.create.success");
-        return "redirect:/store/list";
-    }
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
     @GetMapping("/edit/{id}")
     public String preEdit(@PathVariable("id") Long id, ModelMap model) {
@@ -45,14 +36,17 @@ public class StoreController {
     }
 
 
-
     @PostMapping("/edit")
     public String edit(@Valid Store store, BindingResult result, RedirectAttributes attributes) {
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             return "store/registerUpdate";
         }
 
         try {
+            if (store.getPassword() != null && !store.getPassword().trim().isEmpty()) {
+                store.setPassword(encoder.encode(store.getPassword()));
+                System.out.println("Password was edited" + store.getPassword());
+            }
             storeService.update(store);
             attributes.addFlashAttribute("sucess", "Loja atualizada com sucesso!");
             return "redirect:/admin/store/list";
@@ -66,7 +60,7 @@ public class StoreController {
     public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         boolean hasVehicles = storeService.storeHaveVehicles(id);
 
-        if(hasVehicles) {
+        if (hasVehicles) {
             redirectAttributes.addFlashAttribute("fail", "store.delete.fail");
         } else {
             storeService.delete(id);
@@ -74,5 +68,11 @@ public class StoreController {
         }
 
         return "redirect:/admin/store/list";
+    }
+
+    @GetMapping("/offers")
+    public String listStoreOffers(Principal principal, ModelMap model) {
+        model.addAttribute("offers", offerService.findAllByStoreEmail(principal.getName()));
+        return "store/offerList";
     }
 }

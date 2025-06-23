@@ -2,6 +2,8 @@ package br.ufscar.dc.dsw.domain;
 
 import br.ufscar.dc.dsw.domain.enums.SexEnum;
 import br.ufscar.dc.dsw.domain.enums.UserRoleEnum;
+import br.ufscar.dc.dsw.validation.UniqueCPF;
+import br.ufscar.dc.dsw.validation.UniquePhone;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,6 +14,8 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@UniqueCPF
+@UniquePhone
 @Table(name = "clients")
 public class Client extends User {
     @NotBlank

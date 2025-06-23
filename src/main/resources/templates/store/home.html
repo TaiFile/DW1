@@ -12,12 +12,12 @@
 <div th:replace="~{fragments/alert :: alert}"></div>
 
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-center m-8">
-    <a href="/store/offer"
+    <a th:href="@{/store/offers}"
        class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300"
        th:text="#{store.home.view.proposals}">
         Visualizar propostas
     </a>
-    <a href="/vehicle/register"
+    <a th:href="@{/vehicle/register}"
        class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300"
        th:text="#{store.home.view.car}">
         Registrar carro

@@ -1,4 +1,4 @@
-package br.ufscar.dc.dsw.validation;
+package br.ufscar.dc.dsw.validation.validator;
 
 import br.ufscar.dc.dsw.exceptions.BadRequestException;
 import br.ufscar.dc.dsw.exceptions.StorageException;

@@ -5,15 +5,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import br.ufscar.dc.dsw.validation.validator.UniqueCNPJValidator;
+import br.ufscar.dc.dsw.validation.validator.UniquePhoneValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
-@Constraint(validatedBy = UniqueCNPJValidator.class)
+@Constraint(validatedBy = UniquePhoneValidator.class)
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UniqueCNPJ {
-    String message() default "CNPJ is already registered";
+public @interface UniquePhone {
+    String message() default "Phone number is already registered";
     Class<?>[] groups() default { };
     Class<? extends Payload>[] payload() default { };
 }

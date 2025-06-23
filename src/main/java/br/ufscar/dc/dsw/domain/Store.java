@@ -1,6 +1,7 @@
 package br.ufscar.dc.dsw.domain;
 
 import br.ufscar.dc.dsw.domain.enums.UserRoleEnum;
+import br.ufscar.dc.dsw.validation.UniqueCNPJ;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@UniqueCNPJ
 @Table(name = "stores")
 public class Store extends User {
     @NotBlank
