@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title th:text="#{store.home.title}">Veículos à Venda - MiranhaCar</title>
+    <title th:text="#{store.home.title}">Seus Veículos - MiranhaCar</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
 <body class="flex flex-col min-h-screen bg-gray-100 font-sans">
-
 <header th:replace="~{fragments/header :: header}"></header>
+
+
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-center m-8">
     <a href="/store/offer"
        class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300"
@@ -23,22 +23,26 @@
     </a>
 </div>
 
-<main class="flex-grow mt-10">
-    <h1 class="text-3xl font-bold text-gray-800 mb-1 ml-8" th:text="#{store.home.your.cars}">Seus carros</h1>
+<main class="flex-grow container mx-auto px-4">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6" th:text="#{store.home.your.cars}">Seus carros</h1>
+
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-        <div th:replace="~{fragments/content_store :: content_store}"></div>
-        <div th:replace="~{fragments/content_store :: content_store}"></div>
-        <div th:replace="~{fragments/content_store :: content_store}"></div>
-        <div th:replace="~{fragments/content_store :: content_store}"></div>
-        <div th:replace="~{fragments/content_store :: content_store}"></div>
-        <div th:replace="~{fragments/content_store :: content_store}"></div>
-        <div th:replace="~{fragments/content_store :: content_store}"></div>
-        <div th:replace="~{fragments/content_store :: content_store}"></div>
-        <div th:replace="~{fragments/content_store :: content_store}"></div>
+        <div th:if="${vehicles != null and !vehicles.empty}"
+             th:each="vehicle : ${vehicles}"
+             th:object="${vehicle}">
+            <div th:if="${vehicle != null}"
+                 th:replace="~{fragments/content_store :: content_store(vehicle=${vehicle})}">
+                <p>Carregando veículo...</p>
+            </div>
+        </div>
+
+        <div th:if="${vehicles == null or vehicles.empty}"
+             class="col-span-full text-center p-8">
+            <p class="text-gray-600 text-lg">Você ainda não possui veículos cadastrados</p>
+        </div>
     </section>
 </main>
 
 <footer th:replace="~{fragments/footer :: footer-content}"></footer>
-
 </body>
 </html>

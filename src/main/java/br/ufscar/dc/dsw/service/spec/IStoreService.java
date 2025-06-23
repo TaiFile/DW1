@@ -17,4 +17,6 @@ public interface IStoreService {
     void delete(Long id);
 
     boolean storeHaveVehicles(Long id);
+
+    Store findByEmail(String email);
 }

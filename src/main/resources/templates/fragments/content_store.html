@@ -1,16 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Content - Store</title>
 </head>
-<body th:fragment="content_store">
+<body th:fragment="content_store(vehicle)">
 <div class="mt-5 ml-5 bg-white rounded-lg shadow-lg overflow-hidden flex flex-col hover:transform hover:scale-105 transition-transform">
-    <img src="/image/palio.jpg" alt="Imagem" class="w-full h-48 object-cover">
+
+<!--    <img class="w-full h-48 object-cover"-->
+<!--         th:src="@{${vehicle.images != null and !vehicle.images.empty ? vehicle.images[0] : '/image/palio.jpg'}}"-->
+<!--         th:alt="|#{vehicle.card.image.alt} ${vehicle.model}|"-->
+<!--         src="/image/palio.jpg">-->
+
+
     <div class="p-6 flex-grow flex flex-col">
-        <h2 class="text-xl font-bold text-gray-800 mb-3">Carro do Miranha</h2>
-        <p class="text-gray-600 mb-4 flex-grow">2030 | 20.000 km</p>
-        <p class="text-2xl font-bold text-blue-600 mb-4">R$ 115.000</p>
+        <h2 class="text-xl font-bold text-gray-800 mb-3" th:text="${vehicle.model}">Carro do Miranha</h2>
+        <p class="text-gray-600 mb-4 flex-grow"
+           th:text="${vehicle.year} + ' | ' + ${#numbers.formatInteger(vehicle.mileage, 0, 'COMMA')} + ' km'">
+            2030 | 20.000 km
+        </p>
+
+        <p class="text-2xl font-bold text-blue-600 mb-4"
+           th:text="'R$ ' + ${#numbers.formatDecimal(vehicle.value, 0, 'COMMA', 3, 'POINT')}">
+            R$ 115.000
+        </p>
+        <div class="flex gap-3 pt-3 border-t border-gray-200">
+            <a th:href="@{/vehicle/edit/{id}(id=${vehicle.id})}"
+               class="text-blue-600 hover:text-blue-800 font-medium text-sm">
+                Editar
+            </a>
+            <form th:action="@{/vehicle/delete/{id}(id=${vehicle.id})}" method="POST"
+                  onsubmit="return confirm('Tem certeza que deseja excluir este veículo?')"
+                  style="display: inline;">
+                <button type="submit" class="text-red-600 hover:text-red-800 font-medium text-sm">
+                    Excluir
+                </button>
+            </form>
+        </div>
     </div>
 </div>
 </body>

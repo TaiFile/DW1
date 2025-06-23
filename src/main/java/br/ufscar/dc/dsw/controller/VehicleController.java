@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -46,28 +47,38 @@ public class VehicleController {
     }
 
     @GetMapping("/edit/{id}")
-    public String preEdit(@PathVariable("id") Long id, ModelMap model) {
-        model.addAttribute("vehicle", vehicleService.findById(id));
-        return "vehicle/resgister";
+    public String editForm(@PathVariable("id") Long id, ModelMap model) {
+        Vehicle vehicle = vehicleService.findById(id);
+        model.addAttribute("vehicle", vehicle);
+        return "vehicle/registerUpdate";
     }
 
     @PostMapping("/edit")
-    public String edit(@Valid Vehicle vehicle, BindingResult result, RedirectAttributes attributes) {
-        if(result.hasErrors()) {
-            return "vehicle/register";
+    public String edit(@ModelAttribute Vehicle vehicle, RedirectAttributes attributes) {
+        try {
+            vehicleService.save(vehicle);
+            attributes.addFlashAttribute("success", "Veículo atualizado com sucesso!");
+        } catch (Exception e) {
+            attributes.addFlashAttribute("error", "Erro ao atualizar veículo!");
+        }
+        return "redirect:/store/home";
+    }
+
+
+
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Long id, RedirectAttributes attributes) {
+        try {
+            vehicleService.delete(id);
+            attributes.addFlashAttribute("success", "Veículo excluído com sucesso!");
+        } catch (Exception e) {
+            System.out.println("Erro ao deletar veículo: " + e.getMessage());
+            attributes.addFlashAttribute("error", "Erro ao excluir veículo!");
         }
 
-        vehicleService.update(vehicle);
-        attributes.addFlashAttribute("sucess", "vehicle.edit.success");
-        return "redirect:/vehicle/list";
+        return "redirect:/store/home";
     }
 
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Long id, RedirectAttributes attributes) {
-        vehicleService.delete(id);
-        attributes.addFlashAttribute("sucess", "vehicle.delete.success");
-        return "redirect:/vehicle/list";
-    }
 
     @ModelAttribute("stores")
     public List<Store> listStore() {
