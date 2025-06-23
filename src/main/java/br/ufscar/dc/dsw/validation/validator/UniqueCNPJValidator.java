@@ -11,21 +11,33 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class UniqueCNPJValidator implements ConstraintValidator<UniqueCNPJ, String> {
+public class UniqueCNPJValidator implements ConstraintValidator<UniqueCNPJ, Store> {
 
     @Autowired
     private IStoreDAO dao;
 
     @Override
-    public boolean isValid(String CNPJ, ConstraintValidatorContext context) {
-        if (dao != null) {
-            Optional<Store> store = dao.findByCnpj(CNPJ);
-            if(store.isEmpty()) {
-                return false;
-            }
-        } else {
+    public boolean isValid(Store store, ConstraintValidatorContext context) {
+        if (dao == null || store == null) {
             return true;
         }
+
+        String cnpj = store.getCnpj();
+        if (cnpj == null || cnpj.trim().isEmpty()) {
+            return true;
+        }
+
+        Optional<Store> existingStore = dao.findByCnpj(cnpj);
+
+        if (existingStore.isEmpty()) {
+            return true;
+        }
+
+        Store found = existingStore.get();
+        if (store.getId() != null && store.getId().equals(found.getId())) {
+            return true;
+        }
+
         return false;
     }
 }

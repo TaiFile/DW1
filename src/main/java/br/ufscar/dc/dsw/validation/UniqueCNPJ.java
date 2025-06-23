@@ -6,12 +6,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import br.ufscar.dc.dsw.validation.validator.UniqueCNPJValidator;
-import br.ufscar.dc.dsw.validation.validator.UniqueCPFValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 @Constraint(validatedBy = UniqueCNPJValidator.class)
-@Target(ElementType.FIELD)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueCNPJ {
     String message() default "CNPJ is already registered";

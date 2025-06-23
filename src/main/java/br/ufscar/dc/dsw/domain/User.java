@@ -1,6 +1,7 @@
 package br.ufscar.dc.dsw.domain;
 
 import br.ufscar.dc.dsw.domain.enums.UserRoleEnum;
+import br.ufscar.dc.dsw.validation.UniqueEmail;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -10,6 +11,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
+@UniqueEmail
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class User implements Serializable {
 

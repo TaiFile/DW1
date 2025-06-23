@@ -12,21 +12,32 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class UniquePhoneValidator implements ConstraintValidator<UniquePhone, String> {
+public class UniquePhoneValidator implements ConstraintValidator<UniquePhone, Client> {
 
     @Autowired
     private IClientDAO dao;
 
     @Override
-    public boolean isValid(String phone, ConstraintValidatorContext context) {
-        if (dao != null) {
-            Optional<Client> client = dao.findByPhone(phone);
-            if(client.isEmpty()) {
-                return false;
-            }
-        } else {
+    public boolean isValid(Client client, ConstraintValidatorContext context) {
+        if (dao == null || client == null) {
             return true;
         }
+
+        String phone = client.getPhone();
+        if (phone == null || phone.trim().isEmpty()) {
+            return true;
+        }
+
+        Optional<Client> existingClient = dao.findByPhone(phone);
+        if (existingClient.isEmpty()) {
+            return true;
+        }
+
+        Client found = existingClient.get();
+        if (client.getId() != null && client.getId().equals(found.getId())) {
+            return true;
+        }
+
         return false;
     }
 }
