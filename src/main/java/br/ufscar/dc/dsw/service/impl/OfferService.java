@@ -29,8 +29,14 @@ public class OfferService implements IOfferService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<Offer> findAllByClientIdAndStatus(Long id, OfferStatus status) {
-        return dao.findAllByClientIdAndStatus(id, status);
+    public List<Offer> findAllByClientId(Long id) {
+        return dao.findAllByClientId(id);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Offer> findAllByStoreId(Long id) {
+        return dao.findAllByStoreId(id);
     }
 
     @Transactional(readOnly = true)
