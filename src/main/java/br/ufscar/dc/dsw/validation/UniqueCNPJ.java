@@ -10,7 +10,7 @@ import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 @Constraint(validatedBy = UniqueCNPJValidator.class)
-@Target(ElementType.TYPE) // ✅ Mudou para TYPE (classe) ao invés de FIELD
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueCNPJ {
     String message() default "CNPJ is already registered";

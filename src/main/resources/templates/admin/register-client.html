@@ -76,11 +76,17 @@
 
             <input type="hidden" th:field="*{role}" value="CLIENT">
 
-            <button type="submit"
-                    class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors mt-6"
-                    th:text="#{client.register.submit.button}">
-                Cadastrar
-            </button>
+            <div class="flex gap-4 mt-6">
+                <button type="button" onclick="history.back()"
+                        class="flex-1 bg-gray-500 text-white py-2 rounded-md hover:bg-gray-600 transition-colors">
+                    Voltar
+                </button>
+                <button type="submit"
+                        class="flex-1 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors"
+                        th:text="#{client.register.submit.button}">
+                    Cadastrar
+                </button>
+            </div>
         </form>
     </div>
 </div>

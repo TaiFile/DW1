@@ -10,7 +10,7 @@ import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 @Constraint(validatedBy = UniquePhoneValidator.class)
-@Target(ElementType.TYPE) // ✅ Mudou para TYPE (classe) ao invés de FIELD
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniquePhone {
     String message() default "Phone number is already registered";

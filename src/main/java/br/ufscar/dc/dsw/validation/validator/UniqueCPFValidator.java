@@ -20,27 +20,25 @@ public class UniqueCPFValidator implements ConstraintValidator<UniqueCPF, Client
     @Override
     public boolean isValid(Client client, ConstraintValidatorContext context) {
         if (dao == null || client == null) {
-            return true; // Se dao é null ou client é null, considera válido
+            return true;
         }
 
         String cpf = client.getCpf();
         if (cpf == null || cpf.trim().isEmpty()) {
-            return true; // Deixa outras validações cuidarem de CPF nulo/vazio
+            return true;
         }
 
         Optional<Client> existingClient = dao.findByCpf(cpf);
 
-        // Se não encontrou nenhum cliente com esse CPF, é único
         if (existingClient.isEmpty()) {
             return true;
         }
 
-        // Se encontrou, verifica se é o mesmo cliente (UPDATE)
         Client found = existingClient.get();
         if (client.getId() != null && client.getId().equals(found.getId())) {
-            return true; // É o mesmo cliente, pode manter o CPF
+            return true;
         }
 
-        return false; // CPF já existe em outro cliente
+        return false;
     }
 }

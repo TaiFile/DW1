@@ -32,17 +32,15 @@ public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, Us
 
         Optional<User> existingUser = dao.findByEmail(email);
 
-        // Se não encontrou nenhum cliente com esse email, é único
         if (existingUser.isEmpty()) {
             return true;
         }
 
-        // Se encontrou, verifica se é o mesmo cliente (UPDATE)
         User found = existingUser.get();
         if (user.getId() != null && user.getId().equals(found.getId())) {
-            return true; // É o mesmo cliente, pode manter o email
+            return true;
         }
 
-        return false; // Email já existe em outro cliente
+        return false;
     }
 }
