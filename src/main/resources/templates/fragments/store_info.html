@@ -5,50 +5,36 @@
     <title>Store Info</title>
 </head>
 <body>
-<div th:fragment="store_info(store)" class="max-w-lg mx-10 bg-white rounded-lg shadow p-6 mb-5">
-    <div class="mb-6">
-        <h2 class="text-xl font-bold text-gray-800 mb-2" th:text="#{store.info.title}">Informações da Loja</h2>
-        <div class="flex gap-2">
-            <a class="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
-               th:text="#{store.info.edit.button}">
-                Editar
-            </a>
-            <form method="post"
-                  th:onsubmit="'return confirm(\'' + #{store.info.delete.confirm} + '\')'"
-                  onsubmit="return confirm('Excluir esta loja?')"
-                  class="inline">
-                <input type="hidden" name="_method" value="DELETE">
-                <button type="submit"
-                        class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700"
-                        th:text="#{store.info.delete.button}">
-                    Excluir
-                </button>
-            </form>
-        </div>
+<div th:fragment="store_info(store)" class="bg-white rounded-lg shadow-md p-6 mb-4">
+    <h3 class="text-lg font-semibold text-gray-800 mb-3" th:text="${store.name}">Nome da Loja</h3>
+    <div class="space-y-2 mb-4">
+        <p class="text-gray-600">
+            <span class="font-medium" th:text="#{store.info.cnpj.label}">CNPJ:</span>
+            <span th:text="${store.cnpj}">12.345.678/0001-90</span>
+        </p>
+        <p class="text-gray-600">
+            <span class="font-medium" th:text="#{store.info.email.label}">Email:</span>
+            <span th:text="${store.email}">contato@miranhacar.com</span>
+        </p>
+        <p class="text-gray-600">
+            <span class="font-medium" th:text="#{store.info.description.label}">Descrição:</span>
+            <span th:text="${store.description}">Loja especializada em veículos seminovos e usados de qualidade.</span>
+        </p>
     </div>
-
-    <div class="space-y-4">
-        <div>
-            <label class="block text-sm font-medium text-gray-600" th:text="#{store.info.name.label}">Nome da Loja</label>
-            <p class="text-gray-800" th:text="${store.name}" th:title="#{store.info.name.help}">MiranhaCar Premium</p>
-        </div>
-
-        <div>
-            <label class="block text-sm font-medium text-gray-600" th:text="#{store.info.cnpj.label}">CNPJ</label>
-            <p class="text-gray-800" th:text="${store.cnpj}" th:title="#{store.info.cnpj.help}">12.345.678/0001-90</p>
-        </div>
-
-        <div>
-            <label class="block text-sm font-medium text-gray-600" th:text="#{store.info.email.label}">Email</label>
-            <p class="text-gray-800" th:text="${store.email}" th:title="#{store.info.email.help}">contato@miranhacar.com</p>
-        </div>
-
-        <div>
-            <label class="block text-sm font-medium text-gray-600" th:text="#{store.info.description.label}">Descrição</label>
-            <p class="text-gray-800" th:text="${store.description}" th:title="#{store.info.description.help}">
-                Loja especializada em veículos seminovos e usados de qualidade.
-            </p>
-        </div>
+    <div class="flex gap-3 pt-3 border-t border-gray-200">
+        <a th:href="@{/store/edit/{id}(id=${store.id})}"
+           class="text-blue-600 hover:text-blue-800 font-medium text-sm"
+           th:text="#{store.info.edit.button}">
+            Editar
+        </a>
+        <form th:action="@{/store/delete/{id}(id=${store.id})}" method="POST"
+              onsubmit="return confirm('Tem certeza que deseja excluir esta loja?')"
+              style="display: inline;">
+            <button type="submit" class="text-red-600 hover:text-red-800 font-medium text-sm"
+                    th:text="#{store.info.delete.button}">
+                Excluir
+            </button>
+        </form>
     </div>
 </div>
 </body>

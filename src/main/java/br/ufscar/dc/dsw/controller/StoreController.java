@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -44,29 +41,38 @@ public class StoreController {
     @GetMapping("/edit/{id}")
     public String preEdit(@PathVariable("id") Long id, ModelMap model) {
         model.addAttribute("store", storeService.findById(id));
-        return "store/register";
+        return "store/registerUpdate";
     }
+
+
 
     @PostMapping("/edit")
     public String edit(@Valid Store store, BindingResult result, RedirectAttributes attributes) {
-        if(result.getFieldErrorCount() > 1 || result.getFieldError("CNPJ") == null) {
-            return  "store/register";
+        if(result.hasErrors()) {
+            return "store/registerUpdate";
         }
 
-        storeService.update(store);
-        attributes.addFlashAttribute("sucess", "store.edit.success");
-        return  "redirect:/store/list";
+        try {
+            storeService.update(store);
+            attributes.addFlashAttribute("sucess", "Loja atualizada com sucesso!");
+            return "redirect:/admin/store/list";
+        } catch (Exception e) {
+            attributes.addFlashAttribute("fail", "Erro ao atualizar loja!");
+            return "store/registerUpdate";
+        }
     }
 
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Long id, ModelMap model) {
-        if(storeService.storeHaveVehicles(id)) {
-            model.addAttribute("fail",  "store.delete.fail");
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        boolean hasVehicles = storeService.storeHaveVehicles(id);
+
+        if(hasVehicles) {
+            redirectAttributes.addFlashAttribute("fail", "store.delete.fail");
         } else {
             storeService.delete(id);
-            model.addAttribute("sucess", "store.delete.success");
+            redirectAttributes.addFlashAttribute("success", "store.delete.success");
         }
 
-        return list(model);
+        return "redirect:/admin/store/list";
     }
 }

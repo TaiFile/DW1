@@ -17,7 +17,7 @@
             <p class="text-gray-600" th:text="#{store.list.subtitle}">Gerencie todas as lojas cadastradas</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1  gap-6">
             <div th:if="${stores == null or stores.isEmpty()}" class="col-span-full text-center py-12">
                 <div class="bg-white rounded-lg shadow-sm p-8">
                     <p class="text-gray-500 text-lg font-medium" th:text="#{store.list.no.stores}">Nenhuma loja encontrada</p>
