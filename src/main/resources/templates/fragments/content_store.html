@@ -20,7 +20,7 @@
         </p>
 
         <p class="text-2xl font-bold text-blue-600 mb-4"
-           th:text="'R$ ' + ${#numbers.formatDecimal(vehicle.value, 0, 'COMMA', 3, 'POINT')}">
+           th:text="'R$ ' + ${#numbers.formatDecimal(vehicle.value, 0, 'COMMA', 2, 'POINT')}">
             R$ 115.000
         </p>
 
