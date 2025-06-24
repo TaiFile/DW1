@@ -13,7 +13,7 @@ import jakarta.validation.Payload;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PlateProperties {
-    String message() default "Plate not permitted";
+    String message() default "Format plate not permitted. Examples: ABC-1234";
     Class<?>[] groups() default { };
     Class<? extends Payload>[] payload() default { };
 }
