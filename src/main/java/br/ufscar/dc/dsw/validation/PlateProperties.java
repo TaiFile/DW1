@@ -5,16 +5,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import br.ufscar.dc.dsw.validation.validator.UniquePhoneValidator;
+import br.ufscar.dc.dsw.validation.validator.PlatePropertiesValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
-@Constraint(validatedBy = UniquePhoneValidator.class)
-@Target(ElementType.TYPE)
+@Constraint(validatedBy = PlatePropertiesValidator.class)
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UniquePhone {
-    // A mensagem foi trocada por uma chave para internacionalização
-    String message() default "{Unique.user.phone}";
+public @interface PlateProperties {
+    String message() default "{PlateProperties.vehicle.plate}";
 
     Class<?>[] groups() default { };
 

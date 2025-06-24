@@ -13,8 +13,10 @@ import jakarta.validation.Payload;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueEmail {
-    String message() default "Email is already registered";
+    // A mensagem foi trocada por uma chave para internacionalização
+    String message() default "{Unique.user.email}";
+
     Class<?>[] groups() default { };
+
     Class<? extends Payload>[] payload() default { };
 }
-

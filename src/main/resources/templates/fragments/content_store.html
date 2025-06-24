@@ -23,15 +23,19 @@
            th:text="'R$ ' + ${#numbers.formatDecimal(vehicle.value, 0, 'COMMA', 3, 'POINT')}">
             R$ 115.000
         </p>
+
         <div class="flex justify-start items-center gap-3 pt-3 border-t border-gray-200">
             <a th:href="@{/vehicle/edit/{id}(id=${vehicle.id})}"
-               class="text-blue-600 hover:text-blue-800 font-medium text-sm">
+               class="text-blue-600 hover:text-blue-800 font-medium text-sm"
+               th:text="#{common.edit}">
                 Editar
             </a>
+
             <form th:action="@{/vehicle/delete/{id}(id=${vehicle.id})}" method="POST"
-                  onsubmit="return confirm('Tem certeza que deseja excluir este veículo?')"
+                  th:onsubmit="|return confirm(#{vehicle.card.confirm_delete})|"
                   style="display: inline;">
-                <button type="submit" class="text-red-600 hover:text-red-800 font-medium text-sm">
+                <button type="submit" class="text-red-600 hover:text-red-800 font-medium text-sm"
+                        th:text="#{common.delete}">
                     Excluir
                 </button>
             </form>
