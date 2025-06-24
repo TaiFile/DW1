@@ -18,75 +18,67 @@
 
     <div class="space-y-6 mb-8">
         <div>
-            <img th:src="@{${offer != null and offer.vehicle != null and offer.vehicle.images != null and !offer.vehicle.images.empty ? offer.vehicle.images[0] : '/image/palio.jpg'}}"
+            <img th:src="@{${offer?.vehicle?.images != null and !offer.vehicle.images.empty ? offer.vehicle.images[0] : '/image/palio.jpg'}}"
                  class="w-full h-64 object-cover rounded-lg"
-                 th:alt="#{offer.analysis.vehicle.image.alt} + ' ' + ${offer != null and offer.vehicle != null ? offer.vehicle.model : ''}"
+                 th:alt-title="#{offer.analysis.vehicle.image.alt} + ' ' + ${offer?.vehicle?.model}"
                  src="/image/palio.jpg">
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div>
                 <label class="block text-sm font-medium text-gray-600 mb-1" th:text="#{offer.analysis.vehicle.label}">Veículo</label>
-                <p class="text-gray-800 text-lg font-medium" 
-                   th:text="${offer != null and offer.vehicle != null ? offer.vehicle.model : 'Veículo não informado'}">
-                   Volkswagen Nivus Highline
+                <p class="text-gray-800 text-lg font-medium">
+                    <span th:if="${offer?.vehicle?.model}" th:text="${offer.vehicle.model}"></span>
+                    <span th:unless="${offer?.vehicle?.model}" th:text="#{default.vehicle.not_informed}"></span>
                 </p>
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-600 mb-1" th:text="#{offer.analysis.client.label}">Cliente</label>
-                <p class="text-gray-800 text-lg font-medium" 
-                   th:text="${offer != null and offer.client != null ? offer.client.name : 'Cliente não informado'}">
-                   Mariana Costa
+                <p class="text-gray-800 text-lg font-medium">
+                    <span th:if="${offer?.client?.name}" th:text="${offer.client.name}"></span>
+                    <span th:unless="${offer?.client?.name}" th:text="#{default.client.not_informed}"></span>
                 </p>
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-600 mb-1" th:text="#{offer.analysis.value.label}">Valor da Proposta</label>
                 <p class="text-xl font-bold text-black">
                     <span th:text="#{offer.analysis.currency.symbol}">R$</span>
-                    <span th:text="${offer != null and offer.value != null ? #numbers.formatDecimal(offer.value, 1, 'POINT', 2, 'COMMA') : '0,00'}">120.000,00</span>
+                    <span th:text="${offer?.value != null ? #numbers.formatDecimal(offer.value, 1, 'POINT', 2, 'COMMA') : '0,00'}"></span>
                 </p>
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-600 mb-1" th:text="#{offer.analysis.date.label}">Data</label>
-                <p class="text-gray-800 text-lg font-medium" 
-                   th:text="${offer != null and offer.date != null ? #temporals.format(offer.date, 'dd/MM/yyyy') : 'Data não informada'}">
-                   18/06/2024
+                <p class="text-gray-800 text-lg font-medium">
+                    <span th:if="${offer?.date}" th:text="${#temporals.format(offer.date, 'dd/MM/yyyy')}"></span>
+                    <span th:unless="${offer?.date}" th:text="#{default.date.not_informed}"></span>
                 </p>
             </div>
         </div>
 
         <div>
             <label class="block text-sm font-medium text-gray-600 mb-2" th:text="#{offer.analysis.status.label}">Status</label>
-            <div th:switch="${offer != null ? offer.status.toString() : 'UNKNOWN'}">
-                <span th:case="'OPEN'" 
-                      class="inline-block px-3 py-2 text-sm bg-yellow-100 text-yellow-800 rounded-full font-medium">
-                    PENDENTE
-                </span>
-                <span th:case="'ACCEPTED'" 
-                      class="inline-block px-3 py-2 text-sm bg-green-100 text-green-800 rounded-full font-medium">
-                    ACEITA
-                </span>
-                <span th:case="'REJECTED'" 
-                      class="inline-block px-3 py-2 text-sm bg-red-100 text-red-800 rounded-full font-medium">
-                    REJEITADA
-                </span>
-                <span th:case="*" 
-                      class="inline-block px-3 py-2 text-sm bg-gray-100 text-gray-800 rounded-full font-medium">
-                    DESCONHECIDO
-                </span>
+            <div th:switch="${offer?.status?.toString()}">
+                <span th:case="'OPEN'"
+                      class="inline-block px-3 py-2 text-sm bg-yellow-100 text-yellow-800 rounded-full font-medium"
+                      th:text="#{offer.status.pending}"></span>
+                <span th:case="'ACCEPTED'"
+                      class="inline-block px-3 py-2 text-sm bg-green-100 text-green-800 rounded-full font-medium"
+                      th:text="#{offer.status.accepted}"></span>
+                <span th:case="'REJECTED'"
+                      class="inline-block px-3 py-2 text-sm bg-red-100 text-red-800 rounded-full font-medium"
+                      th:text="#{offer.status.rejected}"></span>
+                <span th:case="*"
+                      class="inline-block px-3 py-2 text-sm bg-gray-100 text-gray-800 rounded-full font-medium"
+                      th:text="#{offer.status.unknown}"></span>
             </div>
         </div>
 
-        <!-- Mostrar condições de pagamento do cliente -->
-        <div th:if="${offer != null and offer.paymentConditions != null and !#strings.isEmpty(offer.paymentConditions)}">
-            <label class="block text-sm font-medium text-gray-600 mb-2">Condições do Cliente:</label>
-            <p class="text-sm text-gray-800 bg-gray-50 p-3 rounded-lg" th:text="${offer.paymentConditions}">
-                Condições de pagamento especificadas pelo cliente
-            </p>
+        <div th:if="${offer?.paymentConditions != null and !#strings.isEmpty(offer.paymentConditions)}">
+            <label class="block text-sm font-medium text-gray-600 mb-2" th:text="#{offer.analysis.client.conditions.label}"></label>
+            <p class="text-sm text-gray-800 bg-gray-50 p-3 rounded-lg" th:text="${offer.paymentConditions}"></p>
         </div>
     </div>
 
-    <!-- Formulário apenas para ofertas OPEN -->
     <div th:if="${offer != null and offer.status.toString() == 'OPEN'}">
         <form method="post" th:action="@{/offer/decision/{id}(id=${offer.id})}" class="space-y-6">
             <div>
@@ -165,21 +157,20 @@
         </form>
     </div>
 
-    <!-- Mensagem para ofertas já processadas -->
     <div th:if="${offer != null and offer.status.toString() != 'OPEN'}" class="text-center py-6">
         <div th:switch="${offer.status.toString()}">
             <div th:case="'ACCEPTED'" class="text-green-600">
-                <p class="text-lg font-semibold">✅ Proposta Aceita</p>
-                <p class="text-sm text-gray-600 mt-2">Esta proposta já foi aceita e o cliente foi notificado.</p>
+                <p class="text-lg font-semibold" th:text="#{offer.analysis.already.accepted.title}"></p>
+                <p class="text-sm text-gray-600 mt-2" th:text="#{offer.analysis.already.accepted.desc}"></p>
             </div>
             <div th:case="'REJECTED'" class="text-red-600">
-                <p class="text-lg font-semibold">❌ Proposta Rejeitada</p>
-                <p class="text-sm text-gray-600 mt-2">Esta proposta foi rejeitada e o cliente foi notificado.</p>
+                <p class="text-lg font-semibold" th:text="#{offer.analysis.already.rejected.title}"></p>
+                <p class="text-sm text-gray-600 mt-2" th:text="#{offer.analysis.already.rejected.desc}"></p>
             </div>
         </div>
-        <a th:href="@{/store/offer}" 
-           class="inline-block mt-4 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-            Voltar à Lista de Propostas
+        <a th:href="@{/store/offer}"
+           class="inline-block mt-4 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+           th:text="#{offer.analysis.back.button}">
         </a>
     </div>
 </div>
@@ -187,26 +178,24 @@
 <footer th:replace="~{fragments/footer :: footer-content}"></footer>
 
 <script>
-    // Script para alternar visibilidade dos campos baseado na decisão
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const acceptRadio = document.querySelector('input[value="ACCEPTED"]');
         const rejectRadio = document.querySelector('input[value="REJECTED"]');
         const acceptSection = document.querySelector('.bg-green-50');
         const rejectSection = document.querySelector('.bg-red-50');
 
         if (acceptRadio && rejectRadio) {
-            // Inicializar visibilidade
             acceptSection.style.opacity = '0.5';
             rejectSection.style.opacity = '0.5';
 
-            acceptRadio.addEventListener('change', function() {
+            acceptRadio.addEventListener('change', function () {
                 if (this.checked) {
                     acceptSection.style.opacity = '1';
                     rejectSection.style.opacity = '0.5';
                 }
             });
 
-            rejectRadio.addEventListener('change', function() {
+            rejectRadio.addEventListener('change', function () {
                 if (this.checked) {
                     acceptSection.style.opacity = '0.5';
                     rejectSection.style.opacity = '1';
