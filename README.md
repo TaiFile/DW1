@@ -116,6 +116,7 @@ Antes de começar, você precisará ter instalado em sua máquina:
            ```
        * Esse comando executará a seed do sistema onde conterá dados essenciais como admin, cliente, loja, etc. 
        * Dados do admin: email: admin@example.com password: 123
+       * A aplicação irá apenas rodar a seed e terminar.
        
        * Para iniciar a aplicação Spring sem a seed:
            ```bash

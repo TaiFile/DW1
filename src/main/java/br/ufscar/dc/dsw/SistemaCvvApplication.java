@@ -190,6 +190,8 @@ public class SistemaCvvApplication {
                 logger.info("Offer3 created with ID: {}", offer3.getId());
 
                 logger.info("Database seed completed successfully");
+
+                System.exit(0);
             } catch (Exception e) {
                 logger.error("Error during database seed: {}", e.getMessage(), e);
             }
