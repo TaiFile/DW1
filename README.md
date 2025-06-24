@@ -4,6 +4,14 @@ Este projeto é um sistema web para a compra e venda de veículos, desenvolvido 
 
 ---
 
+## Autores:
+
+* [Jonatã Reguim](https://github.com/JntReguim)
+* [Vitor Taichi Taira](https://github.com/TaiFile)
+* [Eduardo Malagutti](https://github.com/eduMalagutti)
+
+---
+
 ## ✨ Funcionalidades Principais
 
 O sistema atende aos seguintes requisitos:
