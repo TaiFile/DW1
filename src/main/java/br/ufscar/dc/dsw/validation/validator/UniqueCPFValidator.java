@@ -5,10 +5,8 @@ import br.ufscar.dc.dsw.domain.Client;
 import br.ufscar.dc.dsw.validation.UniqueCPF;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.util.Optional;
 
 @Component
@@ -30,15 +28,21 @@ public class UniqueCPFValidator implements ConstraintValidator<UniqueCPF, Client
 
         Optional<Client> existingClient = dao.findByCpf(cpf);
 
-        if (existingClient.isEmpty()) {
-            return true;
+        if (existingClient.isPresent()) {
+            Client found = existingClient.get();
+            if (client.getId() != null && client.getId().equals(found.getId())) {
+                return true;
+            }
+
+            // Necessário para gerar o erro com th:errors
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
+                    .addPropertyNode("cpf")
+                    .addConstraintViolation();
+
+            return false;
         }
 
-        Client found = existingClient.get();
-        if (client.getId() != null && client.getId().equals(found.getId())) {
-            return true;
-        }
-
-        return false;
+        return true;
     }
 }

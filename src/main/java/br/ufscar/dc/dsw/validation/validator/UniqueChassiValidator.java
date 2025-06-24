@@ -29,15 +29,22 @@ public class UniqueChassiValidator implements ConstraintValidator<UniqueChassi, 
 
         Optional<Vehicle> existingVehicle = dao.findByChassi(chassi);
 
-        if (existingVehicle.isEmpty()) {
-            return true;
+        if (existingVehicle.isPresent()) {
+            Vehicle found = existingVehicle.get();
+            if (vehicle.getId() != null && vehicle.getId().equals(found.getId())) {
+                return true;
+            }
+
+            // Necessário para gerar o erro com th:errors
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
+                    .addPropertyNode("chassi")
+                    .addConstraintViolation();
+
+            return false;
         }
 
-        Vehicle found = existingVehicle.get();
-        if (vehicle.getId() != null && vehicle.getId().equals(found.getId())) {
-            return true;
-        }
 
-        return false;
+        return true;
     }
 }

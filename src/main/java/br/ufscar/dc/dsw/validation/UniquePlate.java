@@ -6,10 +6,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import br.ufscar.dc.dsw.validation.validator.UniqueChassiValidator;
+import br.ufscar.dc.dsw.validation.validator.UniquePlateValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
-@Constraint(validatedBy = UniqueChassiValidator.class)
+@Constraint(validatedBy = UniquePlateValidator.class)
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniquePlate {

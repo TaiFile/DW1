@@ -5,10 +5,8 @@ import br.ufscar.dc.dsw.domain.Client;
 import br.ufscar.dc.dsw.validation.UniquePhone;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.util.Optional;
 
 @Component
@@ -29,15 +27,21 @@ public class UniquePhoneValidator implements ConstraintValidator<UniquePhone, Cl
         }
 
         Optional<Client> existingClient = dao.findByPhone(phone);
-        if (existingClient.isEmpty()) {
-            return true;
+        if (existingClient.isPresent()) {
+            Client found = existingClient.get();
+            if (client.getId() != null && client.getId().equals(found.getId())) {
+                return true;
+            }
+
+            // Necessário para gerar o erro com th:errors
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
+                    .addPropertyNode("phone")
+                    .addConstraintViolation();
+
+            return false;
         }
 
-        Client found = existingClient.get();
-        if (client.getId() != null && client.getId().equals(found.getId())) {
-            return true;
-        }
-
-        return false;
+        return true;
     }
 }

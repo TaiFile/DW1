@@ -43,10 +43,10 @@ public class VehicleController {
     }
 
     @PostMapping("/save")
-    public String save(@Valid Vehicle vehicle, Principal principal,
+    public String save(@Valid Vehicle vehicle,
+                       BindingResult result, // Precisa estar posicionado logo após a class com @Valid
                        @RequestParam(required = false) MultipartFile[] imageFiles,
-                       BindingResult result, RedirectAttributes attributes, ModelMap model) {
-
+                       Principal principal, RedirectAttributes attributes, ModelMap model) {
         if (result.hasErrors()) {
             return "vehicle/register";
         }
