@@ -62,7 +62,7 @@ public class VehicleController {
             vehicle.setStore(store);
             vehicle.setImages(finalImages);
             vehicleService.save(vehicle);
-            attributes.addFlashAttribute("sucess", "vehicle.create.success");
+            attributes.addFlashAttribute("sucess", "Vehicle created successfully");
 
         } catch (Exception e) {
             e.printStackTrace();

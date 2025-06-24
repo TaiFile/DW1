@@ -74,7 +74,6 @@ public class LocalPublicStorageService implements IPublicStorageService {
 
     @Override
     public String store(MultipartFile file) {
-        fileValidator.validate(file);
 
         String originalFilename = Utils.getOriginalFilename(file);
 
