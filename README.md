@@ -122,11 +122,4 @@ Antes de começar, você precisará ter instalado em sua máquina:
            mvn spring-boot:run
            ```
        * A aplicação estará acessível em `http://localhost:8080` (ou a porta configurada).
-
-   4. **Configure as imagens da seed**
-      * Na raíz do projeto há um arquivo .zip chamado "images.zip".
-      * Crie um diretório chamado `uploads` em `src/main/resources/static`
-      * Para carregar corretamente as imagens da seed você deve extrair esse arquivo na pasta `src/main/resources/static/uploads`
-      * A Home deve aparecer como na imagem abaixo:
-    ![img.png](img.png)
 ---
