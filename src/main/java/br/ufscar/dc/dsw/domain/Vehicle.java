@@ -1,5 +1,6 @@
 package br.ufscar.dc.dsw.domain;
 
+import br.ufscar.dc.dsw.validation.PlateProperties;
 import br.ufscar.dc.dsw.validation.UniqueChassi;
 import br.ufscar.dc.dsw.validation.UniquePlate;
 import jakarta.persistence.*;
@@ -27,6 +28,7 @@ public class Vehicle implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @PlateProperties
     @NotBlank
     @Column(nullable = false, unique = true)
     private String plate;

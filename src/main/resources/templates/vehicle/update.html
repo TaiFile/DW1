@@ -1,9 +1,18 @@
+<!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Editar Veículo</title>
+    <title th:text="#{vehicle.edit.page.title}">Editar Veículo</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const i18n = {
+            confirmRemoveImage: /*[[#{vehicle.edit.confirm_remove_image}]]*/ 'Tem certeza que deseja remover esta imagem?'
+        };
+        /*]]>*/
+    </script>
 </head>
 <body class="bg-gray-100 font-sans">
 
@@ -14,100 +23,104 @@
         <div class="bg-white rounded-lg shadow-lg p-6">
             <div class="text-center mb-6">
                 <h1 class="text-2xl font-bold text-gray-800 mb-1">MiranhaCar</h1>
-                <h2 class="text-lg text-gray-600">Editar Veículo</h2>
+                <h2 class="text-lg text-gray-600" th:text="#{vehicle.edit.title}">Editar Veículo</h2>
             </div>
 
-            <form th:action="@{/vehicle/edit}" method="POST" enctype="multipart/form-data" class="space-y-4">
-                <input type="hidden" name="id" th:value="${vehicle?.id}"/>
-                <input type="hidden" name="store.id" th:value="${vehicle?.store?.id}"/>
+            <form th:action="@{/vehicle/edit}" th:object="${vehicle}" method="POST" enctype="multipart/form-data" class="space-y-4">
+                <input type="hidden" th:field="*{id}"/>
+                <input type="hidden" th:field="*{store.id}"/>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Placa</label>
-                    <input name="plate" type="text" th:value="${vehicle?.plate}" required
+                    <label class="block text-sm font-medium text-gray-700 mb-1" th:text="#{vehicle.register.plate.label}">Placa</label>
+                    <input type="text" th:field="*{plate}" required
                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <div th:if="${#fields.hasErrors('plate')}" th:errors="*{plate}" class="text-red-500 text-sm mt-1"></div>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Modelo</label>
-                    <input name="model" type="text" th:value="${vehicle?.model}" required
+                    <label class="block text-sm font-medium text-gray-700 mb-1" th:text="#{vehicle.register.model.label}">Modelo</label>
+                    <input type="text" th:field="*{model}" required
                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <div th:if="${#fields.hasErrors('model')}" th:errors="*{model}" class="text-red-500 text-sm mt-1"></div>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Quilometragem (km)</label>
-                    <input name="mileage" type="number" th:value="${vehicle?.mileage}" required
+                    <label class="block text-sm font-medium text-gray-700 mb-1" th:text="#{vehicle.register.mileage.label}">Quilometragem (km)</label>
+                    <input type="number" th:field="*{mileage}" required min="0"
                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <div th:if="${#fields.hasErrors('mileage')}" th:errors="*{mileage}" class="text-red-500 text-sm mt-1"></div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Ano</label>
-                        <input name="year" type="number" th:value="${vehicle?.year}" required
+                        <label class="block text-sm font-medium text-gray-700 mb-1" th:text="#{vehicle.register.year.label}">Ano</label>
+                        <input type="number" th:field="*{year}" required min="1900" max="2025"
                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <div th:if="${#fields.hasErrors('year')}" th:errors="*{year}" class="text-red-500 text-sm mt-1"></div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Valor (R$)</label>
-                        <input name="value" type="number" step="0.01" th:value="${vehicle?.value}" required
+                        <label class="block text-sm font-medium text-gray-700 mb-1" th:text="#{vehicle.register.value.label}">Valor (R$)</label>
+                        <input type="number" step="0.01" th:field="*{value}" required min="0"
                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <div th:if="${#fields.hasErrors('value')}" th:errors="*{value}" class="text-red-500 text-sm mt-1"></div>
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Chassi</label>
-                    <input name="chassi" type="text" th:value="${vehicle?.chassi}" required
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <label class="block text-sm font-medium text-gray-700 mb-1" th:text="#{vehicle.register.chassi.label}">Chassis (VIN)</label>
+                    <input type="text" th:field="*{chassi}" required
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                           minlength="17" maxlength="17" pattern="[A-HJ-NPR-Z0-9]{17}"
+                           th:title="#{vehicle.register.chassi.title}"
+                           oninput="this.value = this.value.toUpperCase()">
+                    <div th:if="${#fields.hasErrors('chassi')}" th:errors="*{chassi}" class="text-red-500 text-sm mt-1"></div>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
-                    <textarea name="description" rows="4" th:text="${vehicle?.description}" required
+                    <label class="block text-sm font-medium text-gray-700 mb-1" th:text="#{vehicle.register.description.label}">Descrição</label>
+                    <textarea rows="4" th:field="*{description}" required
                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
+                    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-red-500 text-sm mt-1"></div>
                 </div>
 
-                <!-- Seção de Imagens Existentes -->
                 <div th:if="${vehicle != null and vehicle.images != null and not #lists.isEmpty(vehicle.images)}">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">Imagens Atuais</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-3" th:text="#{vehicle.edit.current_images.label}">Imagens Atuais</label>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
                         <div th:each="image, iterStat : ${vehicle.images}" class="relative group">
                             <img th:src="@{${image}}"
-                                 th:alt="'Imagem ' + ${iterStat.count}"
+                                 th:alt="#{vehicle.edit.image.alt(${iterStat.count})}"
                                  th:data-image-src="@{${image}}"
                                  class="w-full h-32 object-cover rounded-lg border-2 border-gray-200 hover:border-blue-400 transition-colors cursor-pointer image-preview">
-
-                            <!-- Botão para remover imagem -->
-                            <button type="button"
-                                    th:data-image-name="${image}"
+                            <button type="button" th:data-image-name="${image}"
                                     class="remove-image-btn absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600">
                                 ×
                             </button>
-
-                            <!-- Input hidden para manter as imagens que não foram removidas -->
                             <input type="hidden" name="existingImages" th:value="${image}" th:id="'existing-' + ${image}">
                         </div>
                     </div>
                 </div>
 
-                <!-- Upload de Novas Imagens -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Adicionar Novas Imagens</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1" th:text="#{vehicle.edit.add_new_images.label}">Adicionar Novas Imagens</label>
                     <input id="newImagesInput" name="newImages" type="file" multiple accept="image/*"
                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <p class="text-xs text-gray-500 mt-1">Selecione uma ou mais imagens (PNG, JPG, JPEG)</p>
+                    <p class="text-xs text-gray-500 mt-1" th:text="#{vehicle.register.images.help}">Selecione uma ou mais imagens (PNG, JPG, JPEG)</p>
                 </div>
 
-                <!-- Preview das novas imagens -->
                 <div id="newImagesPreview" class="hidden">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">Preview das Novas Imagens</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-3" th:text="#{vehicle.edit.new_images_preview.label}">Preview das Novas Imagens</label>
                     <div id="newImagesContainer" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
                 </div>
 
                 <div class="flex gap-3 mt-6">
                     <button type="submit"
-                            class="flex-1 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors">
+                            class="flex-1 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors"
+                            th:text="#{vehicle.edit.submit.button}">
                         Atualizar
                     </button>
                     <a th:href="@{/store/home}"
-                       class="flex-1 bg-gray-500 text-white py-2 rounded-md hover:bg-gray-600 transition-colors text-center flex items-center justify-center">
+                       class="flex-1 bg-gray-500 text-white py-2 rounded-md hover:bg-gray-600 transition-colors text-center flex items-center justify-center"
+                       th:text="#{common.cancel}">
                         Cancelar
                     </a>
                 </div>
@@ -116,7 +129,6 @@
     </div>
 </div>
 
-<!-- Modal para visualizar imagens -->
 <div id="imageModal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
     <div class="max-w-4xl max-h-full p-4 relative">
         <img id="modalImage" src="" alt="" class="max-w-full max-h-full object-contain">
@@ -126,7 +138,6 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Elementos do DOM
         const imageModal = document.getElementById('imageModal');
         const modalImage = document.getElementById('modalImage');
         const closeModalBtn = document.getElementById('closeModalBtn');
@@ -134,7 +145,6 @@
         const newImagesPreview = document.getElementById('newImagesPreview');
         const newImagesContainer = document.getElementById('newImagesContainer');
 
-        // Event listeners para visualização de imagens
         document.querySelectorAll('.image-preview').forEach(img => {
             img.addEventListener('click', function() {
                 const imageSrc = this.getAttribute('data-image-src');
@@ -143,24 +153,22 @@
             });
         });
 
-        // Event listeners para remoção de imagens
         document.querySelectorAll('.remove-image-btn').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 const imageName = this.getAttribute('data-image-name');
 
-                if (confirm('Tem certeza que deseja remover esta imagem?')) {
+                // Usando a mensagem traduzida do objeto i18n
+                if (confirm(i18n.confirmRemoveImage)) {
                     const input = document.getElementById('existing-' + imageName);
                     if (input) {
                         input.remove();
                     }
-                    // Remove o elemento visual da imagem
                     this.closest('.relative').remove();
                 }
             });
         });
 
-        // Fechar modal
         function closeImageModal() {
             imageModal.classList.add('hidden');
         }
@@ -172,13 +180,10 @@
             }
         });
 
-        // Preview das novas imagens
         newImagesInput.addEventListener('change', function() {
             newImagesContainer.innerHTML = '';
-
             if (this.files && this.files.length > 0) {
                 newImagesPreview.classList.remove('hidden');
-
                 Array.from(this.files).forEach((file, index) => {
                     if (file.type.startsWith('image/')) {
                         const reader = new FileReader();
@@ -202,7 +207,6 @@
             }
         });
 
-        // Fechar modal ao pressionar ESC
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 closeImageModal();

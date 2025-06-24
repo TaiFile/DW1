@@ -5,7 +5,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import br.ufscar.dc.dsw.validation.validator.UniqueChassiValidator;
 import br.ufscar.dc.dsw.validation.validator.UniquePlateValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -14,7 +13,10 @@ import jakarta.validation.Payload;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniquePlate {
-    String message() default "Plate is already registered";
+    // A mensagem foi trocada por uma chave para internacionalização
+    String message() default "{Unique.vehicle.plate}";
+
     Class<?>[] groups() default { };
+
     Class<? extends Payload>[] payload() default { };
 }

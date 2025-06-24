@@ -82,9 +82,9 @@ public class VehicleController {
 
     @PostMapping("/edit")
     public String edit(@Valid Vehicle vehicle,
+                       BindingResult result,
                        @RequestParam(required = false) String[] existingImages,
                        @RequestParam(required = false) MultipartFile[] newImages,
-                       BindingResult result,
                        RedirectAttributes attributes,
                        ModelMap model) {
         if (result.hasErrors()) {
