@@ -13,7 +13,10 @@ import jakarta.validation.Payload;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniquePhone {
-    String message() default "Phone number is already registered";
+    // A mensagem foi trocada por uma chave para internacionalização
+    String message() default "{Unique.user.phone}";
+
     Class<?>[] groups() default { };
+
     Class<? extends Payload>[] payload() default { };
 }

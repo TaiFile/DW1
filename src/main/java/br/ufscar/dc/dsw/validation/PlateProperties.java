@@ -13,7 +13,9 @@ import jakarta.validation.Payload;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PlateProperties {
-    String message() default "Format plate not permitted. Examples: ABC-1234";
+    String message() default "{PlateProperties.vehicle.plate}";
+
     Class<?>[] groups() default { };
+
     Class<? extends Payload>[] payload() default { };
 }
