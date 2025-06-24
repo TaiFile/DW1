@@ -40,17 +40,16 @@ public class ClientService implements IClientService {
         return dao.findAll();
     }
 
-    public Client update(Client client){
-        Client entityClient = dao.findById(client.getId()).orElseThrow(
-                ()-> new ResourceNotFoundException("No records for this id"));
+    public Client update(Client clientFromForm) {
+        Client entityClient = dao.findById(clientFromForm.getId()).orElseThrow(
+                () -> new ResourceNotFoundException("No records for this id"));
 
-        entityClient.setEmail(client.getEmail());
-        entityClient.setPassword(encoder.encode(client.getPassword()));
-        entityClient.setCpf(client.getCpf());
-        entityClient.setName(client.getName());
-        entityClient.setPhone(client.getPhone());
-        entityClient.setSex(client.getSex());
-        entityClient.setDateOfBirth(client.getDateOfBirth());
+        entityClient.setEmail(clientFromForm.getEmail());
+        entityClient.setCpf(clientFromForm.getCpf());
+        String newPassword = clientFromForm.getPassword();
+        if (newPassword != null && !newPassword.isEmpty()) {
+            entityClient.setPassword(newPassword);
+        }
 
         return dao.save(entityClient);
     }

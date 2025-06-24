@@ -35,29 +35,26 @@ public class ClientController {
 
 
     @PostMapping("/edit")
-    public String edit(@Valid Client client, String newPassword, BindingResult result, RedirectAttributes attributes, ModelMap model) {
+    public String edit(@Valid Client client, BindingResult result, RedirectAttributes attributes, ModelMap model) {
         if (result.hasErrors()) {
             model.addAttribute("client", client);
             return "client/registerUpdate";
         }
 
         try {
-            if (newPassword != null && !newPassword.trim().isEmpty()) {
-                client.setPassword(encoder.encode(newPassword));
-            } else {
-                Client existingClient = clientService.findById(client.getId());
-                client.setPassword(existingClient.getPassword());
-                System.out.println("Password was not edited");
+            if (client.getPassword() != null && !client.getPassword().trim().isEmpty()) {
+                client.setPassword(encoder.encode(client.getPassword()));
             }
 
             clientService.update(client);
+            attributes.addFlashAttribute("sucess", "Cliente atualizado com sucesso!");
+
         } catch (Exception e) {
             System.err.println("Erro ao atualizar cliente: " + e.getMessage());
             attributes.addFlashAttribute("fail", "Erro ao atualizar cliente!");
             return "redirect:/client/edit/" + client.getId();
         }
 
-        attributes.addFlashAttribute("sucess", "Cliente atualizado com sucesso!");
         return "redirect:/admin/client/list";
     }
 
