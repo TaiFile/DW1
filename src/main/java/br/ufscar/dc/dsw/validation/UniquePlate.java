@@ -12,8 +12,8 @@ import jakarta.validation.Payload;
 @Constraint(validatedBy = UniqueChassiValidator.class)
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UniqueChassi {
-    String message() default "Chassi is already registered";
+public @interface UniquePlate {
+    String message() default "Plate is already registered";
     Class<?>[] groups() default { };
     Class<? extends Payload>[] payload() default { };
 }

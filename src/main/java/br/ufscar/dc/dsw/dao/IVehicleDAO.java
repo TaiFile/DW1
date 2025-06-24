@@ -11,4 +11,6 @@ public interface IVehicleDAO extends ListCrudRepository<Vehicle, Long> {
     List<Vehicle> findByModelContainingIgnoreCase(String model);
 
     Optional<Vehicle> findByChassi(String chassi);
+
+    Optional<Vehicle> findByPlate(String plate);
 }

@@ -31,7 +31,8 @@ public class VehicleController {
     private IPublicStorageService publicStorageService;
 
     @GetMapping("/register")
-    public String register(Vehicle vehicle) {
+    public String register(Vehicle vehicle, ModelMap model) {
+        model.addAttribute("vehicle", new Vehicle());
         return "vehicle/register";
     }
 
