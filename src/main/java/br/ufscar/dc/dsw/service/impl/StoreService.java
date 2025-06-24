@@ -31,15 +31,18 @@ public class StoreService implements IStoreService {
         return dao.findAll();
     }
 
-    public Store update(Store store){
-        Store entityStore = dao.findById(store.getId()).orElseThrow(
+    public Store update(Store storeFromForm){
+        Store entityStore = dao.findById(storeFromForm.getId()).orElseThrow(
                 ()-> new ResourceNotFoundException("No records for this id"));
 
-        entityStore.setEmail(store.getEmail());
-        entityStore.setPassword(store.getPassword());
-        entityStore.setName(store.getName());
-        entityStore.setCnpj(store.getCnpj());
-        entityStore.setDescription(store.getDescription());
+        entityStore.setEmail(storeFromForm.getEmail());
+        entityStore.setName(storeFromForm.getName());
+        entityStore.setCnpj(storeFromForm.getCnpj());
+        entityStore.setDescription(storeFromForm.getDescription());
+
+        if (storeFromForm.getPassword() != null && !storeFromForm.getPassword().isEmpty()) {
+            entityStore.setPassword(storeFromForm.getPassword());
+        }
 
         return dao.save(entityStore);
     }
