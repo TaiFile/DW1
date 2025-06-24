@@ -2,7 +2,6 @@ package br.ufscar.dc.dsw.service.impl;
 
 import br.ufscar.dc.dsw.dao.IOfferDAO;
 import br.ufscar.dc.dsw.domain.Offer;
-import br.ufscar.dc.dsw.domain.enums.OfferStatus;
 import br.ufscar.dc.dsw.exceptions.ResourceNotFoundException;
 import br.ufscar.dc.dsw.service.spec.IOfferService;
 import org.springframework.beans.factory.annotation.Autowired;

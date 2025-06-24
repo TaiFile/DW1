@@ -13,7 +13,6 @@ import jakarta.validation.Payload;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueCPF {
-    // A mensagem foi trocada por uma chave para internacionalização
     String message() default "{Unique.user.cpf}";
 
     Class<?>[] groups() default { };
