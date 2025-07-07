@@ -33,6 +33,11 @@ public class OfferService implements IOfferService {
     }
 
     @Transactional(readOnly = true)
+    public List<Offer> findAllByVehicleId(Long id) {
+        return dao.findAllByVehicleId(id);
+    }
+
+    @Transactional(readOnly = true)
     @Override
     public List<Offer> findAllByClientEmail(String email) {
         return dao.findAllByClientEmail(email);

@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -38,9 +39,9 @@ public class OfferController {
     @Autowired
     private IClientService clientService;
 
-    @GetMapping("/vehicle/{id}/offer/register")
-    public String register(@PathVariable Long id, ModelMap model) {
-        model.addAttribute("vehicle", vehicleService.findById(id));
+    @GetMapping("/vehicle/{vehicleId}/offer/register")
+    public String register(@PathVariable Long vehicleId, ModelMap model) {
+        model.addAttribute("vehicle", vehicleService.findById(vehicleId));
         model.addAttribute("offer", new Offer());
         return "vehicle/offer";
     }
@@ -110,9 +111,25 @@ public class OfferController {
                     return "redirect:/offer/analyze/" + id;
                 }
 
+                // Atualizar status das outras ofertas abertas para rejeitá-las
+                List<Offer> offers = offerService.findAllByVehicleId(offer.getVehicle().getId());
+                for (Offer o : offers) {
+                    if (o.getId().equals(offer.getId())) {
+                        continue;
+                    }
+
+                    if (o.getStatus().equals(OfferStatus.REJECTED)){
+                        continue;
+                    }
+
+                    if (o.getStatus().equals(OfferStatus.OPEN)) {
+                        o.setStatus(OfferStatus.REJECTED);
+                        offerService.update(o);
+                    }
+                }
+
                 // Enviar email de aceitação
                 sendAcceptanceEmail(offer, meetingLink, meetingDateTime);
-
             } else if ("REJECTED".equals(decision)) {
                 offer.setStatus(OfferStatus.REJECTED);
 

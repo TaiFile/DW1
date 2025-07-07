@@ -9,6 +9,8 @@ import java.util.List;
 public interface IOfferDAO extends ListCrudRepository<Offer, Long> {
     List<Offer> findAllByClientId(Long clientId);
 
+    List<Offer> findAllByVehicleId(Long vehicleId);
+
     List<Offer> findAllByClientEmail(String clientEmail);
 
     @Query("SELECT o FROM Offer o WHERE o.vehicle.store.id = :storeId")

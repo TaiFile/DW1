@@ -9,6 +9,8 @@ public interface IOfferService {
 
     List<Offer> findAll();
 
+    List<Offer> findAllByVehicleId(Long vehicleId);
+
     List<Offer> findAllByClientId(Long clientId);
 
     List<Offer> findAllByClientEmail(String clientEmail);
