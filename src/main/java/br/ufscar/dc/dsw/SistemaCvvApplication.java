@@ -69,7 +69,7 @@ public class SistemaCvvApplication {
                 client1.setPassword(passwordEncoder.encode("123"));
                 client1.setRole(UserRoleEnum.CLIENT);
                 client1.setEnabled(true);
-                client1.setCpf("12345678901");
+                client1.setCpf("123.456.789-01");
                 client1.setName("Carlos Eduardo");
                 client1.setPhone("11997784512");
                 client1.setSex(SexEnum.MALE);
@@ -82,7 +82,7 @@ public class SistemaCvvApplication {
                 client2.setPassword(passwordEncoder.encode("123"));
                 client2.setRole(UserRoleEnum.CLIENT);
                 client2.setEnabled(true);
-                client2.setCpf("02123456789");
+                client2.setCpf("021.234.567-89");
                 client2.setName("Amanda");
                 client2.setPhone("11997123654");
                 client2.setSex(SexEnum.FEMALE);
@@ -97,7 +97,7 @@ public class SistemaCvvApplication {
                 store1.setPassword(passwordEncoder.encode("123"));
                 store1.setRole(UserRoleEnum.STORE);
                 store1.setEnabled(true);
-                store1.setCnpj("11222333000181");
+                store1.setCnpj("11.222.333/0001-81");
                 store1.setName("TechCars");
                 store1.setDescription("New store here!");
                 store1 = storeDAO.save(store1);
@@ -108,7 +108,7 @@ public class SistemaCvvApplication {
                 store2.setPassword(passwordEncoder.encode("123"));
                 store2.setRole(UserRoleEnum.STORE);
                 store2.setEnabled(true);
-                store2.setCnpj("44556677000192");
+                store2.setCnpj("44.556.677/0001-92");
                 store2.setName("Tesla");
                 store2.setDescription("Electric cars are our thing!");
                 store2 = storeDAO.save(store2);

@@ -37,7 +37,7 @@ public class StoreController {
 
 
     @PostMapping("/edit")
-    public String edit(@Valid Store store, BindingResult result, RedirectAttributes attributes) {
+    public String edit(@Valid Store store, BindingResult result, RedirectAttributes attributes, ModelMap model) {
         if (result.hasErrors()) {
             return "store/registerUpdate";
         }
@@ -51,7 +51,7 @@ public class StoreController {
             attributes.addFlashAttribute("sucess", "Loja atualizada com sucesso!");
             return "redirect:/admin/store/list";
         } catch (Exception e) {
-            attributes.addFlashAttribute("fail", "Erro ao atualizar loja!");
+            model.addAttribute("fail", "Erro ao atualizar loja!");
             return "store/registerUpdate";
         }
     }
