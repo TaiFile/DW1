@@ -108,9 +108,12 @@ public class VehicleController {
                 }
             }
 
-            for (String imageUrl : vehicle.getImages()) {
-                if (!finalImages.contains(imageUrl)) {
-                    storageService.delete(imageUrl);
+            Vehicle vehicleToUpdate = vehicleService.findById(vehicle.getId());
+            if (vehicleToUpdate != null && vehicleToUpdate.getImages() != null) {
+                for (String imageUrl : vehicleToUpdate.getImages()) {
+                    if (!finalImages.contains(imageUrl)) {
+                        storageService.delete(imageUrl);
+                    }
                 }
             }
 
