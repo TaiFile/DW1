@@ -32,13 +32,13 @@ public class SistemaCvvApplication {
 
     @Bean
     @Transactional
-    public CommandLineRunner seed(IAdminDAO adminDAO, IClientDAO clientDAO, IStoreDAO storeDAO,
+    public CommandLineRunner seed(IUserDAO userDAO, IClientDAO clientDAO, IStoreDAO storeDAO,
                                   IVehicleDAO vehicleDAO, IOfferDAO offerDAO,
                                   BCryptPasswordEncoder passwordEncoder) {
         return args -> {
             try {
                 // Verificar se já existem dados antes de inserir
-                if (adminDAO.count() > 0) {
+                if (userDAO.count() > 0) {
                     logger.warn("Database already contains data, skipping seed");
                     return;
                 }
@@ -47,20 +47,20 @@ public class SistemaCvvApplication {
                 logger.info("Cleaning existing data...");
                 offerDAO.deleteAll();
                 vehicleDAO.deleteAll();
-                adminDAO.deleteAll();
+                userDAO.deleteAll();
                 clientDAO.deleteAll();
                 storeDAO.deleteAll();
                 logger.info("Existing data cleaned successfully");
 
                 // Criar Admin
                 logger.info("Creating admin...");
-                Admin admin = new Admin();
-                admin.setEmail("admin@example.com");
-                admin.setPassword(passwordEncoder.encode("123"));
-                admin.setRole(UserRoleEnum.ADMIN);
-                admin.setEnabled(true);
-                admin = adminDAO.save(admin);
-                logger.info("Admin created with ID: {}", admin.getId());
+                User user = new User();
+                user.setEmail("admin@example.com");
+                user.setPassword(passwordEncoder.encode("123"));
+                user.setRole(UserRoleEnum.ADMIN);
+                user.setEnabled(true);
+                user = userDAO.save(user);
+                logger.info("Admin created with ID: {}", user.getId());
 
                 // Criar Clientes
                 logger.info("Creating clients...");
@@ -185,8 +185,6 @@ public class SistemaCvvApplication {
                 logger.info("Offer3 created with ID: {}", offer3.getId());
 
                 logger.info("Database seed completed successfully");
-
-                System.exit(0);
             } catch (Exception e) {
                 logger.error("Error during database seed: {}", e.getMessage(), e);
             }

@@ -62,9 +62,6 @@ public class AdminController {
         return "redirect:/admin/home";
     }
 
-
-
-
     @GetMapping("/store/register")
     public String showRegisterStoreForm(Model model) {
         model.addAttribute("store", new Store());

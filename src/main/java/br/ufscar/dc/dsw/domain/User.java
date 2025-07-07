@@ -12,8 +12,9 @@ import java.util.Objects;
 
 @Entity
 @UniqueEmail
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class User implements Serializable {
+@Table(name = "users")
+@Inheritance(strategy = InheritanceType.JOINED)
+public class User implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -37,10 +38,10 @@ public abstract class User implements Serializable {
     @Column(nullable = false)
     private boolean enabled = true;
 
-    protected User() {
+    public User() {
     }
 
-    protected User(UserRoleEnum role) {
+    public User(UserRoleEnum role) {
         this.role = role;
     }
 
