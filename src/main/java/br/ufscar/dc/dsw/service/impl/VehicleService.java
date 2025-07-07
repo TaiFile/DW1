@@ -27,14 +27,14 @@ public class VehicleService implements IVehicleService {
     }
 
     @Transactional(readOnly = true)
-    public List<Vehicle> findAll() {
-        return dao.findAll();
+    public List<Vehicle> findAllAvailable() {
+        return dao.findAllAvailable();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Vehicle> findByModelContainingIgnoreCase(String model) {
-        return dao.findByModelContainingIgnoreCase(model);
+    public List<Vehicle> findAllAvailableAndByModel(String model) {
+        return dao.findAllAvailableAndByModel(model);
     }
 
     @Transactional(readOnly = true)

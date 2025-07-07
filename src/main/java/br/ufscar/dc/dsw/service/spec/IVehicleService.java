@@ -9,9 +9,9 @@ public interface IVehicleService {
 
     Vehicle findById(Long id);
 
-    List<Vehicle> findAll();
+    List<Vehicle> findAllAvailable();
 
-    List<Vehicle> findByModelContainingIgnoreCase(String model);
+    List<Vehicle> findAllAvailableAndByModel(String model);
 
     List<Vehicle> findAllByStoreId(Long id);
 

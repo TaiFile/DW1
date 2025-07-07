@@ -49,8 +49,8 @@
                        th:text="#{header.admin.panel}">
                         Painel Admin</a>
 
-                    <a th:if="${#authorization.expression('hasRole(''CLIENT'')') and clientId != null}"
-                       th:href="@{/client/{id}/offers (id=${clientId})}"
+                    <a th:if="${#authorization.expression('hasRole(''CLIENT'')') and userId != null}"
+                       th:href="@{/client/{id}/offers (id=${userId})}"
                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                        th:text="#{header.client.panel}">
                         Painel Cliente</a>

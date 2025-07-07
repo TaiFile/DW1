@@ -38,7 +38,7 @@ public class VehicleController {
 
     @GetMapping("/list")
     public String list(ModelMap model) {
-        model.addAttribute("vehicles", vehicleService.findAll());
+        model.addAttribute("vehicles", vehicleService.findAllAvailable());
         return "vehicle/list";
     }
 
