@@ -20,7 +20,7 @@
     </div>
 
     <div class="grid md:grid-cols-2 gap-8">
-        <div class="space-y-4">
+        <div class="space-y-4" th:object="${vehicle}">
             <h2 class="text-lg font-bold text-gray-800 border-b pb-2" th:text="#{client.offer.vehicle.section}">Veículo
                 Selecionado</h2>
 
@@ -66,7 +66,7 @@
             <h2 class="text-lg font-bold text-gray-800 border-b pb-2" th:text="#{client.offer.proposal.section}">Sua
                 Proposta</h2>
 
-            <form method="post" th:action="@{/vehicle/{id}/offer/save (id=${vehicle.id})}" class="space-y-4">
+            <form method="post" th:action="@{/vehicle/{id}/offer/save (id=${vehicle.id})}" th:object="${offer}" class="space-y-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-600 mb-1" th:text="#{client.offer.date.label}">Data
                         da Proposta</label>
@@ -77,17 +77,21 @@
                 <div>
                     <label for="value" class="block text-sm font-medium text-gray-600 mb-1"
                            th:text="#{client.offer.value.label}">Valor da Proposta *</label>
-                    <input id="value" name="value" type="number" step="0.01" required
+                    <input id="value" th:field="*{value}" name="value" type="number" step="0.01" required
                            class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                           th:placeholder="#{client.offer.value.placeholder}">
+                           th:placeholder="#{client.offer.value.placeholder}"
+                           th:classappend="${#fields.hasErrors('value')} ? 'border-red-500'">
+                    <span th:if="${#fields.hasErrors('value')}" class="text-red-500 text-sm" th:errors="*{value}"></span>
                 </div>
 
                 <div>
                     <label for="paymentConditions" class="block text-sm font-medium text-gray-600 mb-1"
                            th:text="#{client.offer.conditions.label}">Condições de Pagamento *</label>
-                    <textarea id="paymentConditions" name="paymentConditions" rows="4" required
+                    <textarea id="paymentConditions" th:field="*{paymentConditions}" name="paymentConditions" rows="4" required
                               class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                              th:placeholder="#{client.offer.conditions.placeholder}"></textarea>
+                              th:placeholder="#{client.offer.conditions.placeholder}"
+                              th:classappend="${#fields.hasErrors('paymentConditions')} ? 'border-red-500'"></textarea>
+                    <span th:if="${#fields.hasErrors('paymentConditions')}" class="text-red-500 text-sm" th:errors="*{paymentConditions}"></span>
                 </div>
 
                 <div class="space-y-2">

@@ -48,13 +48,11 @@ public class OfferController {
     @PostMapping("/vehicle/{vehicleId}/offer/save")
     public String save(@PathVariable Long vehicleId, @Valid Offer offer, BindingResult result,
                        RedirectAttributes attributes, ModelMap model, Principal principal) {
-
         Vehicle vehicle = vehicleService.findById(vehicleId);
         offer.setVehicle(vehicle);
 
         if (result.hasErrors()) {
             model.addAttribute("vehicle", vehicle);
-            model.addAttribute("fail", "Preencha todos os campos obrigatórios!");
             return "vehicle/offer";
         }
 
@@ -64,8 +62,10 @@ public class OfferController {
             attributes.addFlashAttribute("success", "offer.create.success");
             return "redirect:/home";
         } catch (Exception e) {
-            attributes.addFlashAttribute("fail", "offer.create.fail");
-            return "redirect:/vehicle/" + vehicleId + "/offer/register";
+            e.printStackTrace();
+            model.addAttribute("vehicle", vehicle);
+            model.addAttribute("fail", "Error creating an offer!");
+            return "vehicle/offer";
         }
     }
 
