@@ -88,6 +88,7 @@ public class VehicleController {
                        RedirectAttributes attributes,
                        ModelMap model) {
         if (result.hasErrors()) {
+            model.addAttribute("vehicle", vehicle);
             return "vehicle/update";
         }
 

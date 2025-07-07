@@ -1,5 +1,6 @@
 package br.ufscar.dc.dsw.domain;
 
+import br.ufscar.dc.dsw.validation.ChassisProperties;
 import br.ufscar.dc.dsw.validation.PlateProperties;
 import br.ufscar.dc.dsw.validation.UniqueChassi;
 import br.ufscar.dc.dsw.validation.UniquePlate;
@@ -37,6 +38,7 @@ public class Vehicle implements Serializable {
     @Column(nullable = false)
     private String model;
 
+    @ChassisProperties
     @NotBlank
     @Column(nullable = false, unique = true)
     private String chassi;

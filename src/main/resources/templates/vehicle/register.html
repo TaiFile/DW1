@@ -44,11 +44,6 @@
                 <input id="chassi" th:field="*{chassi}" type="text" required
                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                        th:classappend="${#fields.hasErrors('chassi')} ? 'border-red-500'"
-
-                       minlength="17"
-                       maxlength="17"
-                       pattern="[A-HJ-NPR-Z0-9]{17}"
-                       title="The chassis number must contain 17 characters (letters and numbers)"
                        oninput="this.value = this.value.toUpperCase()">
 
                 <span th:if="${#fields.hasErrors('chassi')}" class="text-red-500 text-sm" th:errors="*{chassi}"></span>
