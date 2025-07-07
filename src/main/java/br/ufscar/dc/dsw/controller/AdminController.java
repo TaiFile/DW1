@@ -45,7 +45,7 @@ public class AdminController {
     public String registerClient(@Valid Client client, BindingResult result, RedirectAttributes attributes, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("client", client);
-            return "admin/register-client"; // ✅ CAMINHO CORRETO
+            return "admin/register-client";
         }
 
         client.setPassword(encoder.encode(client.getPassword()));
@@ -55,7 +55,7 @@ public class AdminController {
         } catch (Exception e) {
             model.addAttribute("client", client);
             model.addAttribute("errorMessage", "Erro interno do servidor. Tente novamente.");
-            return "admin/register-client"; // ✅ CAMINHO CORRETO
+            return "admin/register-client";
         }
 
         attributes.addFlashAttribute("success", "Cliente cadastrado com sucesso!");
@@ -72,7 +72,7 @@ public class AdminController {
     public String registerStore(@Valid Store store, BindingResult result, RedirectAttributes attributes, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("store", store);
-            return "admin/register-store"; // ✅ Retorna para o formulário com erros
+            return "admin/register-store";
         }
 
         store.setPassword(encoder.encode(store.getPassword()));
@@ -82,28 +82,24 @@ public class AdminController {
         } catch (Exception e) {
             model.addAttribute("store", store);
             model.addAttribute("errorMessage", "Erro interno do servidor. Tente novamente.");
-            return "admin/register-store"; // ✅ Retorna para o formulário com erro
+            return "admin/register-store";
         }
 
         attributes.addFlashAttribute("success", "Loja cadastrada com sucesso!");
         return "redirect:/admin/home";
     }
 
-
-
     @GetMapping("/client/list")
     public String listClients(Model model) {
-        List<Client> clients = clientService.findAll(); // ← Mudei para plural
-        model.addAttribute("clients", clients);         // ← Mudei para plural
+        List<Client> clients = clientService.findAll();
+        model.addAttribute("clients", clients);
         return "admin/client-list";
     }
-
 
     @GetMapping("/store/list")
     public String listStores(Model model) {
         try {
             List<Store> stores = storeService.findAll();
-            System.out.println("Número de lojas encontradas: " + (stores != null ? stores.size() : "null"));
             model.addAttribute("stores", stores);
             return "admin/store-list";
         } catch (Exception e) {
