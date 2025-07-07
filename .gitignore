@@ -5,7 +5,8 @@ target/
 !**/src/test/**/target/
 
 ### Public Storage for Development ###
-src/main/resources/static/uploads
+uploads
+tmp
 
 ### STS ###
 .apt_generated

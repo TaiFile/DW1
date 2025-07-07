@@ -36,12 +36,13 @@ public class SistemaCvvApplication {
                                   IVehicleDAO vehicleDAO, IOfferDAO offerDAO,
                                   BCryptPasswordEncoder passwordEncoder) {
         return args -> {
-            if (!Arrays.stream(args).toList().contains("--seed")) {
-                logger.info("Database seed skiped");
-                return;
-            }
-
             try {
+                // Verificar se já existem dados antes de inserir
+                if (adminDAO.count() > 0) {
+                    logger.warn("Database already contains data, skipping seed");
+                    return;
+                }
+
                 // Limpar dados existentes na ordem correta (respeitando foreign keys)
                 logger.info("Cleaning existing data...");
                 offerDAO.deleteAll();
@@ -50,12 +51,6 @@ public class SistemaCvvApplication {
                 clientDAO.deleteAll();
                 storeDAO.deleteAll();
                 logger.info("Existing data cleaned successfully");
-
-                // Verificar se já existem dados antes de inserir
-                if (adminDAO.count() > 0 || clientDAO.count() > 0 || storeDAO.count() > 0) {
-                    logger.warn("Database already contains data, skipping seed");
-                    return;
-                }
 
                 // Criar Admin
                 logger.info("Creating admin...");
