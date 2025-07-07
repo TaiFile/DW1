@@ -3,7 +3,7 @@ package br.ufscar.dc.dsw.controller;
 import br.ufscar.dc.dsw.domain.Client;
 import br.ufscar.dc.dsw.domain.Store;
 import br.ufscar.dc.dsw.service.impl.ClientService;
-import br.ufscar.dc.dsw.service.impl.StoreService;
+import br.ufscar.dc.dsw.service.spec.IStoreService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,7 +25,7 @@ public class AdminController {
     private ClientService clientService;
 
     @Autowired
-    private StoreService storeService;
+    private IStoreService storeService;
 
     @Autowired
     private BCryptPasswordEncoder encoder;

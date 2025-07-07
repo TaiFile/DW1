@@ -4,7 +4,7 @@ import br.ufscar.dc.dsw.domain.Store;
 import br.ufscar.dc.dsw.domain.Vehicle;
 import br.ufscar.dc.dsw.service.spec.IStoreService;
 import br.ufscar.dc.dsw.service.spec.IVehicleService;
-import br.ufscar.dc.dsw.storage.spec.IPublicStorageService;
+import br.ufscar.dc.dsw.storage.IStorageService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +28,7 @@ public class VehicleController {
     private IStoreService storeService;
 
     @Autowired
-    private IPublicStorageService publicStorageService;
+    private IStorageService storageService;
 
     @GetMapping("/register")
     public String register(Vehicle vehicle, ModelMap model) {
@@ -54,7 +54,7 @@ public class VehicleController {
         try{
             List<String> finalImages = new ArrayList<>();
             for (MultipartFile file : imageFiles) {
-                String fileName = publicStorageService.store(file);
+                String fileName = storageService.store(file);
                 finalImages.add(fileName);
             }
 
@@ -100,10 +100,19 @@ public class VehicleController {
             if (newImages != null) {
                 for (MultipartFile file : newImages) {
                     if (!file.isEmpty() && file.getContentType() != null) {
-                        String fileName = publicStorageService.store(file);
+                        String fileName = storageService.store(file);
                         if (fileName != null) {
                             finalImages.add(fileName);
                         }
+                    }
+                }
+            }
+
+            Vehicle vehicleToUpdate = vehicleService.findById(vehicle.getId());
+            if (vehicleToUpdate != null && vehicleToUpdate.getImages() != null) {
+                for (String imageUrl : vehicleToUpdate.getImages()) {
+                    if (!finalImages.contains(imageUrl)) {
+                        storageService.delete(imageUrl);
                     }
                 }
             }
@@ -125,7 +134,7 @@ public class VehicleController {
             Vehicle vehicle = vehicleService.findById(id);
             if (vehicle != null && vehicle.getImages() != null) {
                 for (String imageUrl : vehicle.getImages()) {
-                    publicStorageService.delete(imageUrl);
+                    storageService.delete(imageUrl);
                 }
             }
 
