@@ -38,7 +38,7 @@ public class Client extends User {
     @Column(nullable = false)
     private LocalDate dateOfBirth;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "client")
     private List<Offer> offers = new ArrayList<>();
 
     public Client() {

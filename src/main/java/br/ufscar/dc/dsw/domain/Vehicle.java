@@ -64,7 +64,7 @@ public class Vehicle implements Serializable {
     @JoinColumn(name = "store_id")
     private Store store;
 
-    @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "vehicle")
     private List<Offer> offers = new ArrayList<>();
 
     public Vehicle() {
