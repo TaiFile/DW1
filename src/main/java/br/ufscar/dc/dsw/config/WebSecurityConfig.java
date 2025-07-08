@@ -50,8 +50,18 @@ public class WebSecurityConfig {
                         .requestMatchers(publicRoutes).permitAll()
 
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/client/**").hasAnyRole("CLIENT", "ADMIN")
-                        .requestMatchers("/store/**").hasAnyRole("STORE", "ADMIN")
+
+                        .requestMatchers("/client/register").hasRole("ADMIN")
+                        .requestMatchers("/client/list").hasRole("ADMIN")
+                        .requestMatchers("/client/edit").hasRole("ADMIN")
+                        .requestMatchers("/client/edit/*").hasRole("ADMIN")
+                        .requestMatchers("/client/**").hasRole("CLIENT")
+
+                        .requestMatchers("/store/register").hasRole("ADMIN")
+                        .requestMatchers("/store/list").hasRole("ADMIN")
+                        .requestMatchers("/store/edit").hasRole("ADMIN")
+                        .requestMatchers("/store/edit/*").hasRole("ADMIN")
+                        .requestMatchers("/store/**").hasRole("STORE")
 
                         .requestMatchers("/vehicle/*/offer/register").hasRole("CLIENT")
                         .requestMatchers("/vehicle/*/offer/save").hasRole("CLIENT")

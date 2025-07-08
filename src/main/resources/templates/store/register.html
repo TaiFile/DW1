@@ -21,7 +21,7 @@
             <span th:text="${errorMessage}"></span>
         </div>
 
-        <form th:action="@{/admin/store/register}" th:object="${store}" method="POST" class="space-y-4">
+        <form th:action="@{/store/register}" th:object="${store}" method="POST" class="space-y-4">
             <div>
                 <label for="name" class="block text-sm font-medium text-gray-700 mb-1" th:text="#{store.register.name.label}">Nome da Loja</label>
                 <input id="name" th:field="*{name}" type="text" required

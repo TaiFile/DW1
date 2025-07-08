@@ -12,7 +12,7 @@
     <div class="space-y-2 mb-4">
         <p class="text-gray-600">
             <span class="font-medium" th:text="#{client.info.email.label}">Email:</span>
-            <span th:text="${client.email}" >joao@email.com</span>
+            <span th:text="${client.email}">joao@email.com</span>
         </p>
 
         <p class="text-gray-600">
@@ -27,8 +27,9 @@
 
         <p class="text-gray-600">
             <span class="font-medium" th:text="#{client.info.gender.label}">Sexo:</span>
-            <span th:text="${client.sex == 'male' ? 'Masculino' : 'Feminino'}">Masculino</span>
-<!--            Tem que mudar essa lógica dps, ela tá meio estranha tava dando erro 500 para mim-->
+            <span th:if="${client.sex.name == 'MALE'}">Masculino</span>
+            <span th:if="${client.sex.name == 'FEMALE'}">Feminino</span>
+            <span th:if="${client.sex.name == 'OTHER'}">Outro</span>
         </p>
     </div>
 

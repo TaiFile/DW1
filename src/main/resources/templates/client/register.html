@@ -17,7 +17,7 @@
             <h2 class="text-lg text-gray-600" th:text="#{client.register.main.title}">Cadastrar Cliente</h2>
         </div>
 
-        <form th:action="@{/admin/client/register}" th:object="${client}" method="POST" class="space-y-4">
+        <form th:action="@{/client/register}" th:object="${client}" method="POST" class="space-y-4">
             <div>
                 <label for="name" class="block text-sm font-medium text-gray-700 mb-1" th:text="#{client.register.name.label}">Nome Completo</label>
                 <input id="name" th:field="*{name}" type="text" required

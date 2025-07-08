@@ -2,12 +2,9 @@ package br.ufscar.dc.dsw.service.impl;
 
 import br.ufscar.dc.dsw.dao.IUserDAO;
 import br.ufscar.dc.dsw.domain.User;
-import br.ufscar.dc.dsw.domain.enums.UserRoleEnum;
 import br.ufscar.dc.dsw.service.spec.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class UserService implements IUserService {
