@@ -2,6 +2,7 @@ package br.ufscar.dc.dsw.controller;
 
 import br.ufscar.dc.dsw.domain.Store;
 import br.ufscar.dc.dsw.domain.Vehicle;
+import br.ufscar.dc.dsw.exceptions.ResourceNotFoundException;
 import br.ufscar.dc.dsw.service.spec.IStoreService;
 import br.ufscar.dc.dsw.service.spec.IVehicleService;
 import br.ufscar.dc.dsw.storage.IStorageService;
@@ -51,14 +52,15 @@ public class VehicleController {
             return "vehicle/register";
         }
 
-        try{
+        try {
             List<String> finalImages = new ArrayList<>();
             for (MultipartFile file : imageFiles) {
                 String fileName = storageService.store(file);
                 finalImages.add(fileName);
             }
 
-            Store store = storeService.findByEmail(principal.getName());
+            Store store = storeService.findByEmail(principal.getName())
+                    .orElseThrow(() -> new ResourceNotFoundException("Store not found"));
             vehicle.setStore(store);
             vehicle.setImages(finalImages);
             vehicleService.save(vehicle);

@@ -3,19 +3,14 @@ package br.ufscar.dc.dsw.service.spec;
 import br.ufscar.dc.dsw.domain.Store;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IStoreService {
-    Store save(Store store);
-
-    Store findById(Long id);
-
     List<Store> findAll();
 
-    Store update(Store store);
+    Optional<Store> findByEmail(String email);
 
-    void delete(Long id);
+    Optional<Store> findByCnpj(String cnpj);
 
-    boolean storeHaveVehicles(Long id);
-
-    Store findByEmail(String email);
+    boolean storeHasVehicles(Long id);
 }

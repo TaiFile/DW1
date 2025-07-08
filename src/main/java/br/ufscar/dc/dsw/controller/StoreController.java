@@ -3,6 +3,7 @@ package br.ufscar.dc.dsw.controller;
 import br.ufscar.dc.dsw.domain.Store;
 import br.ufscar.dc.dsw.service.spec.IOfferService;
 import br.ufscar.dc.dsw.service.spec.IStoreService;
+import br.ufscar.dc.dsw.service.spec.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,6 +21,10 @@ import java.security.Principal;
 @Controller
 @RequestMapping("/store")
 public class StoreController {
+
+    @Autowired
+    private IUserService userService;
+
     @Autowired
     private IStoreService storeService;
 
@@ -31,10 +36,9 @@ public class StoreController {
 
     @GetMapping("/edit/{id}")
     public String preEdit(@PathVariable("id") Long id, ModelMap model) {
-        model.addAttribute("store", storeService.findById(id));
+        model.addAttribute("store", userService.findById(id));
         return "store/registerUpdate";
     }
-
 
     @PostMapping("/edit")
     public String edit(@Valid Store store, BindingResult result, RedirectAttributes attributes, ModelMap model) {
@@ -47,7 +51,7 @@ public class StoreController {
                 store.setPassword(encoder.encode(store.getPassword()));
                 System.out.println("Password was edited" + store.getPassword());
             }
-            storeService.update(store);
+            userService.update(store);
             attributes.addFlashAttribute("sucess", "Loja atualizada com sucesso!");
             return "redirect:/admin/store/list";
         } catch (Exception e) {
@@ -58,12 +62,12 @@ public class StoreController {
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
-        boolean hasVehicles = storeService.storeHaveVehicles(id);
+        boolean hasVehicles = storeService.storeHasVehicles(id);
 
         if (hasVehicles) {
             redirectAttributes.addFlashAttribute("fail", "store.delete.fail");
         } else {
-            storeService.delete(id);
+            userService.delete(id);
             redirectAttributes.addFlashAttribute("success", "store.delete.success");
         }
 

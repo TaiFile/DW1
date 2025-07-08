@@ -1,19 +1,17 @@
 package br.ufscar.dc.dsw.service.spec;
 
 import br.ufscar.dc.dsw.domain.Client;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IClientService {
-    Client save(Client client);
-
-    Client findById(Long id);
-
-    Client findByEmail(String email);
-
     List<Client> findAll();
 
-    Client update(Client client);
+    Optional<Client> findByEmail(String email);
 
-    void delete(Long id);
+    Optional<Client> findByPhone(String phone);
+
+    Optional<Client> findByCpf(@NotBlank String cpf);
 }

@@ -22,11 +22,6 @@ public class OfferService implements IOfferService {
     }
 
     @Transactional(readOnly = true)
-    public List<Offer> findAll() {
-        return dao.findAll();
-    }
-
-    @Transactional(readOnly = true)
     @Override
     public List<Offer> findAllByClientId(Long id) {
         return dao.findAllByClientId(id);
@@ -35,18 +30,6 @@ public class OfferService implements IOfferService {
     @Transactional(readOnly = true)
     public List<Offer> findAllByVehicleId(Long id) {
         return dao.findAllByVehicleId(id);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public List<Offer> findAllByClientEmail(String email) {
-        return dao.findAllByClientEmail(email);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public List<Offer> findAllByStoreId(Long id) {
-        return dao.findAllByStoreId(id);
     }
 
     @Transactional(readOnly = true)

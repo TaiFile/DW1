@@ -1,5 +1,6 @@
 package br.ufscar.dc.dsw.controller;
 
+import br.ufscar.dc.dsw.domain.Client;
 import br.ufscar.dc.dsw.domain.Offer;
 import br.ufscar.dc.dsw.domain.Vehicle;
 import br.ufscar.dc.dsw.domain.enums.OfferStatus;
@@ -26,6 +27,8 @@ import java.util.Map;
 
 @Controller
 public class OfferController {
+    @Autowired
+    private IClientService clientService;
 
     @Autowired
     private IOfferService offerService;
@@ -35,9 +38,6 @@ public class OfferController {
 
     @Autowired
     private IEmailService emailService;
-
-    @Autowired
-    private IClientService clientService;
 
     @GetMapping("/vehicle/{vehicleId}/offer/register")
     public String register(@PathVariable Long vehicleId, ModelMap model) {
@@ -58,7 +58,9 @@ public class OfferController {
         }
 
         try {
-            offer.setClient(clientService.findByEmail(principal.getName()));
+            Client client = clientService.findByEmail(principal.getName())
+                    .orElseThrow(() -> new ResourceNotFoundException("Client not found"));
+            offer.setClient(client);
             offerService.save(offer);
             attributes.addFlashAttribute("success", "offer.create.success");
             return "redirect:/home";
@@ -118,7 +120,7 @@ public class OfferController {
                         continue;
                     }
 
-                    if (o.getStatus().equals(OfferStatus.REJECTED)){
+                    if (o.getStatus().equals(OfferStatus.REJECTED)) {
                         continue;
                     }
 

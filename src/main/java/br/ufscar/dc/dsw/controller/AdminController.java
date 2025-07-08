@@ -2,8 +2,9 @@ package br.ufscar.dc.dsw.controller;
 
 import br.ufscar.dc.dsw.domain.Client;
 import br.ufscar.dc.dsw.domain.Store;
-import br.ufscar.dc.dsw.service.impl.ClientService;
+import br.ufscar.dc.dsw.service.spec.IClientService;
 import br.ufscar.dc.dsw.service.spec.IStoreService;
+import br.ufscar.dc.dsw.service.spec.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,7 +23,10 @@ import java.util.List;
 public class AdminController {
 
     @Autowired
-    private ClientService clientService;
+    private IUserService userService;
+
+    @Autowired
+    private IClientService clientService;
 
     @Autowired
     private IStoreService storeService;
@@ -51,7 +55,7 @@ public class AdminController {
         client.setPassword(encoder.encode(client.getPassword()));
 
         try {
-            clientService.save(client);
+            userService.save(client);
         } catch (Exception e) {
             model.addAttribute("client", client);
             model.addAttribute("errorMessage", "Erro interno do servidor. Tente novamente.");
@@ -78,7 +82,7 @@ public class AdminController {
         store.setPassword(encoder.encode(store.getPassword()));
 
         try {
-            storeService.save(store);
+            userService.save(store);
         } catch (Exception e) {
             model.addAttribute("store", store);
             model.addAttribute("errorMessage", "Erro interno do servidor. Tente novamente.");

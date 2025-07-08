@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -17,53 +18,25 @@ public class StoreService implements IStoreService {
     @Autowired
     private IStoreDAO dao;
 
-    public Store save(Store store) {
-        return dao.save(store);
-    }
-
-    @Transactional(readOnly = true)
-    public Store findById(Long id){
-        return dao.findById(id).orElse(null);
-    }
-
-    @Transactional(readOnly = true)
-    public List<Store> findAll(){
+    @Override
+    public List<Store> findAll() {
         return dao.findAll();
     }
 
-    public Store update(Store storeFromForm){
-        Store entityStore = dao.findById(storeFromForm.getId()).orElseThrow(
-                ()-> new ResourceNotFoundException("No records for this id"));
-
-        entityStore.setEmail(storeFromForm.getEmail());
-        entityStore.setName(storeFromForm.getName());
-        entityStore.setCnpj(storeFromForm.getCnpj());
-        entityStore.setDescription(storeFromForm.getDescription());
-
-        if (storeFromForm.getPassword() != null && !storeFromForm.getPassword().isEmpty()) {
-            entityStore.setPassword(storeFromForm.getPassword());
-        }
-
-        return dao.save(entityStore);
+    @Override
+    public Optional<Store> findByEmail(String email) {
+        return dao.findByEmail(email);
     }
 
-    public void delete(Long id){
-        dao.deleteById(id);
+    @Override
+    public Optional<Store> findByCnpj(String cnpj) {
+        return dao.findByCnpj(cnpj);
     }
 
     @Transactional(readOnly = true)
-    public boolean storeHaveVehicles(Long id) {
+    public boolean storeHasVehicles(Long id) {
         Store store = dao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Store not found"));
 
         return store.getVehicles() != null && !store.getVehicles().isEmpty();
-    }
-
-    @Transactional(readOnly = true)
-    public Store findByEmail(String email) {
-        Store store = dao.findByEmail(email);
-        if (store == null) {
-            throw new ResourceNotFoundException("Store with email " + email + " not found");
-        }
-        return store;
     }
 }

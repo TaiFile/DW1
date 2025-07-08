@@ -1,23 +1,24 @@
 package br.ufscar.dc.dsw.validation.validator;
 
-import br.ufscar.dc.dsw.dao.IClientDAO;
 import br.ufscar.dc.dsw.domain.Client;
+import br.ufscar.dc.dsw.service.spec.IClientService;
 import br.ufscar.dc.dsw.validation.UniquePhone;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import java.util.Optional;
 
 @Component
 public class UniquePhoneValidator implements ConstraintValidator<UniquePhone, Client> {
 
     @Autowired
-    private IClientDAO dao;
+    private IClientService clientService;
 
     @Override
     public boolean isValid(Client client, ConstraintValidatorContext context) {
-        if (dao == null || client == null) {
+        if (clientService == null || client == null) {
             return true;
         }
 
@@ -26,7 +27,7 @@ public class UniquePhoneValidator implements ConstraintValidator<UniquePhone, Cl
             return true;
         }
 
-        Optional<Client> existingClient = dao.findByPhone(phone);
+        Optional<Client> existingClient = clientService.findByPhone(phone);
         if (existingClient.isPresent()) {
             Client found = existingClient.get();
             if (client.getId() != null && client.getId().equals(found.getId())) {

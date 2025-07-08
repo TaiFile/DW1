@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<div th:fragment="alert">
+<div th:fragment="alert" th:if="${sucess} != null or ${fail} != null or ${success} != null or ${error} != null">
     <!-- Alert de Sucesso -->
     <div th:if="(${sucess} != null) or (${success} != null)"
          class="fixed top-5 left-1/2 z-[9999] bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg max-w-sm transform -translate-x-1/2 -translate-y-full opacity-0 transition-all duration-500 ease-out alert-success">

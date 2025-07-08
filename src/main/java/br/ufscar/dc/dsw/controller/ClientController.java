@@ -1,8 +1,8 @@
 package br.ufscar.dc.dsw.controller;
 
 import br.ufscar.dc.dsw.domain.Client;
-import br.ufscar.dc.dsw.service.spec.IClientService;
 import br.ufscar.dc.dsw.service.spec.IOfferService;
+import br.ufscar.dc.dsw.service.spec.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,8 +18,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/client")
 public class ClientController {
+
     @Autowired
-    private IClientService clientService;
+    private IUserService userService;
 
     @Autowired
     private IOfferService offerService;
@@ -29,7 +30,7 @@ public class ClientController {
 
     @GetMapping("/edit/{id}")
     public String preEdit(@PathVariable("id") Long id, ModelMap model) {
-        model.addAttribute("client", clientService.findById(id));
+        model.addAttribute("client", userService.findById(id));
         return "client/registerUpdate";
     }
 
@@ -46,7 +47,7 @@ public class ClientController {
                 client.setPassword(encoder.encode(client.getPassword()));
             }
 
-            clientService.update(client);
+            userService.update(client);
             attributes.addFlashAttribute("sucess", "Cliente atualizado com sucesso!");
 
         } catch (Exception e) {
@@ -61,7 +62,7 @@ public class ClientController {
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id, RedirectAttributes attributes) {
         try {
-            clientService.delete(id);
+            userService.delete(id);
             attributes.addFlashAttribute("sucess", "Cliente excluído com sucesso!");
             return "redirect:/admin/client/list";
         } catch (Exception e) {

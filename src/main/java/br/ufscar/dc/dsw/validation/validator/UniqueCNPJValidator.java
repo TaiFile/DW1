@@ -1,23 +1,24 @@
 package br.ufscar.dc.dsw.validation.validator;
 
-import br.ufscar.dc.dsw.dao.IStoreDAO;
 import br.ufscar.dc.dsw.domain.Store;
+import br.ufscar.dc.dsw.service.spec.IStoreService;
 import br.ufscar.dc.dsw.validation.UniqueCNPJ;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import java.util.Optional;
 
 @Component
 public class UniqueCNPJValidator implements ConstraintValidator<UniqueCNPJ, Store> {
 
     @Autowired
-    private IStoreDAO dao;
+    private IStoreService storeService;
 
     @Override
     public boolean isValid(Store store, ConstraintValidatorContext context) {
-        if (dao == null || store == null) {
+        if (storeService == null || store == null) {
             return true;
         }
 
@@ -26,7 +27,7 @@ public class UniqueCNPJValidator implements ConstraintValidator<UniqueCNPJ, Stor
             return true;
         }
 
-        Optional<Store> existingStore = dao.findByCnpj(cnpj);
+        Optional<Store> existingStore = storeService.findByCnpj(cnpj);
 
         if (existingStore.isPresent()) {
             Store found = existingStore.get();
