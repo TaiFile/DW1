@@ -5,6 +5,7 @@ import br.ufscar.dc.dsw.domain.Client;
 import br.ufscar.dc.dsw.service.spec.IClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,11 @@ public class ClientService implements IClientService {
     @Override
     public List<Client> findAll() {
         return dao.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Client findById(Long id){
+        return dao.findById(id).orElse(null);
     }
 
     @Override
