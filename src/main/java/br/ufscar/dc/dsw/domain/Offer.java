@@ -1,6 +1,7 @@
 package br.ufscar.dc.dsw.domain;
 
 import br.ufscar.dc.dsw.domain.enums.OfferStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -43,10 +44,12 @@ public class Offer implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "vehicle_id")
+    @JsonIgnore
     private Vehicle vehicle;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
+    @JsonIgnore
     private Client client;
 
     public Long getId() {

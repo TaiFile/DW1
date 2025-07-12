@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface IStoreService {
     List<Store> findAll();
 
+    Store findById(Long id);
+
     Optional<Store> findByEmail(String email);
 
     Optional<Store> findByCnpj(String cnpj);
