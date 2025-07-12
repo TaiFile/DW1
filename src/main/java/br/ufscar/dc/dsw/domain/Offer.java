@@ -8,6 +8,8 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -43,10 +45,12 @@ public class Offer implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "vehicle_id")
+    @JsonBackReference("vehicle-offers")
     private Vehicle vehicle;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
+    @JsonBackReference("client-offers")
     private Client client;
 
     public Long getId() {

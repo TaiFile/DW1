@@ -4,6 +4,8 @@ import br.ufscar.dc.dsw.validation.ChassisProperties;
 import br.ufscar.dc.dsw.validation.PlateProperties;
 import br.ufscar.dc.dsw.validation.UniqueChassi;
 import br.ufscar.dc.dsw.validation.UniquePlate;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -62,9 +64,11 @@ public class Vehicle implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "store_id")
+    @JsonBackReference("store-vehicles")
     private Store store;
 
     @OneToMany(mappedBy = "vehicle")
+    @JsonManagedReference("vehicle-offers")
     private List<Offer> offers = new ArrayList<>();
 
     public Vehicle() {

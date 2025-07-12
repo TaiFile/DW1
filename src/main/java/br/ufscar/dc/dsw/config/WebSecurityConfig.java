@@ -48,6 +48,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/error", "/login/**", "/js/**").permitAll()
                         .requestMatchers("/css/**", "/webjars/**","/image/**", "/uploads/**").permitAll()
                         .requestMatchers(publicRoutes).permitAll()
+                        .requestMatchers("/api/**").permitAll()
 
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 

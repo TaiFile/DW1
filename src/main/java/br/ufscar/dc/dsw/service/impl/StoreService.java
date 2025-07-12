@@ -23,6 +23,11 @@ public class StoreService implements IStoreService {
         return dao.findAll();
     }
 
+    @Transactional(readOnly = true)
+    public Store findById(Long id){
+        return dao.findById(id).orElse(null);
+    }
+
     @Override
     public Optional<Store> findByEmail(String email) {
         return dao.findByEmail(email);

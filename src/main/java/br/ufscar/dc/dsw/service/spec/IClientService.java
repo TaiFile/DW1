@@ -9,6 +9,8 @@ import java.util.Optional;
 public interface IClientService {
     List<Client> findAll();
 
+    Client findById(Long id);
+
     Optional<Client> findByEmail(String email);
 
     Optional<Client> findByPhone(String phone);
