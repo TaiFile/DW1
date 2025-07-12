@@ -2,8 +2,7 @@ package br.ufscar.dc.dsw.domain;
 
 import br.ufscar.dc.dsw.domain.enums.UserRoleEnum;
 import br.ufscar.dc.dsw.validation.UniqueCNPJ;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -29,8 +28,8 @@ public class Store extends User {
     @Column(nullable = false)
     private String description;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "store")
-    @JsonManagedReference("store-vehicles")
     private List<Vehicle> vehicles;
 
     public Store() {

@@ -1,14 +1,13 @@
 package br.ufscar.dc.dsw.domain;
 
 import br.ufscar.dc.dsw.domain.enums.OfferStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -45,12 +44,12 @@ public class Offer implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "vehicle_id")
-    @JsonBackReference("vehicle-offers")
+    @JsonIgnore
     private Vehicle vehicle;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
-    @JsonBackReference("client-offers")
+    @JsonIgnore
     private Client client;
 
     public Long getId() {
