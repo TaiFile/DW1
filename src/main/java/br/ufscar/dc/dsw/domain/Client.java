@@ -4,6 +4,8 @@ import br.ufscar.dc.dsw.domain.enums.SexEnum;
 import br.ufscar.dc.dsw.domain.enums.UserRoleEnum;
 import br.ufscar.dc.dsw.validation.UniqueCPF;
 import br.ufscar.dc.dsw.validation.UniquePhone;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -39,6 +41,7 @@ public class Client extends User {
     private LocalDate dateOfBirth;
 
     @OneToMany(mappedBy = "client")
+    @JsonManagedReference("client-offers")
     private List<Offer> offers = new ArrayList<>();
 
     public Client() {

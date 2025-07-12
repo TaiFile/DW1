@@ -15,7 +15,7 @@ public class OfferRestController {
     @Autowired
     private IOfferService offerService;
 
-    @GetMapping("/vehicle/{id}")
+    @GetMapping("/vehicles/{id}")
     public ResponseEntity<List<Offer>> listByVehicle(@PathVariable Long id) {
 
         List<Offer> propostas = offerService.findAllByVehicleId(id);

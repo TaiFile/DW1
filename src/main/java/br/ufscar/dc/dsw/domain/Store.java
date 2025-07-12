@@ -2,6 +2,8 @@ package br.ufscar.dc.dsw.domain;
 
 import br.ufscar.dc.dsw.domain.enums.UserRoleEnum;
 import br.ufscar.dc.dsw.validation.UniqueCNPJ;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -28,17 +30,18 @@ public class Store extends User {
     private String description;
 
     @OneToMany(mappedBy = "store")
+    @JsonManagedReference("store-vehicles")
     private List<Vehicle> vehicles;
 
     public Store() {
         super(UserRoleEnum.STORE);
     }
 
-    public String getCnpj(){
+    public String getCnpj() {
         return cnpj;
     }
 
-    public void setCnpj(String cnpj){
+    public void setCnpj(String cnpj) {
         this.cnpj = cnpj;
     }
 
