@@ -86,20 +86,23 @@ Antes de começar, você precisará ter instalado em sua máquina:
     ```
 
 2.  **Configuração e Inicialização do Banco de Dados com Docker:**
+    > **Observação:** Se você possui o Docker instalado e iniciado, não é necessário iniciar manualmente o container do banco de dados. A dependência do Spring Boot Docker Compose, irá gerenciá-lo automaticamente, desde que o arquivo `docker-compose.yml` esteja configurado corretamente na raiz do projeto. Assim, basta rodar a aplicação normalmente que o ambiente será preparado automaticamente.
+    
     * Crie um arquivo `docker-compose.yml` na raiz do projeto para definir o serviço do seu banco de dados (ex: PostgreSQL).
-        ```yaml
-        # Exemplo de docker-compose.yml para PostgreSQL
-        version: '3.8'
-        services:
-          Sistema-cvv-db:
-            image: 'postgres:16.0-alpine3.18' #Ou a versão de sua preferência
-            environment:
-              POSTGRES_DB: db
-              POSTGRES_USER: root
-              POSTGRES_PASSWORD: root
-            ports:
-              - "5432:5432"
-        ```
+    
+    ```yaml
+    # Exemplo de docker-compose.yml para PostgreSQL
+    version: '3.8'
+    services:
+      Sistema-cvv-db:
+        image: 'postgres:16.0-alpine3.18' #Ou a versão de sua preferência
+        environment:
+          POSTGRES_DB: db
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: root
+        ports:
+          - "5432:5432"
+    ```
     * Suba o container do banco de dados:
         ```bash
         docker-compose up -d
@@ -114,21 +117,15 @@ Antes de começar, você precisará ter instalado em sua máquina:
         spring.jpa.hibernate.ddl-auto= update
         spring.jpa.show-sql= true
         ```
-    * Lembre-se que o login e senha do administrador devem ser populados durante a inicialização do sistema. Isso pode ser feito via um arquivo `data.sql` em `src/main/resources` ou programaticamente usando um `CommandLineRunner` ou `ApplicationRunner` bean.
-
    3.  **Compile e Execute o Projeto com Maven:**
        * Abra um terminal na raiz do projeto.
        * Para iniciar a aplicação Spring com a seed do banco de dados:
             ```bash
-           mvn spring-boot:run -Pseed
-           ```
-       * Esse comando executará a seed do sistema onde conterá dados essenciais como admin, cliente, loja, etc. 
-       * Dados do admin: email: admin@example.com password: 123
-       * A aplicação irá apenas rodar a seed e terminar.
-       
-       * Para iniciar a aplicação Spring sem a seed:
-           ```bash
            mvn spring-boot:run
            ```
+       * Esse comando executará a seed do sistema se o banco de dados estiver vazio, criando dados essenciais como admin, cliente, loja, etc. Com a senha 123.
+       * Dados do admin: 
+       * email: admin@example.com 
+       * senha: 123
        * A aplicação estará acessível em `http://localhost:8080` (ou a porta configurada).
 ---

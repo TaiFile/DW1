@@ -178,7 +178,7 @@ public class SistemaCvvApplication {
                 Offer offer3 = new Offer();
                 offer3.setValue(new BigDecimal("230000.00"));
                 offer3.setPaymentConditions("24x parcelado");
-                offer3.setStatus(OfferStatus.ACCEPTED);
+                offer3.setStatus(OfferStatus.OPEN);
                 offer3.setVehicle(vehicle3);
                 offer3.setClient(client2);
                 offer3 = offerDAO.save(offer3);
