@@ -46,12 +46,13 @@ public class VehicleRestController {
     @PostMapping("/stores/{storeId}")
     @ResponseBody
     public ResponseEntity<Vehicle> create(@Valid @RequestBody Vehicle vehicle,
-                                          BindingResult result) {
+                                          BindingResult result,
+                                          @PathVariable("storeId") Long storeId) {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(null);
         }
 
-        Store store = storeService.findById(vehicle.getStore().getId());
+        Store store = storeService.findById(storeId);
         if (store == null) {
             return ResponseEntity.notFound().build();
         }
