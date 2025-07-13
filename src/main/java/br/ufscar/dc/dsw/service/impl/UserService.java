@@ -36,6 +36,7 @@ public class UserService implements IUserService {
             userToUpdate.setPassword(user.getPassword());
             userToUpdate.setRole(user.getRole());
             userToUpdate.setEnabled(user.isEnabled());
+            userToUpdate = dao.save(userToUpdate);
         }
 
         return userToUpdate;
