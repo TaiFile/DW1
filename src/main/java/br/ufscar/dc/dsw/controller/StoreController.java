@@ -107,10 +107,10 @@ public class StoreController {
         boolean hasVehicles = storeService.storeHasVehicles(id);
 
         if (hasVehicles) {
-            redirectAttributes.addFlashAttribute("fail", "store.delete.fail");
+            redirectAttributes.addFlashAttribute("fail", "Falha ao excluir loja: loja possui veículos cadastrados.");
         } else {
             userService.delete(id);
-            redirectAttributes.addFlashAttribute("success", "store.delete.success");
+            redirectAttributes.addFlashAttribute("success", "Loja excluída com sucesso!");
         }
 
         return "redirect:/store/list";

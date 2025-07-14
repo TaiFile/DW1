@@ -55,12 +55,14 @@ public class WebSecurityConfig {
                         .requestMatchers("/client/list").hasRole("ADMIN")
                         .requestMatchers("/client/edit").hasRole("ADMIN")
                         .requestMatchers("/client/edit/*").hasRole("ADMIN")
+                        .requestMatchers("/client/delete/*").hasRole("ADMIN")
                         .requestMatchers("/client/**").hasRole("CLIENT")
 
                         .requestMatchers("/store/register").hasRole("ADMIN")
                         .requestMatchers("/store/list").hasRole("ADMIN")
                         .requestMatchers("/store/edit").hasRole("ADMIN")
                         .requestMatchers("/store/edit/*").hasRole("ADMIN")
+                        .requestMatchers("/store/delete/*").hasRole("ADMIN")
                         .requestMatchers("/store/**").hasRole("STORE")
 
                         .requestMatchers("/vehicle/*/offer/register").hasRole("CLIENT")
