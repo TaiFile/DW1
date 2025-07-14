@@ -71,7 +71,8 @@
                     <input type="text" th:field="*{chassi}" required
                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                            th:title="#{vehicle.register.chassi.title}"
-                           oninput="this.value = this.value.toUpperCase()">
+                           oninput="this.value = this.value.toUpperCase()"
+                           maxlength="17">
                     <div th:if="${#fields.hasErrors('chassi')}" th:errors="*{chassi}" class="text-red-500 text-sm mt-1"></div>
                 </div>
 
