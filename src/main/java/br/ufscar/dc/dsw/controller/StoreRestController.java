@@ -101,25 +101,3 @@ public class StoreRestController {
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
