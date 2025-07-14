@@ -106,7 +106,7 @@ public class ClientController {
             attributes.addFlashAttribute("sucess", "Cliente excluído com sucesso!");
             return "redirect:/client/list";
         } catch (Exception e) {
-            attributes.addFlashAttribute("fail", "Erro ao excluir cliente!");
+            attributes.addFlashAttribute("fail", "Erro ao excluir cliente: O cliente possui propostas cadastradas!");
             return "redirect:/client/list";
         }
     }
