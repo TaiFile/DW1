@@ -65,8 +65,7 @@ public class ClientRestController {
     public ResponseEntity<Client> update(@PathVariable("id") Long id,
                                          @Valid @RequestBody Client client,
                                          BindingResult result) {
-
-        if (result.getFieldErrorCount() > 1 || result.getFieldError("cpf") == null) {
+        if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(null);
         }
 

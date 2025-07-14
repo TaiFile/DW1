@@ -69,7 +69,7 @@ public class Vehicle implements Serializable {
     private Store store;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "vehicle")
+    @OneToMany(mappedBy = "vehicle", fetch = FetchType.EAGER)
     private List<Offer> offers = new ArrayList<>();
 
     public Vehicle() {

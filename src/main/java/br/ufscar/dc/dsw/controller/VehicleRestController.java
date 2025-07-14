@@ -89,7 +89,12 @@ public class VehicleRestController {
             return ResponseEntity.notFound().build();
         }
 
+        if(!vehicle.getOffers().isEmpty()){
+            return new ResponseEntity<Boolean>(false, HttpStatus.FORBIDDEN);
+        }
+
         vehicleService.delete(id);
+
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 }

@@ -66,7 +66,7 @@ public class StoreRestController {
                                         @Valid @RequestBody Store store,
                                         BindingResult result) {
 
-        if (result.getFieldErrorCount() > 1 || result.getFieldError("cnpj") == null) {
+        if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(null);
         }
 
