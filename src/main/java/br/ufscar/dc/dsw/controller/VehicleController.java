@@ -145,7 +145,7 @@ public class VehicleController {
             attributes.addFlashAttribute("success", "Veículo excluído com sucesso!");
         } catch (Exception e) {
             System.out.println("Erro ao deletar veículo: " + e.getMessage());
-            model.addAttribute("error", "Erro ao excluir veículo!");
+            attributes.addFlashAttribute("error", "Erro ao excluir veículo!");
             return "redirect:/store/home";
         }
 
