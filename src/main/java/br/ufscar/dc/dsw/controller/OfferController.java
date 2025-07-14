@@ -60,6 +60,11 @@ public class OfferController {
         try {
             Client client = clientService.findByEmail(principal.getName())
                     .orElseThrow(() -> new ResourceNotFoundException("Client not found"));
+
+            if (!client.getOffers().isEmpty()) {
+                throw new RuntimeException("Client already has an offer");
+            }
+
             offer.setClient(client);
             offerService.save(offer);
             attributes.addFlashAttribute("success", "offer.create.success");
@@ -67,7 +72,7 @@ public class OfferController {
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("vehicle", vehicle);
-            model.addAttribute("fail", "Error creating an offer!");
+            model.addAttribute("fail", "offer.create.fail");
             return "vehicle/offer";
         }
     }

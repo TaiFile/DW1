@@ -40,7 +40,7 @@ public class Client extends User {
     private LocalDate dateOfBirth;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private List<Offer> offers = new ArrayList<>();
 
     public Client() {
